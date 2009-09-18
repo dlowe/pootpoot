@@ -15,14 +15,14 @@ function poot (target) {
     $.getJSON("/poot", function (json) {
         if (json.type == "javascript") {
             $.ajaxSetup({ cache: true });
-            $.getScript(json.location, function (data, textStatus) {
+            $.getScript(json.location, function () {
                 target.empty();
                 target.css("background-color", random_color());
                 pootpoot(target);
             });
         } else if (json.type == "text") {
             $.ajaxSetup({ cache: true });
-            $.get(json.location, function (data, textStatus) {
+            $.get(json.location, function (data) {
                 target.empty();
                 target.css("background-color", random_color());
                 target.css("color", random_color());
