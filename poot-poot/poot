@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 
+import random
+
+INTERPRETATIONS = [
+    {'id': 0, 'type': "javascript"},
+    {'id': 1, 'type': "text"},
+]
+
 def main():
-    print '''Content-Type: text/plain
+    i = random.choice(INTERPRETATIONS)
+    print """Content-Type: text/plain
 
 {
- "id": 0,
- "type": "javascript",
- "location": "/i/0"
+ "id": %(id)d,
+ "type": "%(type)s",
+ "location": "/i/%(id)d"
 }
-'''
+""" % i
 
 if __name__ == "__main__":
   main()
