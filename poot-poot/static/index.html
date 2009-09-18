@@ -7,10 +7,9 @@
  <script type="text/javascript" src="pootpoot.js"></script>
  <script type="text/javascript">
   $(function () {
-   pootpoot($("body"));
-   $("*").click(function (event) {
-     event.preventDefault();
-     pootpoot($("body"));
+   poot($("body"));
+   $("html").click(function (event) {
+     poot($("body"));
    });
   });
  </script>
