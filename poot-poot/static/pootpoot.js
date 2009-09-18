@@ -10,6 +10,11 @@ function random_color () {
    return color;
 }
 
+function colorize (target) {
+   target.css("background-color", random_color());
+   target.css("color", random_color());
+}
+
 function poot (target) {
     $.ajaxSetup({ cache: false });
     $.getJSON("/poot", function (json) {
@@ -17,22 +22,20 @@ function poot (target) {
             $.ajaxSetup({ cache: true });
             $.getScript(json.location, function () {
                 target.empty();
-                target.css("background-color", random_color());
+                colorize(target);
                 pootpoot(target);
             });
         } else if (json.type == "text") {
             $.ajaxSetup({ cache: true });
             $.get(json.location, function (data) {
                 target.empty();
-                target.css("background-color", random_color());
-                target.css("color", random_color());
+                colorize(target);
                 target.append("<pre>" + data + "</pre>");
             }, "text");
         } else if (json.type == "image") {
             target.empty();
-            target.css("background-color", random_color());
-            target.css("color", random_color());
-            target.append("<img src=\"" + json.location + "\"/>");
+            colorize(target);
+            target.append("<center><img src=\"" + json.location + "\"/></center>");
         }
     });
 }

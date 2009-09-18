@@ -7,15 +7,15 @@
  <script type="text/javascript" src="pootpoot.js"></script>
  <script type="text/javascript">
   $(function () {
-   poot($("body"));
+   colorize($("body"));
+   poot($("#interpretation"));
    $("html").click(function (event) {
-     poot($("body"));
+     poot($("#interpretation"));
    });
   });
  </script>
 </head>
 
-<body>
-</body>
+<body><div id="interpretation"></div></body>
 
 </html>
