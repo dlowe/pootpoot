@@ -28,6 +28,11 @@ function poot (target) {
                 target.css("color", random_color());
                 target.append("<pre>" + data + "</pre>");
             }, "text");
+        } else if (json.type == "image") {
+            target.empty();
+            target.css("background-color", random_color());
+            target.css("color", random_color());
+            target.append("<img src=\"" + json.location + "\"/>");
         }
     });
 }

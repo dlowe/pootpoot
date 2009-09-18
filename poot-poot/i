@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
+import sys
 import os
 import re
+
+f = open(os.path.join(os.path.dirname(__file__), 'pootcrack.gif'), 'rb')
+b = f.read()
 
 def main():
     m = re.search('/(\d+)$', os.environ['PATH_INFO'])
@@ -79,6 +83,12 @@ Expires: Fri, 30 Oct 2010 14:19:41 GMT
 ) ) ; printf( "%c" , o ) ; } else  printf ( "%s%c" , O , o )  ; ( t =  0 ) || (
 * O =  '\\0' ) ; ( o == 60 ) && ( ++p ) ; ( o == 62 ) && (p!=0) && ( --p ) ; } }
 '''
+    elif m and (m.group(1) == '2'):
+        print '''Content-Type: image/gif
+Cache-Control: public
+Expires: Fri, 30 Oct 2009 14:19:41 GMT
+'''
+        sys.stdout.write(b)
     else:
         print 'Status: 404 not found'
         print ''

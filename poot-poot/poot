@@ -5,6 +5,7 @@ import random
 INTERPRETATIONS = [
     {'id': 0, 'type': "javascript"},
     {'id': 1, 'type': "text"},
+    {'id': 2, 'type': "image"},
 ]
 
 def main():
