@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""fetch metadata describing a single random interpretation"""
 
 import random
 
@@ -9,6 +10,8 @@ INTERPRETATIONS = [
 ]
 
 def main():
+    """mock interpretation selector"""
+
     i = random.choice(INTERPRETATIONS)
     print """Content-Type: text/plain
 
@@ -20,4 +23,4 @@ def main():
 """ % i
 
 if __name__ == "__main__":
-  main()
+    main()

@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
 jsure -quiet -check poot-poot/static/pootpoot.js
+
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint -r n poot-poot/i
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint -r n poot-poot/poot
+
