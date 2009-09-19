@@ -4,6 +4,8 @@
 import random
 import logging
 from google.appengine.ext import db
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
 
 class Interpretation(db.Model):
     is_active    = db.BooleanProperty(required=True)
@@ -11,20 +13,28 @@ class Interpretation(db.Model):
     content_type = db.StringProperty(required=True)
     content      = db.BlobProperty(required=True)
 
-def main():
-    """mock interpretation selector"""
-    query = db.GqlQuery("SELECT __key__ FROM Interpretation WHERE is_active = TRUE")
-    keys = query.fetch(1000)
-    key = random.choice(keys)
-    interpretation = db.get(key)
-    print """Content-Type: text/plain
+class Poot(webapp.RequestHandler):
+    def get(self):
+        key = ''
+        if self.request.get('key'):
+            key = db.Key(self.request.get('key'))
+        else:
+            query = db.GqlQuery("SELECT __key__ FROM Interpretation WHERE is_active = TRUE")
+            keys = query.fetch(1000)
+            key = random.choice(keys)
 
-{
+        interpretation = db.get(key)
+        self.response.headers.add_header('content-type', 'text/plain')
+        self.response.out.write("""{
  "id": %(id)d,
  "type": "%(type)s",
  "location": "/i/%(key)s"
-}
-""" % {'id': key.id(), 'key': key, 'type': interpretation.type }
+}""" % {'id': key.id(), 'key': key, 'type': interpretation.type })
+
+application = webapp.WSGIApplication([('/poot', Poot)], debug=True)
+
+def main():
+    run_wsgi_app(application)
 
 if __name__ == "__main__":
     main()

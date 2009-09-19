@@ -15,9 +15,13 @@ function colorize (target) {
    target.css("color", random_color());
 }
 
-function poot (target) {
+function poot (target, key_or_null) {
+    arguments = { };
+    if (key_or_null) {
+        arguments.key = key_or_null;
+    }
     $.ajaxSetup({ cache: false });
-    $.getJSON("/poot", function (json) {
+    $.getJSON("/poot", arguments, function (json) {
         if (json.type == "javascript") {
             $.ajaxSetup({ cache: true });
             $.getScript(json.location, function () {

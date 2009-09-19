@@ -7,10 +7,15 @@
  <script type="text/javascript" src="/pootpoot.js"></script>
  <script type="text/javascript">
   $(function () {
+   var re  = new RegExp('/interpretation/([^/]+)$');
+   var key = null;
+   if (re.test(document.location.href)) {
+       key = (re.exec(document.location.href))[1];
+   }
    colorize($("body"));
-   poot($("#interpretation"));
+   poot($("#interpretation"), key);
    $("html").click(function (event) {
-     poot($("#interpretation"));
+     poot($("#interpretation"), key);
    });
   });
  </script>
