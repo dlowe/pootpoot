@@ -17,3 +17,10 @@ handlers:
 
 - url: /i/(\d+)
   script: i
+
+- url: /interpretation/(\d+)
+  static_files: static/index.html
+  upload: static/index.html
+
+- url: /submit
+  script: submit

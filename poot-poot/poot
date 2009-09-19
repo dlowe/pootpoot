@@ -2,17 +2,21 @@
 """fetch metadata describing a single random interpretation"""
 
 import random
+import logging
+from google.appengine.ext import db
 
-INTERPRETATIONS = [
-    {'id': 0, 'type': "javascript"},
-    {'id': 1, 'type': "text"},
-    {'id': 2, 'type': "image"},
-]
+class Interpretation(db.Model):
+    is_active    = db.BooleanProperty(required=True)
+    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
+    content_type = db.StringProperty(required=True)
+    content      = db.BlobProperty(required=True)
 
 def main():
     """mock interpretation selector"""
-
-    i = random.choice(INTERPRETATIONS)
+    query = db.GqlQuery("SELECT __key__ FROM Interpretation WHERE is_active = TRUE")
+    keys = query.fetch(1000)
+    key = random.choice(keys)
+    interpretation = db.get(key)
     print """Content-Type: text/plain
 
 {
@@ -20,7 +24,7 @@ def main():
  "type": "%(type)s",
  "location": "/i/%(id)d"
 }
-""" % i
+""" % {'id': key.id(), 'type': interpretation.type }
 
 if __name__ == "__main__":
     main()

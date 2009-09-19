@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+"""store a new interpretation"""
+
+import logging
+from google.appengine.ext import db
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
+
+class Interpretation(db.Model):
+    is_active    = db.BooleanProperty(required=True)
+    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
+    content_type = db.StringProperty(required=True)
+    content      = db.BlobProperty(required=True)
+
+class Submit(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write("""
+      <html>
+        <body>
+          <form action="/submit" method="post" enctype="multipart/form-data">
+            <div>type: <input type="text" name="type"/></div>
+            <div>content-type: <input type="text" name="content_type"></div>
+            <div>content: <input type="file" name="content"></div>
+            <div><input type="submit" value="poot"></div>
+          </form>
+        </body>
+      </html>""")
+
+    def post(self):
+        interpretation = Interpretation(
+            is_active=True,
+            type=self.request.get('type'),
+            content_type=self.request.get('content_type'),
+            content=self.request.get('content'))
+        interpretation.put()
+        id = interpretation.key().id()
+        self.redirect("/interpretation/%(id)d" % {"id": id})
+
+application = webapp.WSGIApplication([('/submit', Submit)], debug=True)
+
+def main():
+    run_wsgi_app(application)
+
+if __name__ == "__main__":
+    main()

@@ -5,8 +5,14 @@ import sys
 import os
 import re
 
-IMAGE = open(os.path.join(os.path.dirname(__file__), 'pootcrack.gif'), 'rb')
-BYTES = IMAGE.read()
+import logging
+from google.appengine.ext import db
+
+class Interpretation(db.Model):
+    is_active    = db.BooleanProperty(required=True)
+    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
+    content_type = db.StringProperty(required=True)
+    content      = db.BlobProperty(required=True)
 
 def main():
     """mock-up of fetching a single interpretation"""
@@ -15,90 +21,14 @@ def main():
     if (match):
         interpretation = int(match.group(1))
 
-    if interpretation == 0:
-        print '''Content-Type: text/javascript
+    key = db.Key.from_path('Interpretation', interpretation)
+    interpretation = db.get(key)
+    sys.stdout.write('''Content-Type: %(content_type)s
 Cache-Control: public
 Expires: Fri, 30 Oct 2010 14:19:41 GMT
 
-var poot_styles = [
-  {one_in: 15, style: "text-decoration:underline"},
-  {one_in: 30, style: "text-decoration:line-through"},
-  {one_in: 40, style: "text-decoration:blink"},
-  {one_in: 10, style: "font-weight:bold"},
-  {one_in: 6,  style: "text-transform:uppercase"},
-  {one_in: 4,  style: "text-transform:capitalize"},
-  {one_in: 11, style: "font-style:italic"},
-];
-
-function pootpoot (target) {
-    target.empty();
-    target.css("background-color", random_color());
-    var line_count = r(1, 40);
-    for (var i = 0; i < line_count; ++i) {
-        var alignment = ["center", "left", "right"][r(0, 2)];
-
-        var line = "<div style=\\"text-align:" + alignment + ";\\">";
-
-        var poot_count = r(1, 8);
-        for (var j = 0; j < poot_count; ++j) {
-            var poot = "<font style=\\"color:" + random_color() + ";font-size:" + ((Math.random() * 3) + 0.2) + "em";
-            for (var s in poot_styles) {
-                if (r(1, poot_styles[s].one_in) == 1) {
-                    poot += ";" + poot_styles[s].style;
-                }
-            }
-            poot += "\\">";
-            if (r(0, 4) == 0) {
-                poot += "poot";
-            }
-            poot += "poot</font>";
-            var space_count = r(0, 18);
-            for (var k = 0; k < space_count; ++k) {
-                poot += "&nbsp;";
-            }
-
-            line += poot;
-        }
-        line += "</div><br/>";
-        target.append(line);
-    }
-    return;
-}
-'''
-    elif interpretation == 1:
-        print '''Content-Type: text/plain
-Cache-Control: public
-Expires: Fri, 30 Oct 2010 14:19:41 GMT
-
-#include <stdio.h>
-#define PO(o,t)\
-(((o>64)&&(o<91))?(((t>96)&&(t<123))?(t-32):(t)):(((t>64)&&(t<91))?(t+32):(t)))
-
-      void main() {                                       char *poo= "poot",
-      *Poo="pootpoot"      ,O[9];int      o,t,T,p;(t=p   =0)||(*O='\\0');while
-      ((o=       getc(   stdin   ))!=(   EOF))if  ((p==   0)&& (((o>64 )&& (
-      o<91       )) ||   ((o>     96 )   &&(o<     123)        ))) (
-      t!=8       )&&(O   [t]=     o)&&   (O[++     t] =        '\\0')
-      ;else {if (t>7)    {for     (T =   0 ; T     <=7;        T++ )
-      printf("%c",       PO(*(   O+T),   *(Poo+   T)));       printf
-      ("%c",              o);}else if     (t>3){for (T        =0;T<=
-      3;T++)                                                  printf
-      ("%c",                                                  PO(*(O
-      +T),*(                                                  poo+T)
-
-) ) ; printf( "%c" , o ) ; } else  printf ( "%s%c" , O , o )  ; ( t =  0 ) || (
-* O =  '\\0' ) ; ( o == 60 ) && ( ++p ) ; ( o == 62 ) && (p!=0) && ( --p ) ; } }
-'''
-    elif interpretation == 2:
-        print '''Content-Type: image/gif
-Cache-Control: public
-Expires: Fri, 30 Oct 2009 14:19:41 GMT
-'''
-        sys.stdout.write(BYTES)
-    else:
-        print 'Status: 404 not found'
-        print ''
-        print 'Not found'
+''' % { 'content_type': interpretation.content_type })
+    sys.stdout.write(interpretation.content)
 
 if __name__ == "__main__":
     main()
