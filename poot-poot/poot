@@ -22,9 +22,9 @@ def main():
 {
  "id": %(id)d,
  "type": "%(type)s",
- "location": "/i/%(id)d"
+ "location": "/i/%(key)s"
 }
-""" % {'id': key.id(), 'type': interpretation.type }
+""" % {'id': key.id(), 'key': key, 'type': interpretation.type }
 
 if __name__ == "__main__":
     main()

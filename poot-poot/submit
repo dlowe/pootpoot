@@ -33,8 +33,7 @@ class Submit(webapp.RequestHandler):
             content_type=self.request.get('content_type'),
             content=self.request.get('content'))
         interpretation.put()
-        id = interpretation.key().id()
-        self.redirect("/interpretation/%(id)d" % {"id": id})
+        self.redirect("/interpretation/%(key)s" % {"key": interpretation.key()})
 
 application = webapp.WSGIApplication([('/submit', Submit)], debug=True)
 

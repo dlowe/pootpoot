@@ -15,10 +15,10 @@ handlers:
 - url: /poot
   script: poot
 
-- url: /i/(\d+)
+- url: /i/([^/]+)
   script: i
 
-- url: /interpretation/(\d+)
+- url: /interpretation/([^/]+)
   static_files: static/index.html
   upload: static/index.html
 
