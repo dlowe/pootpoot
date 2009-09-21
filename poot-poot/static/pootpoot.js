@@ -15,31 +15,38 @@ function colorize (target) {
    target.css("color", random_color());
 }
 
+function poot_title (target, interpretation) {
+    target.html(interpretation.title);
+}
+
 function poot (target, key_or_null) {
     arguments = { };
     if (key_or_null) {
         arguments.key = key_or_null;
     }
     $.ajaxSetup({ cache: false });
-    $.getJSON("/poot", arguments, function (json) {
-        if (json.type == "javascript") {
+    $.getJSON("/poot", arguments, function (interpretation) {
+        if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: true });
-            $.getScript(json.location, function () {
-                target.empty();
+            $.getScript(interpretation.location, function () {
                 colorize(target);
-                pootpoot(target);
+                poot_title(target.find("#title"), interpretation);
+                target.find("#content").empty();
+                pootpoot(target.find("#content"));
             });
-        } else if (json.type == "text") {
+        } else if (interpretation.type == "text") {
             $.ajaxSetup({ cache: true });
-            $.get(json.location, function (data) {
-                target.empty();
+            $.get(interpretation.location, function (data) {
                 colorize(target);
-                target.append("<pre>" + data + "</pre>");
+                poot_title(target.find("#title"), interpretation);
+                contents = "<pre>" + data + "</pre>";
+                target.find("#content").html(contents);
             }, "text");
-        } else if (json.type == "image") {
-            target.empty();
+        } else if (interpretation.type == "image") {
             colorize(target);
-            target.append("<center><img src=\"" + json.location + "\"/></center>");
+            poot_title(target.find("#title"), interpretation);
+            contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.location + "\"/></center>";
+            target.find("#content").html(contents);
         }
     });
 }

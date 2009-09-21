@@ -23,10 +23,11 @@ class Poot(webapp.RequestHandler):
         i = db.get(key)
         self.response.headers.add_header('content-type', 'text/plain')
         self.response.out.write("""{
+ "title": "%(title)s",
  "id": %(id)d,
  "type": "%(type)s",
  "location": "/i/%(key)s"
-}""" % {'id': key.id(), 'key': key, 'type': i.type })
+}""" % {'id': key.id(), 'key': key, 'type': i.type, 'title': i.title })
 
 application = webapp.WSGIApplication([('/poot', Poot)], debug=True)
 

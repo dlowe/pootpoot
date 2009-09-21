@@ -14,6 +14,7 @@ class Submit(webapp.RequestHandler):
       <html>
         <body>
           <form action="/submit" method="post" enctype="multipart/form-data">
+            <div>title: <input type="text" name="title"/></div>
             <div>type: <input type="text" name="type"/></div>
             <div>content-type: <input type="text" name="content_type"></div>
             <div>content: <input type="file" name="content"></div>
@@ -25,6 +26,7 @@ class Submit(webapp.RequestHandler):
     def post(self):
         i = interpretation.Interpretation(
             is_active=True,
+            title=self.request.get('title'),
             type=self.request.get('type'),
             content_type=self.request.get('content_type'),
             content=self.request.get('content'))

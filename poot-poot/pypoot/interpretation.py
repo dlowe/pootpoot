@@ -7,3 +7,4 @@ class Interpretation(db.Model):
     type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
     content_type = db.StringProperty(required=True)
     content      = db.BlobProperty(required=True)
+    title        = db.StringProperty(required=True)

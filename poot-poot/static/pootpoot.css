@@ -3,3 +3,11 @@
   padding: 10px;
   overflow: hidden;
 }
+
+#title {
+  border-style: none none solid none
+}
+
+#content {
+  padding: 10px;
+}
