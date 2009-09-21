@@ -1,17 +1,24 @@
 #!/usr/bin/env python
 """fetch a single interpretation's content"""
 
+## standard
 import sys
+import time
 import os
 import re
-
 import logging
+
+## app engine
 from google.appengine.ext import db
 
-from pypoot import intperpretation
+## this application
+from pypoot import interpretation
+
+EXPIRE = 86400 ## how long to let browsers cache the content, in seconds
 
 def main():
-    """mock-up of fetching a single interpretation"""
+    """fetch the content of a single interpretation by key"""
+
     i = -1
     match = re.search('/([^/]+)$', os.environ['PATH_INFO'])
     if (match):
@@ -19,9 +26,10 @@ def main():
         i = db.get(key)
         sys.stdout.write('''Content-Type: %(content_type)s
 Cache-Control: public
-Expires: Fri, 30 Oct 2010 14:19:41 GMT
+Expires: %(expires_time)s
 
-''' % { 'content_type': i.content_type })
+''' % { 'content_type': i.content_type,
+        'expires_time': time.strftime('%a, %d %b %Y %H:%M:%S GMT', time.localtime(time.time() + EXPIRE)) })
         sys.stdout.write(i.content)
     else:
         print 'Status: 404 not found'
