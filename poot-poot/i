@@ -8,25 +8,21 @@ import re
 import logging
 from google.appengine.ext import db
 
-class Interpretation(db.Model):
-    is_active    = db.BooleanProperty(required=True)
-    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
-    content_type = db.StringProperty(required=True)
-    content      = db.BlobProperty(required=True)
+from pypoot import intperpretation
 
 def main():
     """mock-up of fetching a single interpretation"""
-    interpretation = -1
+    i = -1
     match = re.search('/([^/]+)$', os.environ['PATH_INFO'])
     if (match):
         key = match.group(1)
-        interpretation = db.get(key)
+        i = db.get(key)
         sys.stdout.write('''Content-Type: %(content_type)s
 Cache-Control: public
 Expires: Fri, 30 Oct 2010 14:19:41 GMT
 
-''' % { 'content_type': interpretation.content_type })
-        sys.stdout.write(interpretation.content)
+''' % { 'content_type': i.content_type })
+        sys.stdout.write(i.content)
     else:
         print 'Status: 404 not found'
         print ''

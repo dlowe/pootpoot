@@ -3,15 +3,12 @@
 
 import random
 import logging
+
+from pypoot import interpretation
+
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-
-class Interpretation(db.Model):
-    is_active    = db.BooleanProperty(required=True)
-    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
-    content_type = db.StringProperty(required=True)
-    content      = db.BlobProperty(required=True)
 
 class Poot(webapp.RequestHandler):
     def get(self):
@@ -23,13 +20,13 @@ class Poot(webapp.RequestHandler):
             keys = query.fetch(1000)
             key = random.choice(keys)
 
-        interpretation = db.get(key)
+        i = db.get(key)
         self.response.headers.add_header('content-type', 'text/plain')
         self.response.out.write("""{
  "id": %(id)d,
  "type": "%(type)s",
  "location": "/i/%(key)s"
-}""" % {'id': key.id(), 'key': key, 'type': interpretation.type })
+}""" % {'id': key.id(), 'key': key, 'type': i.type })
 
 application = webapp.WSGIApplication([('/poot', Poot)], debug=True)
 

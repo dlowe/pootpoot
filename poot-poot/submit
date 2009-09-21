@@ -6,11 +6,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-class Interpretation(db.Model):
-    is_active    = db.BooleanProperty(required=True)
-    type         = db.StringProperty(required=True, choices=set(['image', 'javascript', 'text']))
-    content_type = db.StringProperty(required=True)
-    content      = db.BlobProperty(required=True)
+from pypoot import interpretation
 
 class Submit(webapp.RequestHandler):
     def get(self):
@@ -27,13 +23,13 @@ class Submit(webapp.RequestHandler):
       </html>""")
 
     def post(self):
-        interpretation = Interpretation(
+        i = interpretation.Interpretation(
             is_active=True,
             type=self.request.get('type'),
             content_type=self.request.get('content_type'),
             content=self.request.get('content'))
-        interpretation.put()
-        self.redirect("/interpretation/%(key)s" % {"key": interpretation.key()})
+        i.put()
+        self.redirect("/interpretation/%(key)s" % {"key": i.key()})
 
 application = webapp.WSGIApplication([('/submit', Submit)], debug=True)
 
