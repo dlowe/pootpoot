@@ -16,7 +16,7 @@ function colorize (target) {
 }
 
 function poot_title (target, interpretation) {
-    target.html(interpretation.title);
+    target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a>");
 }
 
 function poot (target, key_or_null) {
@@ -28,7 +28,7 @@ function poot (target, key_or_null) {
     $.getJSON("/poot", arguments, function (interpretation) {
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: true });
-            $.getScript(interpretation.location, function () {
+            $.getScript(interpretation.content_location, function () {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 target.find("#content").empty();
@@ -36,7 +36,7 @@ function poot (target, key_or_null) {
             });
         } else if (interpretation.type == "text") {
             $.ajaxSetup({ cache: true });
-            $.get(interpretation.location, function (data) {
+            $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 contents = "<pre>" + data + "</pre>";
@@ -45,7 +45,7 @@ function poot (target, key_or_null) {
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
-            contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.location + "\"/></center>";
+            contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
             target.find("#content").html(contents);
         }
     });
