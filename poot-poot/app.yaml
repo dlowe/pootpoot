@@ -8,7 +8,7 @@ handlers:
   static_files: static/index.html
   upload: static/index.html
 
-- url: /(.*)\.(html|js|css|png|ico)
+- url: /(.*)\.(html|js|css|png|ico|txt)
   static_files: static/\1.\2
   upload: static/.*
 
