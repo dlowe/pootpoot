@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 """fetch metadata describing a single random interpretation"""
 
-## standard
-import random
-
 ## app engine
-from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
@@ -18,23 +14,19 @@ class Poot(webapp.RequestHandler):
     def get(self):
         """handle a get request"""
 
-        key = ''
+        key_string = None
         if self.request.get('key'):
-            key = db.Key(self.request.get('key'))
-        else:
-            query = db.GqlQuery("SELECT __key__ "
-                              + "FROM Interpretation WHERE is_active = TRUE")
-            keys = query.fetch(1000)
-            key = random.choice(keys)
+            key_string = self.request.get('key')
 
-        i = db.get(key)
+        i = interpretation.poot(key_string)
+
         self.response.headers.add_header('content-type', 'text/plain')
         self.response.out.write("""{
  "title": "%(title)s",
  "type": "%(type)s",
  "decorated_location": "/interpretation/%(key)s",
  "content_location": "/i/%(key)s"
-}""" % {'key': key, 'type': i.type, 'title': i.title })
+}""" % {'key': i.key(), 'type': i.type, 'title': i.title })
 
 APPLICATION = webapp.WSGIApplication([('/poot', Poot)], debug=True)
 

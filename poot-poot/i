@@ -7,9 +7,6 @@ import time
 import os
 import re
 
-## app engine
-from google.appengine.ext import db
-
 ## this app
 from pypoot import interpretation
 
@@ -21,8 +18,8 @@ def main():
     i = -1
     match = re.search('/([^/]+)$', os.environ['PATH_INFO'])
     if (match):
-        key = match.group(1)
-        i = db.get(key)
+        key_string = match.group(1)
+        i = interpretation.poot(key_string)
         sys.stdout.write('''Content-Type: %(content_type)s
 Cache-Control: public
 Expires: %(expires_time)s

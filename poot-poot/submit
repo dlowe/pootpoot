@@ -28,13 +28,12 @@ class Submit(webapp.RequestHandler):
 
     def post(self):
         """actually submit an interpretation"""
-        i = interpretation.Interpretation(
-            is_active=True,
-            title=self.request.get('title'),
-            type=self.request.get('type'),
-            content_type=self.request.get('content_type'),
-            content=self.request.get('content'))
-        i.put()
+        i = interpretation.submit(
+             title=self.request.get('title'),
+             type=self.request.get('type'),
+             content_type=self.request.get('content_type'),
+             content=self.request.get('content'))
+        interpretation.approve(i)
         self.redirect("/interpretation/%(key)s" % {"key": i.key()})
 
 APPLICATION = webapp.WSGIApplication([('/submit', Submit)], debug=True)
