@@ -24,3 +24,9 @@ handlers:
 
 - url: /submit
   script: submit
+
+- url: /approve
+  script: submit
+
+- url: /disapprove
+  script: submit

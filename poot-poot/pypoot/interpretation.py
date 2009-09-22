@@ -16,6 +16,7 @@ class Interpretation(db.Model):
     content_type = db.StringProperty(required=True)
     content      = db.BlobProperty(required=True)
     title        = db.StringProperty(required=True)
+    owner_baton  = db.StringProperty(required=True)
 
 class NoInterpretation(Exception):
     """no interpretation was available"""
@@ -24,6 +25,17 @@ class NoInterpretation(Exception):
 class BunkInterpretation(Exception):
     """the interpretation cannot be validated"""
     pass
+
+class BadOwnerBaton(Exception):
+    """the owner baton doesn't match (permission denied)"""
+    pass
+
+def _new_owner_baton():
+    """generate a new random owner_baton string"""
+    owner_baton = ""
+    for i in range(15):
+        owner_baton += random.choice('abcdefghijklmnopqrstuvwxyx')
+    return owner_baton
 
 def poot(key_string=None):
     """interpretation fetching magic"""
@@ -43,14 +55,26 @@ def poot(key_string=None):
 def submit(**attributes):
     """save an interpretation"""
     try:
-        i = Interpretation(is_active=False, **attributes)
+        i = Interpretation(
+                is_active=False,
+                owner_baton=_new_owner_baton(),
+                **attributes)
     except datastore_errors.BadValueError:
         raise BunkInterpretation()
     i.put()
     return i
 
-def approve(i):
+def approve(i, owner_baton):
     """mark an interpretation as approved"""
+    if (i.owner_baton != owner_baton):
+        raise BadOwnerBaton
     i.is_active = True
     i.put()
+    return
+
+def delete(i, owner_baton):
+    """delete an interpretation"""
+    if (i.owner_baton != owner_baton): 
+        raise BadOwnerBaton
+    i.delete()
     return

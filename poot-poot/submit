@@ -11,32 +11,43 @@ from pypoot import interpretation
 class Submit(webapp.RequestHandler):
     """request handler for /submit"""
 
-    def get(self):
-        """build the form"""
-        self.response.out.write("""
-      <html>
-        <body>
-          <form action="/submit" method="post" enctype="multipart/form-data">
-            <div>title: <input type="text" name="title"/></div>
-            <div>type: <input type="text" name="type"/></div>
-            <div>content-type: <input type="text" name="content_type"></div>
-            <div>content: <input type="file" name="content"></div>
-            <div><input type="submit" value="poot"></div>
-          </form>
-        </body>
-      </html>""")
-
     def post(self):
-        """actually submit an interpretation"""
+        """submit an interpretation"""
+
         i = interpretation.submit(
              title=self.request.get('title'),
              type=self.request.get('type'),
              content_type=self.request.get('content_type'),
              content=self.request.get('content'))
-        interpretation.approve(i)
-        self.redirect("/interpretation/%(key)s" % {"key": i.key()})
+        self.response.headers.add_header('content-type', 'text/plain')
+        self.response.out.write("""{
+    "key": "%(key)s",
+    "owner_baton": "%(owner_baton)s"
+}""" % {'key': i.key(), 'owner_baton': i.owner_baton})
 
-APPLICATION = webapp.WSGIApplication([('/submit', Submit)], debug=True)
+class Approve(webapp.RequestHandler):
+    """approve a submitted interpretation"""
+
+    def get(self):
+        """approve a submitted interpretation"""
+
+        i = interpretation.poot(self.request.get('key'))
+        interpretation.approve(i, self.request.get('owner_baton'))
+        self.response.out.write("ok")
+
+class Disapprove(webapp.RequestHandler):
+    """disapprove a submitted interpretation"""
+
+    def get(self):
+        """disapprove a submitted interpretation"""
+
+        i = interpretation.poot(self.request.get('key'))
+        interpretation.delete(i, self.request.get('owner_baton'))
+        self.response.out.write("ok")
+
+APPLICATION = webapp.WSGIApplication([('/submit', Submit),
+                                      ('/approve', Approve),
+                                      ('/disapprove', Disapprove)], debug=True)
 
 def main():
     """run the request thingy"""
