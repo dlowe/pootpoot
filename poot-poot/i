@@ -6,12 +6,11 @@ import sys
 import time
 import os
 import re
-import logging
 
 ## app engine
 from google.appengine.ext import db
 
-## this application
+## this app
 from pypoot import interpretation
 
 EXPIRE = 86400 ## how long to let browsers cache the content, in seconds
@@ -29,7 +28,8 @@ Cache-Control: public
 Expires: %(expires_time)s
 
 ''' % { 'content_type': i.content_type,
-        'expires_time': time.strftime('%a, %d %b %Y %H:%M:%S GMT', time.localtime(time.time() + EXPIRE)) })
+        'expires_time': time.strftime('%a, %d %b %Y %H:%M:%S GMT',
+                            time.localtime(time.time() + EXPIRE)) })
         sys.stdout.write(i.content)
     else:
         print 'Status: 404 not found'

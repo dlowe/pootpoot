@@ -39,13 +39,13 @@ function poot (target, key_or_null) {
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                contents = "<pre>" + data + "</pre>";
+                var contents = "<pre>" + data + "</pre>";
                 target.find("#content").html(contents);
             }, "text");
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
-            contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
+            var contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
             target.find("#content").html(contents);
         }
     });

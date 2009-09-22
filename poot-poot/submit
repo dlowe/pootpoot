@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 """store a new interpretation"""
 
-import logging
-from google.appengine.ext import db
+## app engine
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+## this app
 from pypoot import interpretation
 
 class Submit(webapp.RequestHandler):
+    """request handler for /submit"""
+
     def get(self):
+        """build the form"""
         self.response.out.write("""
       <html>
         <body>
@@ -24,6 +27,7 @@ class Submit(webapp.RequestHandler):
       </html>""")
 
     def post(self):
+        """actually submit an interpretation"""
         i = interpretation.Interpretation(
             is_active=True,
             title=self.request.get('title'),
@@ -33,10 +37,11 @@ class Submit(webapp.RequestHandler):
         i.put()
         self.redirect("/interpretation/%(key)s" % {"key": i.key()})
 
-application = webapp.WSGIApplication([('/submit', Submit)], debug=True)
+APPLICATION = webapp.WSGIApplication([('/submit', Submit)], debug=True)
 
 def main():
-    run_wsgi_app(application)
+    """run the request thingy"""
+    run_wsgi_app(APPLICATION)
 
 if __name__ == "__main__":
     main()
