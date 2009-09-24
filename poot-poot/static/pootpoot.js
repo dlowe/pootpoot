@@ -16,7 +16,7 @@ function colorize (target) {
 }
 
 function poot_title (target, interpretation) {
-    target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a>");
+    target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a> by " + interpretation.author);
 }
 
 function poot (target, key_or_null) {

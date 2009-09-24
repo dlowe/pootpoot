@@ -16,6 +16,7 @@ class Submit(webapp.RequestHandler):
 
         i = interpretation.submit(
              title=self.request.get('title'),
+             author=self.request.get('author'),
              type=self.request.get('type'),
              content_type=self.request.get('content_type'),
              content=self.request.get('content'))

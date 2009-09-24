@@ -17,6 +17,7 @@ class TestInterpretation(unittest.TestCase):
         ## submitting an interpretation should create an inactive one
         i = interpretation.submit(
                             title='Test',
+                            author='Anonymous',
                             type='text',
                             content_type='text/plain',
                             content='blart')
@@ -33,6 +34,7 @@ class TestInterpretation(unittest.TestCase):
     def test_create_bad_type(self):
         self.assertRaises(interpretation.BunkInterpretation, interpretation.submit, 
                                title='Test',
+                               author='Anonymous',
                                type='foo',
                                content_type='text/plain',
                                content='fnord')
@@ -41,6 +43,7 @@ class TestInterpretation(unittest.TestCase):
         ## submitting an interpretation should create an inactive one
         i = interpretation.submit(
                            title='Test',
+                           author='Anonymous',
                            type='text',
                            content_type='text/plain',
                            content='fnord')

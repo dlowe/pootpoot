@@ -17,6 +17,7 @@ class Interpretation(db.Model):
     content      = db.BlobProperty(required=True)
     title        = db.StringProperty(required=True)
     owner_baton  = db.StringProperty(required=True)
+    author       = db.StringProperty(required=True)
 
 class NoInterpretation(Exception):
     """no interpretation was available"""

@@ -14,7 +14,7 @@ class Kick(webapp.RequestHandler):
         keys = query.fetch(1000)
         for key in keys:
             i = db.get(key)
-            i.owner_baton = interpretation._new_owner_baton()
+            i.author = 'Anonymous'
             i.put()
 
         self.response.out.write("ok")
