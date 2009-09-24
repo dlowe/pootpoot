@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-~/google_appengine/dev_appserver.py poot-poot
+~/google_appengine/dev_appserver.py --clear_datastore --require_indexes poot-poot
