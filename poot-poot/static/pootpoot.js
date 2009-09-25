@@ -48,6 +48,13 @@ function poot (target, key_or_null) {
                 var contents = "<pre>" + data + "</pre>";
                 target.find("#content").html(contents);
             }, "text");
+        } else if (interpretation.type == "html") {
+            $.ajaxSetup({ cache: true });
+            $.get(interpretation.content_location, function (data) {
+                colorize(target);
+                poot_title(target.find("#title"), interpretation);
+                target.find("#content").html(data);
+            }, "html");
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);

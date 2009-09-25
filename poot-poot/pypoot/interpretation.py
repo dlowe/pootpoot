@@ -12,7 +12,7 @@ class Interpretation(db.Model):
     """interpretation model"""
     is_active    = db.BooleanProperty(required=True)
     type         = db.StringProperty(required=True,
-                       choices=set(['image', 'javascript', 'text']))
+                       choices=set(['image', 'javascript', 'text', 'html']))
     content_type = db.StringProperty(required=True)
     content      = db.BlobProperty(required=True)
     title        = db.StringProperty(required=True)
