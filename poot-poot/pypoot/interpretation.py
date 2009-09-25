@@ -3,6 +3,7 @@
 
 ## standard
 import random
+from datetime import datetime
 
 ## app engine
 from google.appengine.api import datastore_errors
@@ -18,6 +19,7 @@ class Interpretation(db.Model):
     title        = db.StringProperty(required=True)
     owner_baton  = db.StringProperty(required=True)
     author       = db.StringProperty(required=True)
+    created_at   = db.DateTimeProperty(required=True)
 
 class NoInterpretation(Exception):
     """no interpretation was available"""
@@ -69,6 +71,7 @@ def submit(**attributes):
         i = Interpretation(
                 is_active=False,
                 owner_baton=_new_owner_baton(),
+                created_at=datetime.utcnow(),
                 **attributes)
     except datastore_errors.BadValueError:
         raise BunkInterpretation()
