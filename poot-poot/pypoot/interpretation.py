@@ -40,8 +40,12 @@ def _new_owner_baton():
 
 def poot(key_string=None):
     """interpretation fetching magic"""
+
     if (key_string != None):
-        key = db.Key(key_string)
+        try:
+            key = db.Key(key_string)
+        except datastore_errors.BadKeyError:
+            raise NoInterpretation()
     else:
         query = db.GqlQuery("SELECT __key__ "
                           + "FROM Interpretation WHERE is_active = TRUE")
@@ -51,6 +55,12 @@ def poot(key_string=None):
         key = random.choice(keys)
 
     i = db.get(key)
+
+    ## this can happen when a specific key is provided, but there's no
+    ## such entity
+    if (i == None):
+        raise NoInterpretation()
+
     return i
 
 def submit(**attributes):

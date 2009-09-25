@@ -25,6 +25,12 @@ function poot (target, key_or_null) {
         arguments.key = key_or_null;
     }
     $.ajaxSetup({ cache: false });
+    $.ajaxSetup({ error: function () {
+        colorize(target);
+        target.find("#content").empty();
+        target.find("#title").empty();
+        target.find("#content").html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
+    }});
     $.getJSON("/poot", arguments, function (interpretation) {
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: true });

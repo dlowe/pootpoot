@@ -13,6 +13,12 @@ class TestOwnerBaton(unittest.TestCase):
         self.assertTrue(isinstance(owner_baton, str))
 
 class TestInterpretation(unittest.TestCase):
+    def test_bad_key(self):
+        ## does not look like a real key
+        self.assertRaises(interpretation.NoInterpretation, interpretation.poot, 'asdf')
+        ## looks like a real key, but refers to no element
+        self.assertRaises(interpretation.NoInterpretation, interpretation.poot, 'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM')
+
     def test_submit_disapprove(self):
         ## submitting an interpretation should create an inactive one
         i = interpretation.submit(
