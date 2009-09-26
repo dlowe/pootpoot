@@ -18,7 +18,6 @@ class Kick(webapp.RequestHandler):
         for key in keys:
             i = db.get(key)
             i.created_at = datetime.utcnow()
-            i.author = 'Anonymous'
             i.put()
 
         self.response.out.write("ok")
