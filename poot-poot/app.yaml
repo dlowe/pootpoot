@@ -4,23 +4,33 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /
-  static_files: static/index.html
-  upload: static/index.html
-
 - url: /(.*)\.(html|js|css|png|ico|txt)
   static_files: static/\1.\2
   upload: static/.*
 
+- url: /
+  static_files: static/interpretation.html
+  upload: static/interpretation.html
+
+- url: /interpretation/([^/]+)?
+  static_files: static/interpretation.html
+  upload: static/interpretation.html
+
+- url: /list_interpretations/([^/]+)?
+  static_files: static/list_interpretations.html
+  upload: static/list_interpretations.html
+
 - url: /poot
+  script: poot
+
+- url: /list
+  script: poot
+
+- url: /count
   script: poot
 
 - url: /i/([^/]+)
   script: i
-
-- url: /interpretation/([^/]+)
-  static_files: static/index.html
-  upload: static/index.html
 
 - url: /submit
   script: submit

@@ -21,10 +21,6 @@ class Interpretation(db.Model):
     author       = db.StringProperty(required=True)
     created_at   = db.DateTimeProperty(required=True)
 
-class NoInterpretation(Exception):
-    """no interpretation was available"""
-    pass
-
 class BunkInterpretation(Exception):
     """the interpretation cannot be validated"""
     pass
@@ -43,17 +39,18 @@ def _new_owner_baton():
 def poot(key_string=None):
     """interpretation fetching magic"""
 
+    key = None
     if (key_string != None):
         try:
             key = db.Key(key_string)
         except datastore_errors.BadKeyError:
-            raise NoInterpretation()
+            return None
     else:
         query = db.GqlQuery("SELECT __key__ "
                           + "FROM Interpretation WHERE is_active = TRUE")
         keys = query.fetch(1000)
         if len(keys) == 0:
-            raise NoInterpretation()
+            return None
         key = random.choice(keys)
 
     i = db.get(key)
@@ -61,9 +58,46 @@ def poot(key_string=None):
     ## this can happen when a specific key is provided, but there's no
     ## such entity
     if (i == None):
-        raise NoInterpretation()
+        return None
 
     return i
+
+def count(key_string=None):
+    """count interpretations"""
+
+    if (key_string != None):
+        key = None
+        try:
+            key = db.Key(key_string)
+        except datastore_errors.BadKeyError:
+            return 0
+
+        if (db.get(key) == None):
+            return 0
+        return 1
+
+    query = db.GqlQuery("SELECT __key__ "
+                      + "FROM Interpretation WHERE is_active = TRUE")
+    return query.count()
+
+def list(key_string=None):
+    """list interpretations"""
+
+    if (key_string != None):
+        key = None
+        try:
+            key = db.Key(key_string)
+        except datastore_errors.BadKeyError:
+            return []
+
+        i = db.get(key)
+        if (i == None):
+            return []
+        return [i]
+
+    query = db.GqlQuery("SELECT * "
+                      + "FROM Interpretation WHERE is_active = TRUE")
+    return query.fetch(1000)
 
 def submit(**attributes):
     """save an interpretation"""

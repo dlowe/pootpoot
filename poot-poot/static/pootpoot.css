@@ -4,6 +4,16 @@
   overflow: hidden;
 }
 
+#list_interpretations {
+  width: 90%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.listed_interpretation {
+  border-style: none none solid none
+}
+
 #title {
   border-style: none none solid none
 }

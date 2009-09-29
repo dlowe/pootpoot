@@ -15,8 +15,32 @@ function colorize (target) {
    target.css("color", random_color());
 }
 
+function shuffle (v) {
+    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+}
+
 function poot_title (target, interpretation) {
     target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a> by " + interpretation.author);
+}
+
+function list (target, key_or_null) {
+    arguments = { };
+    if (key_or_null) {
+        arguments.key = key_or_null;
+    }
+    $.ajaxSetup({ cache: false });
+    $.ajaxSetup({ error: function () {
+    }});
+    $.getJSON("/list", arguments, function (interpretation_list) {
+        colorize(target);
+        var contents = "";
+        var shuffled_list = shuffle(interpretation_list)
+        for (var i in shuffled_list) {
+            contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by " + shuffled_list[i].author + "</div>"
+        }
+        target.html(contents);
+    });
 }
 
 function poot (target, key_or_null) {

@@ -9,7 +9,77 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 ## this app
+from pypoot import json
 from pypoot import interpretation
+
+class List(webapp.RequestHandler):
+    """request handler for /list"""
+
+    def get(self):
+        """get a list of interpretations"""
+
+        key_string = None
+        if (self.request.get('key')):
+            key_string = self.request.get('key')
+
+        status  = None
+        content = None
+        l       = []
+        try:
+            l = interpretation.list(key_string)
+        except Exception, error:
+            logging.error("Unhandled (generic) exception: %s", str(error))
+            status  = 500
+            content = { 'error': str(error) }
+        else:
+            if l == []:
+                status  = 404
+                content = { 'error': 'Not Found' }
+            else:
+                status  = 200
+                content = []
+                for i in l:
+                    content.append({ 'title': i.title,
+                                     'author': i.author,
+                                     'decorated_location': "/interpretation/%s" % i.key() })
+
+        self.response.set_status(status)
+        if 'Content-Type' in self.response.headers:
+            del self.response.headers['Content-Type']
+        self.response.headers.add_header('Content-Type', 'text/plain')
+
+        self.response.out.write(json.ify(content))
+
+class Count(webapp.RequestHandler):
+    """request handler for /count"""
+
+    def get(self):
+        """handle a get request"""
+
+        key_string = None
+        if self.request.get('key'):
+            key_string = self.request.get('key')
+
+        status  = None
+        content = None
+        i       = None
+
+        try:
+            count = interpretation.count(key_string)
+        except Exception, error:
+            logging.error("Unhandled (generic) exception: %s", str(error))
+            status  = 500
+            content = { 'error': str(error) }
+        else:
+            status  = 200
+            content = { 'count': str(count) }
+
+        self.response.set_status(status)
+        if 'Content-Type' in self.response.headers:
+            del self.response.headers['Content-Type']
+        self.response.headers.add_header('Content-Type', 'text/plain')
+
+        self.response.out.write(json.ify(content))
 
 class Poot(webapp.RequestHandler):
     """request handler for /poot"""
@@ -26,39 +96,32 @@ class Poot(webapp.RequestHandler):
         i       = None
         try:
             i = interpretation.poot(key_string)
-        except interpretation.NoInterpretation:
-            status  = 404
-            content = { 'error': 'Not Found' }
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
             content = { 'error': str(error) }
         else:
-            status  = 200
-            content = { 'title': i.title,
-                        'author': i.author,
-                        'type': i.type,
-                        'decorated_location': "/interpretation/%s" % i.key(),
-                        'content_location': "/i/%s" % i.key() }
+            if i == None:
+                status = 404
+                content = { 'error': 'Not Found' }
+            else:
+                status  = 200
+                content = { 'title': i.title,
+                            'author': i.author,
+                            'type': i.type,
+                            'decorated_location': "/interpretation/%s" % i.key(),
+                            'content_location': "/i/%s" % i.key() }
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
         self.response.headers.add_header('Content-Type', 'text/plain')
 
-        ## string dictionary to json...
-        first = 1
-        json = "{" 
-        for key, value in content.iteritems():
-            if not first:
-                json += ","
-            json += "\"%s\": \"%s\"" % (key, value)
-            first = 0
-        json += "}"
+        self.response.out.write(json.ify(content))
 
-        self.response.out.write(json)
-
-APPLICATION = webapp.WSGIApplication([('/poot', Poot)], debug=True)
+APPLICATION = webapp.WSGIApplication([('/poot', Poot),
+                                      ('/list', List),
+                                      ('/count', Count)], debug=True)
 
 def main():
     """invoke the wsgi thingy"""
