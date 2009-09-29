@@ -1,10 +1,18 @@
 #interpretation {
+  margin: 0px auto;
   width: 90%;
   padding: 10px;
   overflow: hidden;
 }
 
+#buttons {
+  margin: 0px auto;
+  width: 90%;
+  text-align: center;
+}
+
 #list_interpretations {
+  margin: 0px auto;
   width: 90%;
   padding: 10px;
   overflow: hidden;

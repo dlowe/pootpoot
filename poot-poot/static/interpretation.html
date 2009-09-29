@@ -14,7 +14,8 @@
    }
    colorize($("body"));
    poot($("#interpretation"), key);
-   $("html").click(function (event) {
+   $("#button_pootpoot").click(function (event) {
+     event.preventDefault();
      poot($("#interpretation"), key);
    });
   });
@@ -25,6 +26,10 @@
  <div id="interpretation">
   <div id="title"></div>
   <div id="content"></div>
+ </div>
+ <div id="buttons">
+  <a id="button_pootpoot" href="#">[POOT POOT]</a>&nbsp;
+  <a id="button_list" href="/list_interpretations/">[List]</a>
  </div>
 </body>
 
