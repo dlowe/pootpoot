@@ -6,14 +6,18 @@ def ify(thing):
 
     json = ""
 
-    if (isinstance(thing, dict)):
+    if (isinstance(thing, basestring)):
+        json = '"' + thing.replace('"', '\\"') + '"'
+    elif (isinstance(thing, int)):
+        json = str(thing)
+    elif (isinstance(thing, dict)):
         ## string dictionary to json...
         first = 1
         json += "{"
         for key, value in thing.iteritems():
             if not first:
                 json += ","
-            json += "\"%s\":\"%s\"" % (key, value)
+            json += "\"%s\":%s" % (key, ify(value))
             first = 0
         json += "}"
     elif (isinstance(thing, list)):
