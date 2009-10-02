@@ -57,7 +57,7 @@ function poot (target, key_or_null) {
     }});
     $.getJSON("/poot", arguments, function (interpretation) {
         if (interpretation.type == "javascript") {
-            $.ajaxSetup({ cache: true });
+            $.ajaxSetup({ cache: false });
             $.getScript(interpretation.content_location, function () {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);

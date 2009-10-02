@@ -1,8 +1,11 @@
+
 function _css_box(target) {
-    target.css({ 'min-width':    '100',
-                 'max-width':    '100',
+    target.css({ 'width':        100,
+                 'min-width':    100,
+                 'max-width':    100,
                  'overflow':     'hidden',
                  'text-align':   'center',
+                 'border-width': 'medium',
                  'border-style': 'solid',
                  'border-color': 'blue',
                  'font-size':    '2.2em',
@@ -37,10 +40,10 @@ function _find_poot(target, rows, columns, level, message) {
     poot_col = r(0, columns-1);
 
     // set up the splash...
-    $("#find_poot_splash").css({'margin': '0px auto',
-                                'width':  '500px',});
-    $("#find_poot_splash_table").css('background-color', '#000000');
-    $("#find_poot_splash_table").css('margin', '0px auto');
+    $("#find_poot_splash").css({'margin':     '0px auto',
+                                'width':      '500px'});
+    $("#find_poot_splash_table").css({'background-color': '#000000',
+                                      'margin':           '0px auto'});
     _css_box($("#green_poot"));
     $("#green_poot").css('color', 'green');
     $("#green_poot").text('Poot');
@@ -55,13 +58,12 @@ function _find_poot(target, rows, columns, level, message) {
         $("#find_poot_splash").hide();
         // start the timer
         $("#timer").css('background-color', 'black');
-        $("#timer").css('margin', '0px auto');
+        $("#timer").css('margin', 'auto');
         for (var t = remaining_time; t > 0; t--) {
             var selector = "#timerbox_" + t;
             var box = $(selector);
 
-            box.css({'background-color': 'black',
-            });
+            box.css({'background-color': 'black'});
         }
         $("#find_poot").show();
         interval_id = setInterval(function () {
@@ -76,8 +78,8 @@ function _find_poot(target, rows, columns, level, message) {
     });
 
     // set up the game
-    $("#find_poot_table").css('background-color', '#000000');
-    $("#find_poot_table").css('margin', '0px auto');
+    $("#find_poot_table").css({'background-color': '#000000',
+                               'margin':           '0px auto'});
     for (var row = 0; row < rows; row++) {
         for (var col = 0; col < columns; col++) {
             var selector = "#find_poot_" + row + "_" + col;
