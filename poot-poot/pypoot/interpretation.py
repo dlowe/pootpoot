@@ -53,7 +53,7 @@ def poot(key_string=None):
             return None
         key = random.choice(keys)
 
-    i = db.get(key)
+    i = Interpretation.get(key)
 
     ## this can happen when a specific key is provided, but there's no
     ## such entity
@@ -72,7 +72,7 @@ def count(key_string=None):
         except datastore_errors.BadKeyError:
             return 0
 
-        if (db.get(key) == None):
+        if (Interpretation.get(key) == None):
             return 0
         return 1
 
@@ -90,13 +90,12 @@ def list(key_string=None):
         except datastore_errors.BadKeyError:
             return []
 
-        i = db.get(key)
+        i = Interpretation.get(key)
         if (i == None):
             return []
         return [i]
 
-    query = db.GqlQuery("SELECT * "
-                      + "FROM Interpretation WHERE is_active = TRUE")
+    query = Interpretation.gql("WHERE is_active = :1", True)
     return query.fetch(1000)
 
 def submit(**attributes):

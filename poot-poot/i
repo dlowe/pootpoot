@@ -57,7 +57,8 @@ class InterpretationContent(webapp.RequestHandler):
         self.response.headers.add_header('Content-Type', content_type)
         self.response.out.write(content)
 
-APPLICATION = webapp.WSGIApplication([('/i/.*', InterpretationContent)], debug=True)
+APPLICATION = webapp.WSGIApplication([('/i/.*', InterpretationContent)],
+                                     debug=True)
 
 def main():
     """invoke the wsgi thingy"""
