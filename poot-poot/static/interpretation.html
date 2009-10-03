@@ -8,16 +8,16 @@
  <script type="text/javascript" src="/pootpoot.js"></script>
  <script type="text/javascript">
   $(function () {
-   var re  = new RegExp('/interpretation/([^/]+)$');
-   var key = null;
+   var re         = new RegExp('/interpretation/([^/]+).html$');
+   var title_link = null;
    if (re.test(document.location.href)) {
-       key = (re.exec(document.location.href))[1];
+       title_link = (re.exec(document.location.href))[1];
    }
    colorize($("body"));
-   poot($("#interpretation"), key);
+   poot($("#interpretation"), { 'title_link': title_link });
    $("#button_pootpoot").click(function (event) {
      event.preventDefault();
-     poot($("#interpretation"), key);
+     poot($("#interpretation"), { 'title_link': title_link });
    });
   });
  </script>

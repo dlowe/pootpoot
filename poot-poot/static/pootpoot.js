@@ -24,15 +24,21 @@ function poot_title (target, interpretation) {
     target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a> by " + interpretation.author);
 }
 
-function list (target, key_or_null) {
-    arguments = { };
-    if (key_or_null) {
-        arguments.key = key_or_null;
+function interpretation_arguments (filters) {
+    var final_filters = {};
+    for (var key in filters) {
+        if (filters[key] != null) {
+            final_filters[key] = filters[key]
+        }
     }
+    return final_filters;
+}
+
+function list (target, filters) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
     }});
-    $.getJSON("/list", arguments, function (interpretation_list) {
+    $.getJSON("/list", interpretation_arguments(filters), function (interpretation_list) {
         colorize(target);
         var contents = "";
         var shuffled_list = shuffle(interpretation_list)
@@ -43,11 +49,7 @@ function list (target, key_or_null) {
     });
 }
 
-function poot (target, key_or_null) {
-    arguments = { };
-    if (key_or_null) {
-        arguments.key = key_or_null;
-    }
+function poot (target, filters) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
         colorize(target);
@@ -55,7 +57,7 @@ function poot (target, key_or_null) {
         target.find("#title").empty();
         target.find("#content").html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
     }});
-    $.getJSON("/poot", arguments, function (interpretation) {
+    $.getJSON("/poot", interpretation_arguments(filters), function (interpretation) {
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: false });
             $.getScript(interpretation.content_location, function () {

@@ -29,7 +29,7 @@ class InterpretationContent(webapp.RequestHandler):
             match = re.search('/([^/]+)$', self.request.path)
             if match:
                 key_string = match.group(1)
-                i = interpretation.poot(key_string)
+                i = interpretation.poot({ 'key_string': key_string })
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status       = 500

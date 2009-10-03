@@ -12,21 +12,30 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from pypoot import json
 from pypoot import interpretation
 
+def _get_interpretation_arguments(request):
+    filters = {}
+
+    if (request.get('key_string')):
+        filters['key_string'] = request.get('key_string')
+
+    if (request.get('title_link')):
+        filters['title_link'] = request.get('title_link')
+
+    logging.warn(filters)
+
+    return filters
+
 class List(webapp.RequestHandler):
     """request handler for /list"""
 
     def get(self):
         """get a list of interpretations"""
 
-        key_string = None
-        if (self.request.get('key')):
-            key_string = self.request.get('key')
-
         status  = None
         content = None
         l       = []
         try:
-            l = interpretation.list(key_string)
+            l = interpretation.list(_get_interpretation_arguments(self.request))
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
@@ -41,7 +50,7 @@ class List(webapp.RequestHandler):
                 for i in l:
                     content.append({ 'title': i.title,
                                      'author': i.author,
-                                     'decorated_location': "/interpretation/%s" % i.key() })
+                                     'decorated_location': "/interpretation/%s.html" % i.title_link })
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
@@ -56,16 +65,12 @@ class Count(webapp.RequestHandler):
     def get(self):
         """handle a get request"""
 
-        key_string = None
-        if self.request.get('key'):
-            key_string = self.request.get('key')
-
         status  = None
         content = None
         i       = None
 
         try:
-            count = interpretation.count(key_string)
+            count = interpretation.count(_get_interpretation_arguments(self.request))
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
@@ -87,15 +92,11 @@ class Poot(webapp.RequestHandler):
     def get(self):
         """handle a get request"""
 
-        key_string = None
-        if self.request.get('key'):
-            key_string = self.request.get('key')
-
         status  = None
         content = None
         i       = None
         try:
-            i = interpretation.poot(key_string)
+            i = interpretation.poot(_get_interpretation_arguments(self.request))
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
@@ -109,7 +110,7 @@ class Poot(webapp.RequestHandler):
                 content = { 'title': i.title,
                             'author': i.author,
                             'type': i.type,
-                            'decorated_location': "/interpretation/%s" % i.key(),
+                            'decorated_location': "/interpretation/%s.html" % i.title_link,
                             'content_location': "/i/%s" % i.key() }
 
         self.response.set_status(status)

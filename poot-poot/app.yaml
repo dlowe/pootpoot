@@ -4,10 +4,6 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /(.*)\.(html|js|css|png|ico|txt)
-  static_files: static/\1.\2
-  upload: static/.*
-
 - url: /
   static_files: static/interpretation.html
   upload: static/interpretation.html
@@ -40,3 +36,7 @@ handlers:
 
 - url: /disapprove
   script: submit
+
+- url: /(.*)\.(html|js|css|png|ico|txt)
+  static_files: static/\1.\2
+  upload: static/.*

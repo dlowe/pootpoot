@@ -32,7 +32,7 @@ class Approve(webapp.RequestHandler):
     def get(self):
         """approve a submitted interpretation"""
 
-        i = interpretation.poot(self.request.get('key'))
+        i = interpretation.poot({ 'key_string': self.request.get('key') })
         interpretation.approve(i, self.request.get('owner_baton'))
         self.response.out.write("ok")
 
@@ -42,7 +42,7 @@ class Disapprove(webapp.RequestHandler):
     def get(self):
         """disapprove a submitted interpretation"""
 
-        i = interpretation.poot(self.request.get('key'))
+        i = interpretation.poot({ 'key_string': self.request.get('key') })
         interpretation.delete(i, self.request.get('owner_baton'))
         self.response.out.write("ok")
 

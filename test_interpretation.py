@@ -14,20 +14,36 @@ class TestOwnerBaton(unittest.TestCase):
 
 class TestInterpretation(unittest.TestCase):
     def test_bad_key(self):
+        ## none
+        self.assertEquals(interpretation.poot({'key_string':None}), None)
+        self.assertEquals(interpretation.count({'key_string':None}), 0)
+        self.assertEquals(interpretation.list({'key_string':None}), [])
+
         ## does not look like a real key
-        self.assertEquals(interpretation.poot('asdf'), None)
-        self.assertEquals(interpretation.count('asdf'), 0)
-        self.assertEquals(interpretation.list('asdf'), [])
+        self.assertEquals(interpretation.poot({'key_string':'asdf'}), None)
+        self.assertEquals(interpretation.count({'key_string':'asdf'}), 0)
+        self.assertEquals(interpretation.list({'key_string':'asdf'}), [])
 
         ## looks like a real key, but refers to no element
-        self.assertEquals(interpretation.poot('aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'), None)
-        self.assertEquals(interpretation.count('aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'), 0)
-        self.assertEquals(interpretation.list('aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'), [])
+        self.assertEquals(interpretation.poot({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), None)
+        self.assertEquals(interpretation.count({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), 0)
+        self.assertEquals(interpretation.list({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), [])
+
+    def test_bad_title_link(self):
+        ## none
+        self.assertEquals(interpretation.poot({'title_link':None}), None)
+        self.assertEquals(interpretation.count({'title_link':None}), 0)
+        self.assertEquals(interpretation.list({'title_link':None}), [])
+
+        ## refers to no element
+        self.assertEquals(interpretation.poot({'title_link':'foo-bar-baz'}), None)
+        self.assertEquals(interpretation.count({'title_link':'foo-bar-baz'}), 0)
+        self.assertEquals(interpretation.list({'title_link':'foo-bar-baz'}), [])
 
     def test_submit_disapprove(self):
         ## submitting an interpretation should create an inactive one
         i = interpretation.submit(
-                            title='Test',
+                            title=u'Test',
                             author='Anonymous',
                             type='text',
                             content_type='text/plain',
@@ -44,16 +60,33 @@ class TestInterpretation(unittest.TestCase):
 
     def test_create_bad_type(self):
         self.assertRaises(interpretation.BunkInterpretation, interpretation.submit, 
-                               title='Test',
+                               title=u'Test',
                                author='Anonymous',
                                type='foo',
                                content_type='text/plain',
                                content='fnord')
 
+    def test_title_link_collision(self):
+        i = interpretation.submit(
+                           title=u'untitled',
+                           author='Anonymous',
+                           type='text',
+                           content_type='text/plain',
+                           content='fnord')
+        self.assertEquals(i.title_link, 'untitled')
+
+        j = interpretation.submit(
+                           title=u'untitled',
+                           author='Anonymous',
+                           type='text',
+                           content_type='text/plain',
+                           content='fnord')
+        self.assertEquals(j.title_link, 'untitled-1')
+
     def test_submit_approve(self):
         ## submitting an interpretation should create an inactive one
         i = interpretation.submit(
-                           title='Test',
+                           title=u'Test',
                            author='Anonymous',
                            type='text',
                            content_type='text/plain',
@@ -61,14 +94,20 @@ class TestInterpretation(unittest.TestCase):
         self.assertFalse(i.is_active)
 
         ## fetching it is possible if specific key is provided
-        self.assertEquals(interpretation.count(str(i.key())), 1)
-        for j in [interpretation.poot(str(i.key())), interpretation.list(str(i.key()))[0]]:
+        self.assertEquals(interpretation.count({'key_string': str(i.key())}), 1)
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0]]:
             ## and the fetched interpretation should be identical
+            self.assertEquals(i.title_link, j.title_link)
             self.assertEquals(i.title, j.title)
             self.assertEquals(i.type, j.type)
             self.assertEquals(i.content_type, j.content_type)
             self.assertEquals(i.content, j.content)
             self.assertEquals(i.is_active, j.is_active)
+
+        ## even with a title_link (unique) fetch, can't see it yet:
+        self.assertEquals(interpretation.count({'title_link': i.title_link}), 0)
+        self.assertEquals(interpretation.list({'title_link': i.title_link}), [])
+        self.assertEquals(interpretation.poot({'title_link': i.title_link}), None)
 
         ## but fetching without a key should return nothing
         self.assertEquals(interpretation.count(), 0)
@@ -79,17 +118,18 @@ class TestInterpretation(unittest.TestCase):
         self.assertRaises(interpretation.BadOwnerBaton, interpretation.approve, i, None)
         self.assertRaises(interpretation.BadOwnerBaton, interpretation.approve, i, "blah blah blah")
 
-        ## approving it should activate it
+        ## approving it should activate it; should now be able to see it via title_link fetches
         interpretation.approve(i, i.owner_baton)
         self.assertTrue(i.is_active)
-        for j in [interpretation.poot(str(i.key())), interpretation.list(str(i.key()))[0]]:
+        self.assertEquals(interpretation.count({'title_link': i.title_link}), 1)
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0]]:
             self.assertEquals(i.is_active, j.is_active)
 
         ## now fetching without a key should bring it up
         self.assertEquals(interpretation.count(), 1)
-        k = interpretation.poot(None)
+        k = interpretation.poot()
         self.assertEquals(str(i.key()), str(k.key()))
-        l = interpretation.list(None)
+        l = interpretation.list()
         self.assertEquals(str(i.key()), str(l[0].key()))
 
 if __name__ == '__main__':
