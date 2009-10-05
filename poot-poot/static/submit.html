@@ -25,7 +25,7 @@
                var arguments = { 'key': key, 'owner_baton': owner_baton };
                $.ajaxSetup({ cache: false });
                $.get("/approve", arguments, function () {
-                   window.location = "/interpretation/" + key;
+                   window.location = "/";
                });
            });
 
