@@ -50,42 +50,53 @@ function list (target, filters) {
 }
 
 function poot (target, filters) {
+    var content = target.find("#content");
+
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
         colorize(target);
-        target.find("#content").empty();
         target.find("#title").empty();
-        target.find("#content").html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
+        content.html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
     }});
+    $.ajaxSetup({ async: false });
+
+    var i = { 'stop': function () { } };
     $.getJSON("/poot", interpretation_arguments(filters), function (interpretation) {
+        var content = target.find("#content");
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ async: false });
             $.getScript(interpretation.content_location, function () {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                target.find("#content").empty();
-                pootpoot(target.find("#content"));
+                var p = pootpoot();
+                p.start(content);
+                i = p;
             });
         } else if (interpretation.type == "text") {
-            $.ajaxSetup({ cache: true });
+            $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                target.find("#content").text(data);
-                target.find("#content").wrapInner("<pre></pre>");
+                content.text(data);
+                content.wrapInner("<pre></pre>");
             }, "text");
         } else if (interpretation.type == "html") {
-            $.ajaxSetup({ cache: true });
+            $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                target.find("#content").html(data);
+                content.html(data);
             }, "html");
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
             var contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
-            target.find("#content").html(contents);
+            content.html(contents);
         }
     });
+
+    return i;
 }

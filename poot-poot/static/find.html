@@ -23,11 +23,10 @@ function _css_box(target) {
                  'background-color': '#000000' });
 }
 
-function _find_poot(target, rows, columns, level, message) {
-    var interval_id    = null;
+function _find_poot(target, rows, columns, level, message, interval) {
     var remaining_time = 10;
 
-    var splash_html = '<div id="find_poot_splash" style="display:none"><h1>' + message + '</h1><h2>Find the yellow Poot in less than 10 seconds!</h2><h2>To start the game press the yellow Poot</h2><table id=\"find_poot_splash_table\" cellpadding=1 cellspacing=1><tr><td id="green_poot"/><td id="yellow_boot"/><td id="yellow_poot"/></tr></table></div>';
+    var splash_html = '<div id="find_poot_splash" style="display:none"><h1>' + message + '</h1><h2>Find the yellow Poot in less than 10 seconds!</h2><h2>To start the game press the yellow Poot</h2><table id="find_poot_splash_table" cellpadding=1 cellspacing=1><tr><td id="green_poot"/><td id="yellow_boot"/><td id="yellow_poot"/></tr></table></div>';
     var table_html = '<div id="find_poot" style="display:none"><table id="find_poot_table" height="304" cellpadding=1 cellspacing=1>';
     for (var row = 0; row < rows; row++) {
         table_html += '<tr>';
@@ -75,13 +74,13 @@ function _find_poot(target, rows, columns, level, message) {
             box.css({'background-color': 'black'});
         }
         $("#find_poot").show();
-        interval_id = setInterval(function () {
+        interval.set(function () {
             --remaining_time;
             $("#timerbox_" + (remaining_time + 1)).css('background-color', 'yellow');
             if (remaining_time == 0) {
-                clearInterval(interval_id);
+                interval.clear();
                 $("#find_poot").hide();
-                _find_poot(target, rows, columns, level, "Time's up!! Try again!");
+                _find_poot(target, rows, columns, level, "Time's up!! Try again!", interval);
             }
         }, 1000);
     });
@@ -116,13 +115,13 @@ function _find_poot(target, rows, columns, level, message) {
             t.click(function(r_row, r_col, r_t) {
                 return function () {
                     if ((r_row == poot_row) && (r_col == poot_col)) {
-                        clearInterval(interval_id);
+                        interval.clear();
                         $("#find_poot").hide();
-                        _find_poot(target, rows, columns, level + 1, "Nice! Try Level " + (level + 1));
+                        _find_poot(target, rows, columns, level + 1, "Nice! Try Level " + (level + 1), interval);
                     } else {
-                        clearInterval(interval_id);
+                        interval.clear();
                         $("#find_poot").hide();
-                        _find_poot(target, rows, columns, level, "That was Boot!! Try again!");
+                        _find_poot(target, rows, columns, level, "That was Boot!! Try again!", interval);
                     }
                 }
             }(row, col, t));
@@ -135,19 +134,37 @@ function _find_poot(target, rows, columns, level, message) {
     $("#find_poot_splash").show();
 }
 
-function pootpoot (target) {
-    _find_poot(target, 4, 5, 1, 'Level 1');
+function pootpoot () {
+    var interval_id = null;
+    var interval = {
+        'set': function (f, t) {
+            interval_id = setInterval(f, t);
+        },
+        'clear': function () {
+            clearInterval(interval_id);
+        }
+    };
+
+    return {
+        'start': function (target) { _find_poot(target, 4, 5, 1, 'Level 1', interval) },
+        'stop':  function () { interval.clear() },
+    };
 }
 
   $(function () {
-   var re  = new RegExp('/interpretation/([^/]+)$');
-   var key = null;
-   if (re.test(document.location.href)) {
-       key = (re.exec(document.location.href))[1];
-   }
    colorize($("body"));
    colorize($("#content"));
-   pootpoot($("#content"), key);
+   var interpretation = pootpoot();
+   interpretation.start($("#content"));
+
+   $("#button_pootpoot").click(function (eventObject) {
+       eventObject.preventDefault();
+       colorize($("body"));
+       colorize($("#content"));
+       interpretation.stop();
+       interpretation = pootpoot();
+       interpretation.start($("#content"));
+   });
   });
  </script>
 </head>

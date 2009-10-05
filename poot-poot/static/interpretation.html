@@ -14,11 +14,12 @@
        title_link = (re.exec(document.location.href))[1];
    }
    colorize($("body"));
-   poot($("#interpretation"), { 'title_link': title_link });
+   var interpretation = poot($("#interpretation"), { 'title_link': title_link });
    $("#button_pootpoot").click(function (event) {
      event.preventDefault();
      colorize($("body"));
-     poot($("#interpretation"), { 'title_link': title_link });
+     interpretation.stop();
+     interpretation = poot($("#interpretation"), { 'title_link': title_link });
    });
   });
  </script>
