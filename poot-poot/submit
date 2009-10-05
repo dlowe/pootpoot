@@ -23,8 +23,9 @@ class Submit(webapp.RequestHandler):
         self.response.headers.add_header('content-type', 'text/plain')
         self.response.out.write("""{
     "key": "%(key)s",
+    "decorated_location": "/interpretation/%(title_link)s.html",
     "owner_baton": "%(owner_baton)s"
-}""" % {'key': i.key(), 'owner_baton': i.owner_baton})
+}""" % {'key': i.key(), 'title_link': i.title_link, 'owner_baton': i.owner_baton})
 
 class Approve(webapp.RequestHandler):
     """approve a submitted interpretation"""

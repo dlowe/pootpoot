@@ -19,13 +19,15 @@
            var key = key_re.exec(json)[1];
            var owner_baton_re = new RegExp('owner_baton.*:.*"(.*)"');
            var owner_baton = owner_baton_re.exec(json)[1];
+           var decorated_location_re = new RegExp('decorated_location.*:.*"(.*)"');
+           var decorated_location = decorated_location_re.exec(json)[1];
 
            $("#good").click(function (eventObject) {
                eventObject.preventDefault();
                var arguments = { 'key': key, 'owner_baton': owner_baton };
                $.ajaxSetup({ cache: false });
                $.get("/approve", arguments, function () {
-                   window.location = "/";
+                   window.location = decorated_location;
                });
            });
 
