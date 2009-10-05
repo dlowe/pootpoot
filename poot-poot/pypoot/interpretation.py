@@ -24,6 +24,12 @@ class Interpretation(db.Model):
     owner_baton  = db.StringProperty(required=True)
     author       = db.StringProperty(required=True)
     created_at   = db.DateTimeProperty(required=True)
+    def decorated_location(self):
+        """compute & return relative permalink path"""
+        return "/interpretation/%s.html" % self.title_link
+    def content_location(self):
+        """compute & return relative content URI"""
+        return "/i/%s" % self.key()
 
 class BunkInterpretation(Exception):
     """the interpretation cannot be validated"""
@@ -49,7 +55,7 @@ def _make_title_link(title):
         if query.count() == 0:
             return link
 
-def poot(filters={}):
+def poot(filters):
     """interpretation fetching magic"""
 
     if ('key_string' in filters):
@@ -78,7 +84,7 @@ def poot(filters={}):
 
     return i
 
-def count(filters={}):
+def count(filters):
     """count interpretations"""
 
     if ('key_string' in filters):
@@ -96,7 +102,7 @@ def count(filters={}):
         query = query.filter('title_link', filters['title_link'])
     return query.count()
 
-def list(filters={}):
+def list(filters):
     """list interpretations"""
 
     if ('key_string' in filters):

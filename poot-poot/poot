@@ -13,6 +13,7 @@ from pypoot import json
 from pypoot import interpretation
 
 def _get_interpretation_arguments(request):
+    """turn interpretation filter arguments into a dictionary"""
     filters = {}
 
     if (request.get('key_string')):
@@ -33,29 +34,32 @@ class List(webapp.RequestHandler):
 
         status  = None
         content = None
-        l       = []
+        interpretation_list       = []
         try:
-            l = interpretation.list(_get_interpretation_arguments(self.request))
+            interpretation_list = interpretation.list(
+                _get_interpretation_arguments(self.request))
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
             content = { 'error': str(error) }
         else:
-            if l == []:
+            if interpretation_list == []:
                 status  = 404
                 content = { 'error': 'Not Found' }
             else:
                 status  = 200
                 content = []
-                for i in l:
+                for i in interpretation_list:
                     content.append({ 'title': i.title,
                                      'author': i.author,
-                                     'decorated_location': "/interpretation/%s.html" % i.title_link })
+                                     'decorated_location':
+                                       i.decorated_location() })
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type',
+            'text/plain')
 
         self.response.out.write(json.ify(content))
 
@@ -67,10 +71,9 @@ class Count(webapp.RequestHandler):
 
         status  = None
         content = None
-        i       = None
-
         try:
-            count = interpretation.count(_get_interpretation_arguments(self.request))
+            count = interpretation.count(
+                _get_interpretation_arguments(self.request))
         except Exception, error:
             logging.error("Unhandled (generic) exception: %s", str(error))
             status  = 500
@@ -110,8 +113,8 @@ class Poot(webapp.RequestHandler):
                 content = { 'title': i.title,
                             'author': i.author,
                             'type': i.type,
-                            'decorated_location': "/interpretation/%s.html" % i.title_link,
-                            'content_location': "/i/%s" % i.key() }
+                            'decorated_location': i.decorated_location(),
+                            'content_location': i.content_location() }
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:

@@ -14,12 +14,12 @@
        "iframe": true,
        "dataType": null,
        "success": function (json) {
-           //XXX: having a hard time getting json to auto-parse here, so whack it with a regex...
-           var key_re = new RegExp('key.*:.*"(.*)"');
+           //XXX: having a hard time getting json to auto-parse here, so whack it with a regex or 3...
+           var key_re = new RegExp('"key":"([^"]*)"');
            var key = key_re.exec(json)[1];
-           var owner_baton_re = new RegExp('owner_baton.*:.*"(.*)"');
+           var owner_baton_re = new RegExp('"owner_baton":"([^"]*)"');
            var owner_baton = owner_baton_re.exec(json)[1];
-           var decorated_location_re = new RegExp('decorated_location.*:.*"(.*)"');
+           var decorated_location_re = new RegExp('"decorated_location":"([^"]*)"');
            var decorated_location = decorated_location_re.exec(json)[1];
 
            $("#good").click(function (eventObject) {

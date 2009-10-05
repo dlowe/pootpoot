@@ -110,9 +110,9 @@ class TestInterpretation(unittest.TestCase):
         self.assertEquals(interpretation.poot({'title_link': i.title_link}), None)
 
         ## but fetching without a key should return nothing
-        self.assertEquals(interpretation.count(), 0)
-        self.assertEquals(interpretation.list(), [])
-        self.assertEquals(interpretation.poot(), None)
+        self.assertEquals(interpretation.count({}), 0)
+        self.assertEquals(interpretation.list({}), [])
+        self.assertEquals(interpretation.poot({}), None)
 
         ## attempting to approve with no owner_baton or bunk owner_baton should fail
         self.assertRaises(interpretation.BadOwnerBaton, interpretation.approve, i, None)
@@ -126,10 +126,10 @@ class TestInterpretation(unittest.TestCase):
             self.assertEquals(i.is_active, j.is_active)
 
         ## now fetching without a key should bring it up
-        self.assertEquals(interpretation.count(), 1)
-        k = interpretation.poot()
+        self.assertEquals(interpretation.count({}), 1)
+        k = interpretation.poot({})
         self.assertEquals(str(i.key()), str(k.key()))
-        l = interpretation.list()
+        l = interpretation.list({})
         self.assertEquals(str(i.key()), str(l[0].key()))
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 ## this app
+from pypoot import json
 from pypoot import interpretation
 
 class Submit(webapp.RequestHandler):
@@ -21,11 +22,11 @@ class Submit(webapp.RequestHandler):
              content_type=self.request.get('content_type'),
              content=self.request.get('content'))
         self.response.headers.add_header('content-type', 'text/plain')
-        self.response.out.write("""{
-    "key": "%(key)s",
-    "decorated_location": "/interpretation/%(title_link)s.html",
-    "owner_baton": "%(owner_baton)s"
-}""" % {'key': i.key(), 'title_link': i.title_link, 'owner_baton': i.owner_baton})
+
+        content = { 'key': str(i.key()),
+                    'decorated_location': i.decorated_location(),
+                    'owner_baton': i.owner_baton }
+        self.response.out.write(json.ify(content))
 
 class Approve(webapp.RequestHandler):
     """approve a submitted interpretation"""
