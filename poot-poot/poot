@@ -22,8 +22,6 @@ def _get_interpretation_arguments(request):
     if (request.get('title_link')):
         filters['title_link'] = request.get('title_link')
 
-    logging.warn(filters)
-
     return filters
 
 class List(webapp.RequestHandler):
