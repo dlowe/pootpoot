@@ -41,7 +41,7 @@
                $("#submit_form").show();
            });
 
-           poot($("#interpretation"), { 'key_string': key });
+           poot($("#interpretation"), { 'key_string': key }, function () { });
            $("#submit_form").hide()
            $("#pending").show()
        }

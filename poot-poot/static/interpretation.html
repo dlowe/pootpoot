@@ -7,19 +7,20 @@
  <script type="text/javascript" src="/jquery-1.3.2.min.js"></script>
  <script type="text/javascript" src="/pootpoot.js"></script>
  <script type="text/javascript">
+  function interpretationReady () {
+      colorize($("body"));
+  }
   $(function () {
    var re         = new RegExp('/interpretation/([^/]+).html$');
    var title_link = null;
    if (re.test(document.location.href)) {
        title_link = (re.exec(document.location.href))[1];
    }
-   colorize($("body"));
-   var interpretation = poot($("#interpretation"), { 'title_link': title_link });
+   var interpretation = poot($("#interpretation"), { 'title_link': title_link }, interpretationReady);
    $("#button_pootpoot").click(function (event) {
      event.preventDefault();
-     colorize($("body"));
      interpretation.stop();
-     interpretation = poot($("#interpretation"), { 'title_link': title_link });
+     interpretation = poot($("#interpretation"), { 'title_link': title_link }, interpretationReady);
    });
   });
  </script>

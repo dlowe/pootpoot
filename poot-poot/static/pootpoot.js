@@ -49,7 +49,7 @@ function list (target, filters) {
     });
 }
 
-function poot (target, filters) {
+function poot (target, filters, ready) {
     var content = target.find("#content");
 
     $.ajaxSetup({ cache: false });
@@ -65,13 +65,14 @@ function poot (target, filters) {
         var content = target.find("#content");
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: false });
-            $.ajaxSetup({ async: false });
+            $.ajaxSetup({ async: false }); // or else assigning i=p does not work!
             $.getScript(interpretation.content_location, function () {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 var p = pootpoot();
                 p.start(content);
                 i = p;
+                ready();
             });
         } else if (interpretation.type == "text") {
             $.ajaxSetup({ cache: false });
@@ -81,6 +82,7 @@ function poot (target, filters) {
                 poot_title(target.find("#title"), interpretation);
                 content.text(data);
                 content.wrapInner("<pre></pre>");
+                ready();
             }, "text");
         } else if (interpretation.type == "html") {
             $.ajaxSetup({ cache: false });
@@ -89,12 +91,14 @@ function poot (target, filters) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 content.html(data);
+                ready();
             }, "html");
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
             var contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
             content.html(contents);
+            ready();
         }
     });
 
