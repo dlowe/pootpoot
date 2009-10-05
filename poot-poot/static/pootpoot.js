@@ -71,8 +71,8 @@ function poot (target, filters) {
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                var contents = "<pre>" + data + "</pre>";
-                target.find("#content").html(contents);
+                target.find("#content").text(data);
+                target.find("#content").wrapInner("<pre></pre>");
             }, "text");
         } else if (interpretation.type == "html") {
             $.ajaxSetup({ cache: true });
