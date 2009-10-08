@@ -1,13 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
- <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
- <link rel="stylesheet" type="text/css" href="/pootpoot.css"/>
-
- <script type="text/javascript" src="/jquery-1.3.2.min.js"></script>
- <script type="text/javascript" src="/pootpoot.js"></script>
- <script type="text/javascript" src="/shortcuts.js"></script>
- <script type="text/javascript">
 function _fixposition(X,Y,total_position) {
     var position = total_position;
     if (position == (2 * (X + Y))) {
@@ -354,34 +344,3 @@ function pootpoot () {
         }
     };
 }
-
-  $(function () {
-   colorize($("body"));
-   colorize($("#content"));
-   var interpretation = pootpoot();
-   interpretation.start($("#content"));
-
-   $("#button_pootpoot").click(function (eventObject) {
-       eventObject.preventDefault();
-       colorize($("body"));
-       colorize($("#content"));
-       interpretation.stop();
-       interpretation = pootpoot();
-       interpretation.start($("#content"));
-   });
-  });
- </script>
-</head>
-
-<body>
- <div id="interpretation">
-  <div id="title"></div>
-  <div id="content"></div>
- </div>
- <div id="buttons">
-  <a id="button_pootpoot" href="#">[POOT POOT]</a>&nbsp;
-  <a id="button_list" href="/list_interpretations/">[List]</a>
- </div>
-</body>
-
-</html>
