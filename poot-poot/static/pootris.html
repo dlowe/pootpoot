@@ -101,7 +101,7 @@ function _c(string) {
 
 function pootris (target, X, Y, string, timeout) {
     var h = '<div id="instructions">';
-    h += 'controls: left, right, space<br/>';
+    h += 'controls: A, S, D<br/>';
     h += 'goal: spell ' + string;
     h += '</div>';
     h += '<table id="pootris_table" cellpadding=0 cellspacing=0>';
@@ -328,16 +328,16 @@ function pootris (target, X, Y, string, timeout) {
         }
     }();
 
-    shortcut.add('Left',  piece.counterclockwise, {'type': 'keypress'});
-    shortcut.add('Right', piece.clockwise, {'type': 'keypress'});
-    shortcut.add('Space', piece.drop);
+    shortcut.add('A',  piece.counterclockwise, {'type': 'keypress'});
+    shortcut.add('S', piece.clockwise, {'type': 'keypress'});
+    shortcut.add('D', piece.drop);
 }
 
 function pootpoot () {
     var timeout_id = null;
     var timeout = {
         'set': function (f) {
-            timeout_id = setTimeout(f, 50);
+            timeout_id = setTimeout(f, 40);
         },
         'clear': function () {
             clearTimeout(timeout_id);
@@ -348,9 +348,9 @@ function pootpoot () {
         'start': function (target) { pootris(target, 15, 12, "POOT", timeout) },
         'stop':  function () {
             timeout.clear();
-            shortcut.remove('Left');
-            shortcut.remove('Right');
-            shortcut.remove('Space');
+            shortcut.remove('A');
+            shortcut.remove('S');
+            shortcut.remove('D');
         }
     };
 }
