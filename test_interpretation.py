@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import sys
 import unittest
 sys.path = [ './poot-poot' ] + sys.path
@@ -7,12 +8,55 @@ sys.path = [ './poot-poot' ] + sys.path
 ## import from the app
 from pypoot import interpretation
 
+## app engine
+from google.appengine.ext import db
+
 class TestOwnerBaton(unittest.TestCase):
     def test(self):
         owner_baton = interpretation._new_owner_baton()
         self.assertTrue(isinstance(owner_baton, str))
 
+class TestImageValidation(unittest.TestCase):
+    def setUp(self):
+        # Magic logging cleanup
+        rootLogger = logging.getLogger()
+        for handler in rootLogger.handlers:
+            if isinstance(handler, logging.StreamHandler):
+                rootLogger.removeHandler(handler)
+
+    def test_image_types(self):
+        ext_mime = { 'jpg':  'image/jpeg',
+                     'png':  'image/png',
+                     'gif':  'image/gif',
+                     'tiff': 'image/tiff',
+                     'ico':  'image/x-icon',
+                     'bmp':  'image/bmp' }
+
+        for ext, mime_type in ext_mime.iteritems():
+            i = interpretation.submit(title=u'Test' + ext, 
+                                  author=ext,
+                                  type='image',
+                                  content=open('test_good_image.' + ext).read())
+            self.assertEquals(i.content_type, mime_type)
+
+    def test_not_an_image(self):
+        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
+                               title=u'Test',
+                               author='Anonymous',
+                               type='image',
+                               content='fnord')
+
 class TestInterpretation(unittest.TestCase):
+    def setUp(self):
+        # Magic logging cleanup
+        rootLogger = logging.getLogger()
+        for handler in rootLogger.handlers:
+            if isinstance(handler, logging.StreamHandler):
+                rootLogger.removeHandler(handler)
+
+        for i in db.GqlQuery("SELECT * FROM Interpretation").fetch(1000):
+            i.delete()
+
     def test_bad_key(self):
         ## none
         self.assertEquals(interpretation.poot({'key_string':None}), None)
@@ -46,7 +90,6 @@ class TestInterpretation(unittest.TestCase):
                             title=u'Test',
                             author='Anonymous',
                             type='text',
-                            content_type='text/plain',
                             content='blart')
         self.assertFalse(i.is_active)
 
@@ -63,7 +106,6 @@ class TestInterpretation(unittest.TestCase):
                                title=u'Test',
                                author='Anonymous',
                                type='foo',
-                               content_type='text/plain',
                                content='fnord')
 
     def test_title_link_collision(self):
@@ -71,7 +113,6 @@ class TestInterpretation(unittest.TestCase):
                            title=u'untitled',
                            author='Anonymous',
                            type='text',
-                           content_type='text/plain',
                            content='fnord')
         self.assertEquals(i.title_link, 'untitled')
 
@@ -79,7 +120,6 @@ class TestInterpretation(unittest.TestCase):
                            title=u'untitled',
                            author='Anonymous',
                            type='text',
-                           content_type='text/plain',
                            content='fnord')
         self.assertEquals(j.title_link, 'untitled-1')
 
@@ -89,7 +129,6 @@ class TestInterpretation(unittest.TestCase):
                            title=u'Test',
                            author='Anonymous',
                            type='text',
-                           content_type='text/plain',
                            content='fnord')
         self.assertFalse(i.is_active)
 

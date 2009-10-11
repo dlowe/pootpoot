@@ -11,11 +11,11 @@ $PYLINT poot-poot/pypoot/interpretation.py
 $PYLINT poot-poot/pypoot/json.py
 $PYLINT poot-poot/pypoot/permalink.py
 
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_interpretation.py
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_interpretation.py
 rm test_interpretation.pyc
 
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_permalink.py
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_permalink.py
 rm test_permalink.pyc
 
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_json.py
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_json.py
 rm test_json.pyc

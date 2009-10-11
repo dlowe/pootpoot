@@ -7,6 +7,7 @@ from datetime import datetime
 
 ## app engine
 from google.appengine.api import datastore_errors
+from google.appengine.api import images
 from google.appengine.ext import db
 
 ## this module
@@ -17,11 +18,11 @@ class Interpretation(db.Model):
     is_active    = db.BooleanProperty(required=True)
     type         = db.StringProperty(required=True,
                        choices=set(['image', 'javascript', 'text', 'html']))
-    content_type = db.StringProperty(required=True)
+    content_type = db.StringProperty(required=True, indexed=False)
     content      = db.BlobProperty(required=True)
     title        = db.StringProperty(required=True)
     title_link   = db.StringProperty(required=True)
-    owner_baton  = db.StringProperty(required=True)
+    owner_baton  = db.StringProperty(required=True, indexed=False)
     author       = db.StringProperty(required=True)
     created_at   = db.DateTimeProperty(required=True)
     def decorated_location(self):
@@ -124,13 +125,52 @@ def list(filters):
 
 def submit(**attributes):
     """save an interpretation"""
+
+    content_type = None
+    if   (attributes['type'] == 'image'):
+        ## image validation...
+        try:
+            bytes  = attributes['content']
+            image  = images.Image(bytes)
+            height = image.height
+            width  = image.width
+
+            ## note: cut & pasted from the innards of the Image API, because
+            ## the API does not provide introspection into the content-type
+            size = len(bytes)
+            if size >= 6 and bytes.startswith("GIF"):
+                content_type = 'image/gif'
+            elif size >= 8 and bytes.startswith("\x89PNG\x0D\x0A\x1A\x0A"):
+                content_type = 'image/png'
+            elif size >= 2 and bytes.startswith("\xff\xD8"):
+                content_type = 'image/jpeg'
+            elif (size >= 8 and (bytes.startswith("II\x2a\x00") or
+                                 bytes.startswith("MM\x00\x2a"))):
+                content_type = 'image/tiff'
+            elif size >= 2 and bytes.startswith("BM"):
+                content_type = 'image/bmp'
+            elif size >= 4 and bytes.startswith("\x00\x00\x01\x00"):
+                content_type = 'image/x-icon'
+            else:
+                raise BunkInterpretation()
+        except images.Error:
+            raise BunkInterpretation()
+    elif (attributes['type'] == 'text'):
+        content_type = 'text/plain'
+    elif (attributes['type'] == 'html'):
+        content_type = 'text/html'
+    elif (attributes['type'] == 'javascript'):
+        content_type = 'application/x-javascript'
+
     try:
         i = Interpretation(
-                is_active=False,
-                owner_baton=_new_owner_baton(),
-                title_link=_make_title_link(attributes['title']),
-                created_at=datetime.utcnow(),
+                is_active    = False,
+                owner_baton  = _new_owner_baton(),
+                title_link   = _make_title_link(attributes['title']),
+                created_at   = datetime.utcnow(),
+                content_type = content_type,
                 **attributes)
+
     except datastore_errors.BadValueError:
         raise BunkInterpretation()
     i.put()
