@@ -11,12 +11,8 @@ from pypoot import interpretation
 ## app engine
 from google.appengine.ext import db
 
-class TestOwnerBaton(unittest.TestCase):
-    def test(self):
-        owner_baton = interpretation._new_owner_baton()
-        self.assertTrue(isinstance(owner_baton, str))
 
-class TestImageValidation(unittest.TestCase):
+class InterpretationTestCase(unittest.TestCase):
     def setUp(self):
         # Magic logging cleanup
         rootLogger = logging.getLogger()
@@ -24,6 +20,16 @@ class TestImageValidation(unittest.TestCase):
             if isinstance(handler, logging.StreamHandler):
                 rootLogger.removeHandler(handler)
 
+        # clear existing interpretations
+        for i in db.GqlQuery("SELECT * FROM Interpretation").fetch(1000):
+            i.delete()
+
+class TestOwnerBaton(unittest.TestCase):
+    def test(self):
+        owner_baton = interpretation._new_owner_baton()
+        self.assertTrue(isinstance(owner_baton, str))
+
+class TestImageValidation(InterpretationTestCase):
     def test_image_types(self):
         ext_mime = { 'jpg':  'image/jpeg',
                      'png':  'image/png',
@@ -46,17 +52,57 @@ class TestImageValidation(unittest.TestCase):
                                type='image',
                                content='fnord')
 
-class TestInterpretation(unittest.TestCase):
-    def setUp(self):
-        # Magic logging cleanup
-        rootLogger = logging.getLogger()
-        for handler in rootLogger.handlers:
-            if isinstance(handler, logging.StreamHandler):
-                rootLogger.removeHandler(handler)
+    def test_wide_image(self):
+        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
+                               title=u'Test',
+                               author='Anonymous',
+                               type='image',
+                               content=open('test_wide_image.png').read())
 
-        for i in db.GqlQuery("SELECT * FROM Interpretation").fetch(1000):
-            i.delete()
+    def test_tall_image(self):
+        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
+                               title=u'Test',
+                               author='Anonymous',
+                               type='image',
+                               content=open('test_tall_image.png').read())
 
+    def test_giant_image(self):
+        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
+                               title=u'Test',
+                               author='Anonymous',
+                               type='image',
+                               content=open('test_giant_image.png').read())
+
+class TestTextValidation(InterpretationTestCase):
+    def test_text_type(self):
+        i = interpretation.submit(title=u'text',
+                              author='text',
+                              type='text',
+                              content='foo')
+        self.assertEquals(i.content_type, 'text/plain')
+
+class TestHtmlValidation(InterpretationTestCase):
+    def test_html_type(self):
+        i = interpretation.submit(title=u'html',
+                              author='html',
+                              type='html',
+                              content='<p>foo</p>')
+        self.assertEquals(i.content_type, 'text/html')
+
+class TestJavascriptValidation(InterpretationTestCase):
+    def test_javascript_type(self):
+        i = interpretation.submit(title=u'javascript',
+                              author='javascript',
+                              type='javascript',
+                              content="""
+function pootpoot () {
+    return { 'start': function (target) { },
+             'stop':  function () { } };
+}
+""")
+        self.assertEquals(i.content_type, 'application/x-javascript')
+
+class TestInterpretation(InterpretationTestCase):
     def test_bad_key(self):
         ## none
         self.assertEquals(interpretation.poot({'key_string':None}), None)
