@@ -21,7 +21,10 @@ function shuffle (v) {
 }
 
 function poot_title (target, interpretation) {
-    target.html("<a href=\"" + interpretation.decorated_location + "\">" + interpretation.title + "</a> by " + interpretation.author);
+    target.find("#title_link").attr('href', interpretation.decorated_location);
+    target.find("#interpretation_title").text(interpretation.title);
+    target.find("#interpretation_author").text(interpretation.author);
+    target.show();
 }
 
 function interpretation_arguments (filters) {
@@ -55,7 +58,7 @@ function poot (target, filters, ready) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
         colorize(target);
-        target.find("#title").empty();
+        target.find("#title").hide();
         content.html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
     }});
     $.ajaxSetup({ async: false });
