@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+export M4_APP_DIR=$1
+export APP_DIR=$2
+
+function copy_and_expand () {
+    IN=$1;
+    OUT=$2;
+
+    ## the m4 rules:
+    ##  . files named *.m4 are ignored
+    ##  . files named *.*.m4 are expanded as *.*
+    for path in `(cd $IN; ls -1 | grep '\..*\.m4$')`; do
+        outpath=`echo $path | sed -e 's/\.m4$//'`
+        m4 -E -I $IN -P $IN/$path > $OUT/$outpath
+    done
+
+    for path in `(cd $IN; ls -1 | grep -v '\.m4$')`; do
+        if [ -f $IN/$path ]; then
+            cp $IN/$path $OUT/$path
+        fi
+    done
+}
+
+for in_dir in `find $M4_APP_DIR -type d | sed -e "s/${M4_APP_DIR}/./"`; do
+    out_dir="${APP_DIR}/${in_dir}"
+    mkdir -p ${out_dir}
+    copy_and_expand "${M4_APP_DIR}/$in_dir" $out_dir
+done

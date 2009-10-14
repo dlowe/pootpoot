@@ -11,17 +11,6 @@
   text-align: center;
 }
 
-#list_interpretations {
-  margin: 0px auto;
-  width: 90%;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.listed_interpretation {
-  border-style: none none solid none
-}
-
 #title {
   border-style: none none solid none
 }

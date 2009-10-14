@@ -1,12 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
- <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
- <link rel="stylesheet" type="text/css" href="/pootpoot.css"/>
+m4_include(common_header.m4)
 
- <script type="text/javascript" src="/jquery-1.3.2.min.js"></script>
- <script type="text/javascript" src="/shortcuts.js"></script>
- <script type="text/javascript" src="/pootpoot.js"></script>
  <script type="text/javascript">
   function interpretationReady () {
       colorize($("body"));
@@ -28,16 +24,8 @@
 </head>
 
 <body>
- <div id="interpretation">
-  <div id="title"></div>
-  <div id="content"></div>
- </div>
- <div id="buttons">
-  <a id="button_pootpoot" href="#">[POOT POOT]</a>&nbsp;
-  <a id="button_list" href="/list_interpretations/">[List]</a>&nbsp;
-  <a id="button_play" href="/interpretation/find-poot.html">[Play]</a>&nbsp;
-  <a id="button_what" href="/interpretation/what.html">[What?]</a>&nbsp;
- </div>
+m4_include(interpretation.m4)
+m4_include(buttons.m4)
 </body>
 
 </html>

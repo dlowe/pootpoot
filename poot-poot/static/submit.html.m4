@@ -1,13 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
- <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
- <link rel="stylesheet" type="text/css" href="/pootpoot.css"/>
-
- <script type="text/javascript" src="/jquery-1.3.2.min.js"></script>
- <script type="text/javascript" src="/shortcuts.js"></script>
- <script type="text/javascript" src="/jquery.form.js"></script>
- <script type="text/javascript" src="/pootpoot.js"></script>
+m4_include(common_header.m4)
  <script type="text/javascript">
   $(function () {
    colorize($("body"));
@@ -62,11 +56,10 @@
 
  <div id="pending" style="display: none">
   Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br/>
-  <div id="interpretation">
-   <div id="title"></div>
-   <div id="content"></div>
-  </div>
+m4_include(interpretation.m4)
  </div>
+
+m4_include(buttons.m4)
 </body>
 
 </html>

@@ -1,12 +1,21 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
- <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
- <link rel="stylesheet" type="text/css" href="/pootpoot.css"/>
+m4_include(common_header.m4)
 
- <script type="text/javascript" src="/jquery-1.3.2.min.js"></script>
- <script type="text/javascript" src="/shortcuts.js"></script>
- <script type="text/javascript" src="/pootpoot.js"></script>
+ <style type="text/css">
+#list_interpretations {
+  margin: 0px auto;
+  width: 90%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.listed_interpretation {
+  border-style: none none solid none
+}
+ </style>
+
  <script type="text/javascript">
   $(function () {
    var re         = new RegExp('/list_interpretations/([^/]+).html$');
@@ -26,12 +35,7 @@
 <body>
  <div id="list_interpretations">
  </div>
- <div id="buttons">
-  <a id="button_pootpoot" href="/">[POOT POOT]</a>&nbsp;
-  <a id="button_list" href="/list_interpretations/">[List]</a>
-  <a id="button_play" href="/interpretation/find-poot.html">[Play]</a>&nbsp;
-  <a id="button_what" href="/interpretation/what.html">[What?]</a>&nbsp;
- </div>
+m4_include(buttons.m4)
 </body>
 
 </html>
