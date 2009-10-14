@@ -96,7 +96,14 @@ function poot (target, filters, ready) {
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
-            var contents = "<center><img alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
+            var contents = "<center><img "
+            if (interpretation.image_height > 0) {
+                contents += "height=\"" + interpretation.image_height + "\" ";
+            }
+            if (interpretation.image_width > 0) {
+                contents += "width=\"" + interpretation.image_width + "\" ";
+            }
+            contents += "alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
             content.html(contents);
             ready();
         }

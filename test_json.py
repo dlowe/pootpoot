@@ -23,6 +23,8 @@ class TestJsonify(unittest.TestCase):
         self.assertEquals(j, '{"a":"b\\""}')
         j = json.ify({'a':1})
         self.assertEquals(j, '{"a":1}')
+        j = json.ify({'a':1L})
+        self.assertEquals(j, '{"a":1}')
 
 if __name__ == '__main__':
     unittest.main()

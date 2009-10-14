@@ -8,7 +8,7 @@ def ify(thing):
 
     if (isinstance(thing, basestring)):
         json = '"' + thing.replace('"', '\\"') + '"'
-    elif (isinstance(thing, int)):
+    elif (isinstance(thing, int)) or (isinstance(thing, long)):
         json = str(thing)
     elif (isinstance(thing, dict)):
         ## string dictionary to json...

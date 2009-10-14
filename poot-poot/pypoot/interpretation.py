@@ -25,6 +25,8 @@ class Interpretation(db.Model):
     owner_baton  = db.StringProperty(required=True, indexed=False)
     author       = db.StringProperty(required=True)
     created_at   = db.DateTimeProperty(required=True)
+    image_height = db.IntegerProperty(required=False, indexed=False)
+    image_width  = db.IntegerProperty(required=False, indexed=False)
     def decorated_location(self):
         """compute & return relative permalink path"""
         return "/interpretation/%s.html" % self.title_link
@@ -163,7 +165,9 @@ def _process_image(bytes):
     else:
         raise BunkInterpretation()
 
-    return { 'content_type': content_type }
+    return { 'content_type': content_type,
+             'image_height': height,
+             'image_width':  width }
 
 def _process_text(bytes):
     """process and validate the contents of a text interpretation"""

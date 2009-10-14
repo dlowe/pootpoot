@@ -44,6 +44,8 @@ class TestImageValidation(InterpretationTestCase):
                                   type='image',
                                   content=open('test_good_image.' + ext).read())
             self.assertEquals(i.content_type, mime_type)
+            self.assertTrue(isinstance(i.image_height, int))
+            self.assertTrue(isinstance(i.image_width, int))
 
     def test_not_an_image(self):
         self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
