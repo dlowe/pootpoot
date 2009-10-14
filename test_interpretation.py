@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding: utf-8
 
 import logging
 import sys
@@ -82,6 +83,22 @@ class TestTextValidation(InterpretationTestCase):
                               type='text',
                               content='foo')
         self.assertEquals(i.content_type, 'text/plain')
+
+    def test_unicode(self):
+        i = interpretation.submit(title=u'text',
+                              author='text',
+                              type='text',
+                              content=unicode.encode(u'わたし', 'utf-8'))
+        self.assertEquals(i.content_type, 'text/plain')
+        j = interpretation.poot({'key_string': str(i.key())})
+        self.assertEquals(j.content, unicode.encode(u'わたし', 'utf-8'))
+
+    def test_unprintable_text(self):
+        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
+                              title=u'text',
+                              author='text',
+                              type='text',
+                              content='\0')
 
 class TestHtmlValidation(InterpretationTestCase):
     def test_html_type(self):

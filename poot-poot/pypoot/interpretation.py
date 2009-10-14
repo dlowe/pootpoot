@@ -2,6 +2,7 @@
 """datastore stuff related to interpretations"""
 
 ## standard
+import unicodedata
 import random
 from datetime import datetime
 
@@ -171,6 +172,11 @@ def _process_image(bytes):
 
 def _process_text(bytes):
     """process and validate the contents of a text interpretation"""
+
+    for char in bytes.decode('utf-8'):
+        if (unicodedata.category(char) == 'Cc') and not (ord(char) in (9, 10, 11, 13)):
+            raise BunkInterpretation
+
     return { 'content_type': 'text/plain' }
 
 def _process_html(bytes):
