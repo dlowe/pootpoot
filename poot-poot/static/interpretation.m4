@@ -16,5 +16,6 @@
   <div id="content_html" style="display: none"></div>
 
   <div id="content_javascript" style="display: none"></div>
+ </div>
 </div>
 <!-- end interpretation.m4 -->
