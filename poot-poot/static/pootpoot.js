@@ -120,13 +120,14 @@ function poot (target, filters, ready) {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
             var img = content.find("#content_image").find("img");
-            img.hide();
+            img.attr({
+                'src':    '',
+            });
             img.attr({
                 'height': interpretation.image_height,
                 'width':  interpretation.image_width,
                 'src':    interpretation.content_location
             });
-            img.show();
             show_content(content, interpretation.type);
             ready();
         }
