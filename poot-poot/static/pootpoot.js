@@ -21,7 +21,7 @@ function shuffle (v) {
 }
 
 function poot_title (target, interpretation) {
-    target.find("#title_link").attr('href', interpretation.decorated_location);
+    target.find("#title_a").attr('href', interpretation.decorated_location);
     target.find("#interpretation_title").text(interpretation.title);
     target.find("#interpretation_author").text(interpretation.author);
     target.show();
@@ -112,11 +112,14 @@ function poot (target, filters, ready) {
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
-            content.find("#content_image").find("img").attr({
+            var img = content.find("#content_image").find("img");
+            img.hide();
+            img.attr({
                 'height': interpretation.image_height,
                 'width':  interpretation.image_width,
                 'src':    interpretation.content_location
             });
+            img.show();
             show_content(content, interpretation.type);
             ready();
         }
