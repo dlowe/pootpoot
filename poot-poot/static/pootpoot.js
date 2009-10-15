@@ -91,9 +91,10 @@ function poot (target, filters, ready) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 var p = pootpoot();
+                content.find("#content_javascript").empty();
+                show_content(content, interpretation.type);
                 p.start(content.find("#content_javascript"));
                 i = p;
-                show_content(content, interpretation.type);
                 ready();
             });
         } else if (interpretation.type == "text") {

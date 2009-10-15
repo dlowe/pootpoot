@@ -1,8 +1,18 @@
+#title {
+  border-style: none none solid none
+}
+
 #interpretation {
   margin: 0px auto;
   width: 90%;
   padding: 10px;
   overflow: hidden;
+}
+
+#content_error {
+  text-align: center;
+  margin: 0px auto;
+  font-size: 4em;
 }
 
 #buttons {
@@ -13,18 +23,4 @@
 
 a.button {
   padding: 5px;
-}
-
-#title {
-  border-style: none none solid none
-}
-
-#content {
-  padding: 10px;
-}
-
-#content_error {
-  text-align: center;
-  margin: 0px auto;
-  font-size: 4em;
 }
