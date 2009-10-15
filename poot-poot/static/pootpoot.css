@@ -11,6 +11,10 @@
   text-align: center;
 }
 
+a.button {
+  padding: 5px;
+}
+
 #title {
   border-style: none none solid none
 }

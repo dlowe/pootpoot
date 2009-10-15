@@ -25,8 +25,10 @@ m4_include(common_header.m4)
    }
    colorize($("body"));
    list($("#list_interpretations"), { 'title_link': title_link })
+   shuffle_buttons($("#buttons"));
    $("html").click(function (event) {
      list($("#list_interpretations"), { 'title_link': title_link })
+     shuffle_buttons($("#buttons"));
    });
   });
  </script>

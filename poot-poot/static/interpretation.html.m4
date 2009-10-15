@@ -13,11 +13,13 @@ m4_include(common_header.m4)
    if (re.test(document.location.href)) {
        title_link = (re.exec(document.location.href))[1];
    }
+   shuffle_buttons($("#buttons"));
    var interpretation = poot($("#interpretation"), { 'title_link': title_link }, interpretationReady);
    $("#button_pootpoot").click(function (event) {
      event.preventDefault();
      interpretation.stop();
      interpretation = poot($("#interpretation"), { 'title_link': title_link }, interpretationReady);
+     shuffle_buttons($("#buttons"));
    });
   });
  </script>

@@ -5,6 +5,7 @@ m4_include(common_header.m4)
  <script type="text/javascript">
   $(function () {
    colorize($("body"));
+   shuffle_buttons($("#buttons"));
    $("#submit_form").ajaxForm({
        "iframe": true,
        "dataType": null,

@@ -52,6 +52,13 @@ function list (target, filters) {
     });
 }
 
+function shuffle_buttons (target) {
+    var children          = target.children();
+    var shuffled_elements = shuffle(children.get());
+    target.empty();
+    target.append(shuffled_elements);
+}
+
 var TYPES = [ 'error', 'image', 'text', 'html', 'javascript' ];
 function show_content(content, show_type) {
     for (var i in TYPES) {
