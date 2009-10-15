@@ -18,3 +18,9 @@
 #content {
   padding: 10px;
 }
+
+#content_error {
+  text-align: center;
+  margin: 0px auto;
+  font-size: 4em;
+}

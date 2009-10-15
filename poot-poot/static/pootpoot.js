@@ -52,6 +52,17 @@ function list (target, filters) {
     });
 }
 
+var TYPES = [ 'error', 'image', 'text', 'html', 'javascript' ];
+function show_content(content, show_type) {
+    for (var i in TYPES) {
+        if (TYPES[i] != show_type) {
+            content.find("#content_" + TYPES[i]).hide();
+        }
+    }
+    content.find("#content_" + show_type).show();
+    return;
+}
+
 function poot (target, filters, ready) {
     var content = target.find("#content");
 
@@ -59,7 +70,7 @@ function poot (target, filters, ready) {
     $.ajaxSetup({ error: function () {
         colorize(target);
         target.find("#title").hide();
-        content.html("<center><div id=\"#wtf\" style=\"font-size:4em\">?</div></center>");
+        show_content(content, 'error');
     }});
     $.ajaxSetup({ async: false });
 
@@ -73,8 +84,9 @@ function poot (target, filters, ready) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 var p = pootpoot();
-                p.start(content);
+                p.start(content.find("#content_javascript"));
                 i = p;
+                show_content(content, interpretation.type);
                 ready();
             });
         } else if (interpretation.type == "text") {
@@ -83,8 +95,8 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                content.text(data);
-                content.wrapInner("<pre></pre>");
+                content.find("#content_text").text(data);
+                show_content(content, interpretation.type);
                 ready();
             }, "text");
         } else if (interpretation.type == "html") {
@@ -93,21 +105,19 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                content.html(data);
+                content.find("#content_html").html(data);
+                show_content(content, interpretation.type);
                 ready();
             }, "html");
         } else if (interpretation.type == "image") {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
-            var contents = "<center><img "
-            if (interpretation.image_height > 0) {
-                contents += "height=\"" + interpretation.image_height + "\" ";
-            }
-            if (interpretation.image_width > 0) {
-                contents += "width=\"" + interpretation.image_width + "\" ";
-            }
-            contents += "alt=\"" + interpretation.title + "\" src=\"" + interpretation.content_location + "\"/></center>";
-            content.html(contents);
+            content.find("#content_image").find("img").attr({
+                'height': interpretation.image_height,
+                'width':  interpretation.image_width,
+                'src':    interpretation.content_location
+            });
+            show_content(content, interpretation.type);
             ready();
         }
     });
