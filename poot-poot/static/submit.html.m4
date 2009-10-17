@@ -48,15 +48,15 @@ m4_include(common_header.m4)
 
 <body>
  <form id="submit_form" action="/submit" method="post" enctype="multipart/form-data">
-   <div>title: <input type="text" name="title"/></div>
-   <div>author: <input type="text" name="author"/></div>
-   <div>type: <input type="text" name="type"/></div>
+   <div>title: <input type="text" name="title"></div>
+   <div>author: <input type="text" name="author"></div>
+   <div>type: <input type="text" name="type"></div>
    <div>content: <input type="file" name="content"></div>
    <div><input type="submit" value="poot"></div>
  </form>
 
  <div id="pending" style="display: none">
-  Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br/>
+  Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br>
 m4_include(interpretation.m4)
  </div>
 

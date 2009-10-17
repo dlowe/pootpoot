@@ -2,6 +2,7 @@
 """datastore stuff related to interpretations"""
 
 ## standard
+import logging
 import unicodedata
 import random
 from datetime import datetime
@@ -170,17 +171,25 @@ def _process_image(bytes):
              'image_height': height,
              'image_width':  width }
 
-def _process_text(bytes):
-    """process and validate the contents of a text interpretation"""
+def _assert_printable(bytes):
+    """raise BunkInterpretation if any non-printable characters are in the input"""
 
     for char in bytes.decode('utf-8'):
         if (unicodedata.category(char) == 'Cc') and not (ord(char) in (9, 10, 11, 13)):
             raise BunkInterpretation
 
+def _process_text(bytes):
+    """process and validate the contents of a text interpretation"""
+
+    _assert_printable(bytes)
+
     return { 'content_type': 'text/plain' }
 
 def _process_html(bytes):
     """process and validate the contents of an html interpretation"""
+
+    _assert_printable(bytes)
+
     return { 'content_type': 'text/html' }
 
 def _process_javascript(bytes):

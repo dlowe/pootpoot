@@ -121,13 +121,16 @@ function poot (target, filters, ready) {
             colorize(target);
             poot_title(target.find("#title"), interpretation);
             var img = content.find("#content_image").find("img");
+            // to avoid UI warping the old image to new dimensions while the new image loads
             img.attr({
-                'src':    '',
+                'src': ''
             });
             img.attr({
                 'height': interpretation.image_height,
                 'width':  interpretation.image_width,
-                'src':    interpretation.content_location
+                'src':    interpretation.content_location,
+                'alt':    interpretation.title,
+                'title':  interpretation.title
             });
             show_content(content, interpretation.type);
             ready();

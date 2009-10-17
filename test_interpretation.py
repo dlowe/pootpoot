@@ -12,6 +12,8 @@ from pypoot import interpretation
 ## app engine
 from google.appengine.ext import db
 
+def _stc(_type, _content):
+    return interpretation.submit(title=u'untitled', author='anonymous', type=_type, content=_content)
 
 class InterpretationTestCase(unittest.TestCase):
     def setUp(self):
@@ -40,73 +42,44 @@ class TestImageValidation(InterpretationTestCase):
                      'bmp':  'image/bmp' }
 
         for ext, mime_type in ext_mime.iteritems():
-            i = interpretation.submit(title=u'Test' + ext, 
-                                  author=ext,
-                                  type='image',
-                                  content=open('test_good_image.' + ext).read())
+            i = _stc('image', open('test_good_image.' + ext).read())
             self.assertEquals(i.content_type, mime_type)
             self.assertTrue(isinstance(i.image_height, int))
             self.assertTrue(isinstance(i.image_width, int))
 
     def test_not_an_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
-                               title=u'Test',
-                               author='Anonymous',
-                               type='image',
-                               content='fnord')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', 'fnord')
 
     def test_wide_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
-                               title=u'Test',
-                               author='Anonymous',
-                               type='image',
-                               content=open('test_wide_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_wide_image.png').read())
 
     def test_tall_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
-                               title=u'Test',
-                               author='Anonymous',
-                               type='image',
-                               content=open('test_tall_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_tall_image.png').read())
 
     def test_giant_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
-                               title=u'Test',
-                               author='Anonymous',
-                               type='image',
-                               content=open('test_giant_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_giant_image.png').read())
 
 class TestTextValidation(InterpretationTestCase):
     def test_text_type(self):
-        i = interpretation.submit(title=u'text',
-                              author='text',
-                              type='text',
-                              content='foo')
+        i = _stc('text', 'foo')
         self.assertEquals(i.content_type, 'text/plain')
 
     def test_unicode(self):
-        i = interpretation.submit(title=u'text',
-                              author='text',
-                              type='text',
-                              content=unicode.encode(u'わたし', 'utf-8'))
+        i = _stc('text', unicode.encode(u'わたし', 'utf-8'))
         self.assertEquals(i.content_type, 'text/plain')
         j = interpretation.poot({'key_string': str(i.key())})
         self.assertEquals(j.content, unicode.encode(u'わたし', 'utf-8'))
 
     def test_unprintable_text(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit,
-                              title=u'text',
-                              author='text',
-                              type='text',
-                              content='\0')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'text', '\0')
 
 class TestHtmlValidation(InterpretationTestCase):
     def test_html_type(self):
-        i = interpretation.submit(title=u'html',
-                              author='html',
-                              type='html',
-                              content='<p>foo</p>')
+        i = _stc('html', '<p>foo</p>')
         self.assertEquals(i.content_type, 'text/html')
+
+    def test_unprintable_html(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'html', '<p>\0</p>')
 
 class TestJavascriptValidation(InterpretationTestCase):
     def test_javascript_type(self):
