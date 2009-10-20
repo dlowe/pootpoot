@@ -9,6 +9,17 @@
   overflow: hidden;
 }
 
+#submit_details_header {
+  border-style: none none solid none
+}
+
+#submit_details {
+  margin: 0px auto;
+  width: 90%;
+  padding: 10px;
+  overflow: hidden;
+}
+
 #content_error {
   text-align: center;
   margin: 0px auto;
