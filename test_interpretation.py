@@ -81,6 +81,14 @@ class TestHtmlValidation(InterpretationTestCase):
     def test_unprintable_html(self):
         self.assertRaises(interpretation.BunkInterpretation, _stc, 'html', '<p>\0</p>')
 
+    def test_script_tag(self):
+        i = _stc('html', '<script>foo</script>other')
+        self.assertEquals(i.content, 'other')
+
+    def test_style_attribute(self):
+        i = _stc('html', '<p style="foo: bar">foo</p>')
+        self.assertEquals(i.content, '<p>foo</p>')
+
 class TestJavascriptValidation(InterpretationTestCase):
     def test_javascript_type(self):
         i = interpretation.submit(title=u'javascript',

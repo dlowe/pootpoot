@@ -14,6 +14,7 @@ from google.appengine.ext import db
 
 ## this module
 from pypoot import permalink
+from pypoot import feedparser
 
 class Interpretation(db.Model):
     """interpretation model"""
@@ -190,7 +191,12 @@ def _process_html(bytes):
 
     _assert_printable(bytes)
 
-    return { 'content_type': 'text/html' }
+    bytes = feedparser._sanitizeHTML(bytes, 'utf-8')
+
+    logging.warn(bytes)
+
+    return { 'content_type': 'text/html',
+             'content':      bytes }
 
 def _process_javascript(bytes):
     """process and validate the contents of a javascript interpretation"""
