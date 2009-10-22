@@ -15,6 +15,7 @@ from google.appengine.ext import db
 ## this module
 from pypoot import permalink
 from pypoot import feedparser
+from pypoot import jsparser
 
 class Interpretation(db.Model):
     """interpretation model"""
@@ -200,6 +201,23 @@ def _process_html(bytes):
 
 def _process_javascript(bytes):
     """process and validate the contents of a javascript interpretation"""
+
+    ## attempt to parse
+    parsed = None
+    try:
+        parsed = jsparser.parse(bytes)
+    except jsparser.SyntaxError_:
+        raise BunkInterpretation()
+
+    ## ensure that we have a function 'pootpoot' taking zero arguments
+    found_pootpoot = 0
+    for function in parsed.funDecls:
+        if function.name == 'pootpoot' and function.params == []:
+            found_pootpoot = 1
+
+    if not found_pootpoot:
+        raise BunkInterpretation()
+
     return { 'content_type': 'application/x-javascript' }
 
 PROCESSORS = {

@@ -91,16 +91,31 @@ class TestHtmlValidation(InterpretationTestCase):
 
 class TestJavascriptValidation(InterpretationTestCase):
     def test_javascript_type(self):
-        i = interpretation.submit(title=u'javascript',
-                              author='javascript',
-                              type='javascript',
-                              content="""
+        i = _stc('javascript', """
 function pootpoot () {
     return { 'start': function (target) { },
              'stop':  function () { } };
 }
 """)
         self.assertEquals(i.content_type, 'application/x-javascript')
+
+    def test_bunk_javascript(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+functon pootpoot () {
+}
+""")
+
+    def test_no_pootpoot(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+function notpootpoot () {
+}
+""")
+
+    def test_pootpoot_arguments(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+function pootpoot (fnord) {
+}
+""")
 
 class TestInterpretation(InterpretationTestCase):
     def test_bad_key(self):
