@@ -2,6 +2,7 @@
 """datastore stuff related to interpretations"""
 
 ## standard
+import urllib
 import logging
 import unicodedata
 import random
@@ -37,6 +38,9 @@ class Interpretation(db.Model):
     def content_location(self):
         """compute & return relative content URI"""
         return "/i/%s" % self.key()
+    def author_location(self):
+        """compute & return relative author list URI"""
+        return "/list_interpretations/a/%s/" % urllib.quote(self.author)
 
 class BunkInterpretation(Exception):
     """the interpretation cannot be validated"""
@@ -65,15 +69,17 @@ def _make_title_link(title):
 def poot(filters):
     """interpretation fetching magic"""
 
-    if ('key_string' in filters):
+    if 'key_string' in filters:
         try:
             key = db.Key(filters["key_string"])
         except datastore_errors.BadKeyError:
             return None
     else:
         query = db.Query(Interpretation, True).filter('is_active', True)
-        if ('title_link' in filters):
+        if 'title_link' in filters:
             query = query.filter('title_link', filters['title_link'])
+        if 'author' in filters:
+            query = query.filter('author', filters['author'])
         keys = query.fetch(1000)
         if len(keys) == 0:
             return None
@@ -94,7 +100,7 @@ def poot(filters):
 def count(filters):
     """count interpretations"""
 
-    if ('key_string' in filters):
+    if 'key_string' in filters:
         key = None
         try:
             key = db.Key(filters['key_string'])
@@ -105,14 +111,16 @@ def count(filters):
             return 0
 
     query = db.Query(Interpretation, True).filter('is_active', True)
-    if ('title_link' in filters):
+    if 'title_link' in filters:
         query = query.filter('title_link', filters['title_link'])
+    if 'author' in filters:
+        query = query.filter('author', filters['author'])
     return query.count()
 
 def list(filters):
     """list interpretations"""
 
-    if ('key_string' in filters):
+    if 'key_string' in filters:
         key = None
         try:
             key = db.Key(filters['key_string'])
@@ -124,8 +132,10 @@ def list(filters):
             return []
 
     query = db.Query(Interpretation, False).filter('is_active', True)
-    if ('title_link' in filters):
+    if 'title_link' in filters:
         query = query.filter('title_link', filters['title_link'])
+    if 'author' in filters:
+        query = query.filter('author', filters['author'])
 
     return query.fetch(1000)
 

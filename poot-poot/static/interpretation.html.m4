@@ -9,11 +9,7 @@ m4_include(common_header.m4)
       colorize($("body"));
   }
   $(function () {
-   var re         = new RegExp('/interpretation/([^/]+).html$');
-   var title_link = null;
-   if (re.test(document.location.href)) {
-       title_link = (re.exec(document.location.href))[1];
-   }
+   var filters = path_to_filters(unescape(document.location.href));
 
    var interpretation = null;
    var repoot = function (event) {
@@ -23,7 +19,7 @@ m4_include(common_header.m4)
      if (interpretation != null) {
          interpretation.stop();
      }
-     interpretation = poot($("#interpretation"), { 'title_link': title_link }, interpretationReady);
+     interpretation = poot($("#interpretation"), filters, interpretationReady);
      shuffle_buttons($("#buttons"));
      $("#button_pootpoot").click(repoot);
    };

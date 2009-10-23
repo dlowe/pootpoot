@@ -19,16 +19,13 @@ m4_include(common_header.m4)
 
  <script type="text/javascript">
   $(function () {
-   var re         = new RegExp('/list_interpretations/([^/]+).html$');
-   var title_link = null;
-   if (re.test(document.location.href)) {
-       title_link = (re.exec(document.location.href))[1];
-   }
+   var filters = path_to_filters(unescape(document.location.href));
+
    colorize($("body"));
-   list($("#list_interpretations"), { 'title_link': title_link })
+   list($("#list_interpretations"), filters);
    shuffle_buttons($("#buttons"));
    $("html").click(function (event) {
-     list($("#list_interpretations"), { 'title_link': title_link })
+     list($("#list_interpretations"), filters);
      shuffle_buttons($("#buttons"));
    });
   });

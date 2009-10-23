@@ -147,11 +147,7 @@ class TestInterpretation(InterpretationTestCase):
 
     def test_submit_disapprove(self):
         ## submitting an interpretation should create an inactive one
-        i = interpretation.submit(
-                            title=u'Test',
-                            author='Anonymous',
-                            type='text',
-                            content='blart')
+        i = _stc('text', 'blart')
         self.assertFalse(i.is_active)
 
         ## cannot disapprove with no owner_baton
@@ -163,11 +159,7 @@ class TestInterpretation(InterpretationTestCase):
         interpretation.delete(i, i.owner_baton)
 
     def test_create_bad_type(self):
-        self.assertRaises(interpretation.BunkInterpretation, interpretation.submit, 
-                               title=u'Test',
-                               author='Anonymous',
-                               type='foo',
-                               content='fnord')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, 'foo', 'fnord')
 
     def test_title_link_collision(self):
         i = interpretation.submit(
@@ -203,11 +195,17 @@ class TestInterpretation(InterpretationTestCase):
             self.assertEquals(i.content_type, j.content_type)
             self.assertEquals(i.content, j.content)
             self.assertEquals(i.is_active, j.is_active)
+            self.assertEquals(i.author, j.author)
 
         ## even with a title_link (unique) fetch, can't see it yet:
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 0)
         self.assertEquals(interpretation.list({'title_link': i.title_link}), [])
         self.assertEquals(interpretation.poot({'title_link': i.title_link}), None)
+
+        ## with an author fetch, can't see it yet:
+        self.assertEquals(interpretation.count({'author': i.author}), 0)
+        self.assertEquals(interpretation.list({'author': i.author}), [])
+        self.assertEquals(interpretation.poot({'author': i.author}), None)
 
         ## but fetching without a key should return nothing
         self.assertEquals(interpretation.count({}), 0)
@@ -222,7 +220,8 @@ class TestInterpretation(InterpretationTestCase):
         interpretation.approve(i, i.owner_baton)
         self.assertTrue(i.is_active)
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 1)
-        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0]]:
+        self.assertEquals(interpretation.count({'author': i.author}), 1)
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0], interpretation.poot({'author': i.author}), interpretation.list({'author': i.author})[0]]:
             self.assertEquals(i.is_active, j.is_active)
 
         ## now fetching without a key should bring it up

@@ -24,29 +24,35 @@ function poot_title (target, interpretation) {
     target.find("#title_a").attr('href', interpretation.decorated_location);
     target.find("#interpretation_title").text(interpretation.title);
     target.find("#interpretation_author").text(interpretation.author);
+    target.find("#author_a").attr('href', interpretation.author_location);
     target.show();
 }
 
-function interpretation_arguments (filters) {
-    var final_filters = {};
-    for (var key in filters) {
-        if (filters[key] != null) {
-            final_filters[key] = filters[key]
+function path_to_filters (path) {
+    var re      = new RegExp('/(?:a/([^/]+)/)?(?:([^/]+).html)?$');
+    var filters = {};
+    if (re.test(path)) {
+        var matches = re.exec(path);
+        if (matches[1] != null) {
+            filters['author'] = matches[1];
+        }
+        if (matches[2] != null) {
+            filters['title_link'] = matches[2];
         }
     }
-    return final_filters;
+    return filters;
 }
 
 function list (target, filters) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
     }});
-    $.getJSON("/list", interpretation_arguments(filters), function (interpretation_list) {
+    $.getJSON("/list", filters, function (interpretation_list) {
         colorize(target);
         var contents = "";
         var shuffled_list = shuffle(interpretation_list)
         for (var i in shuffled_list) {
-            contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by " + shuffled_list[i].author + "</div>"
+            contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by <a href=\"" + shuffled_list[i].author_location + "\">" + shuffled_list[i].author + "</a></div>"
         }
         target.html(contents);
     });
@@ -82,7 +88,7 @@ function poot (target, filters, ready) {
     $.ajaxSetup({ async: false });
 
     var i = { 'stop': function () { } };
-    $.getJSON("/poot", interpretation_arguments(filters), function (interpretation) {
+    $.getJSON("/poot", filters, function (interpretation) {
         var content = target.find("#content");
         if (interpretation.type == "javascript") {
             $.ajaxSetup({ cache: false });

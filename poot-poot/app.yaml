@@ -8,11 +8,11 @@ handlers:
   static_files: static/interpretation.html
   upload: static/interpretation.html
 
-- url: /interpretation/([^/]+)?
+- url: /interpretation/.*
   static_files: static/interpretation.html
   upload: static/interpretation.html
 
-- url: /list_interpretations/([^/]+)?
+- url: /list_interpretations/.*
   static_files: static/list_interpretations.html
   upload: static/list_interpretations.html
 

@@ -22,6 +22,9 @@ def _get_interpretation_arguments(request):
     if (request.get('title_link')):
         filters['title_link'] = request.get('title_link')
 
+    if (request.get('author')):
+        filters['author'] = request.get('author')
+
     return filters
 
 class List(webapp.RequestHandler):
@@ -50,6 +53,7 @@ class List(webapp.RequestHandler):
                 for i in interpretation_list:
                     content.append({ 'title': i.title,
                                      'author': i.author,
+                                     'author_location': i.author_location(),
                                      'decorated_location':
                                        i.decorated_location() })
 
@@ -110,6 +114,7 @@ class Poot(webapp.RequestHandler):
                 status  = 200
                 content = { 'title': i.title,
                             'author': i.author,
+                            'author_location': i.author_location(),
                             'type': i.type,
                             'decorated_location': i.decorated_location(),
                             'content_location': i.content_location() }
