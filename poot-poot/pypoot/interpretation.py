@@ -151,13 +151,15 @@ def _process_image(bytes):
         height = image.height
         width  = image.width
     except images.Error:
-        raise BunkInterpretation()
+        raise BunkInterpretation("Content doesn't look like an image to me")
 
     if (height > IMAGE_HEIGHT_MAX):
-        raise BunkInterpretation()
+        raise BunkInterpretation("Image too tall (limit is %d pixels)"
+            % IMAGE_HEIGHT_MAX)
 
     if (width > IMAGE_WIDTH_MAX):
-        raise BunkInterpretation()
+        raise BunkInterpretation("Image too wide (limit is %d pixels)"
+            % IMAGE_WIDTH_MAX)
 
     ## note: cut & pasted from the innards of the Image API, because
     ## the API does not provide introspection into the content-type
@@ -177,18 +179,19 @@ def _process_image(bytes):
     elif size >= 4 and bytes.startswith("\x00\x00\x01\x00"):
         content_type = 'image/x-icon'
     else:
-        raise BunkInterpretation()
+        raise BunkInterpretation("Content doesn't look like an image to me")
 
     return { 'content_type': content_type,
              'image_height': height,
              'image_width':  width }
 
 def _assert_printable(bytes):
-    """raise BunkInterpretation if any non-printable characters are in the input"""
+    """raise BunkInterpretation if non-printable characters are in the input"""
 
     for char in bytes.decode('utf-8'):
-        if (unicodedata.category(char) == 'Cc') and not (ord(char) in (9, 10, 11, 13)):
-            raise BunkInterpretation
+        if (unicodedata.category(char) == 'Cc') and not (ord(char)
+          in (9, 10, 11, 13)):
+            raise BunkInterpretation("Non-printable characters in the content")
 
 def _process_text(bytes):
     """process and validate the contents of a text interpretation"""
@@ -216,8 +219,8 @@ def _process_javascript(bytes):
     parsed = None
     try:
         parsed = jsparser.parse(bytes)
-    except jsparser.SyntaxError_:
-        raise BunkInterpretation()
+    except jsparser.SyntaxError_, error:
+        raise BunkInterpretation("Can't parse your javascript: " + str(error))
 
     ## ensure that we have a function 'pootpoot' taking zero arguments
     found_pootpoot = 0
@@ -226,7 +229,7 @@ def _process_javascript(bytes):
             found_pootpoot = 1
 
     if not found_pootpoot:
-        raise BunkInterpretation()
+        raise BunkInterpretation("Can't find function pootpoot ()")
 
     return { 'content_type': 'application/x-javascript' }
 
@@ -250,8 +253,8 @@ def submit(**attributes):
                 title_link   = _make_title_link(attributes['title']),
                 created_at   = datetime.utcnow(),
                 **attributes)
-    except datastore_errors.BadValueError:
-        raise BunkInterpretation()
+    except datastore_errors.BadValueError, error:
+        raise BunkInterpretation(str(error))
 
     i.put()
     return i

@@ -5,7 +5,7 @@
 m4_include(common_header.m4)
  <script type="text/javascript">
 
-var TYPES = [ 'none', 'image', 'text', 'html', 'javascript' ];
+var TYPES = [ 'image', 'text', 'html', 'javascript', 'error' ];
 function change_details () {
     var show_type = $("input[name='type']:checked").val();
     for (var i in TYPES) {
@@ -27,28 +27,27 @@ function change_details () {
 
    $("#submit_form").ajaxForm({
        "iframe": true,
-       "dataType": null,
+       "dataType": 'json',
        "success": function (json) {
-           //XXX: having a hard time getting json to auto-parse here, so whack it with a regex or 3...
-           var key_re = new RegExp('"key":"([^"]*)"');
-           var key = key_re.exec(json)[1];
-           var owner_baton_re = new RegExp('"owner_baton":"([^"]*)"');
-           var owner_baton = owner_baton_re.exec(json)[1];
-           var decorated_location_re = new RegExp('"decorated_location":"([^"]*)"');
-           var decorated_location = decorated_location_re.exec(json)[1];
+           if (json.error != null) {
+               $("#submit_error_text").text(json.error);
+               $("#submit_error").show();
+               return;
+           }
 
+           $("#submit_error").hide();
            $("#good").click(function (eventObject) {
                eventObject.preventDefault();
-               var arguments = { 'key': key, 'owner_baton': owner_baton };
+               var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
                $.get("/approve", arguments, function () {
-                   window.location = decorated_location;
+                   window.location = json.decorated_location;
                });
            });
 
            $("#bad").click(function (eventObject) {
                eventObject.preventDefault();
-               var arguments = { 'key': key, 'owner_baton': owner_baton };
+               var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
                $.get("/disapprove", arguments, function () {
                });
@@ -58,7 +57,7 @@ function change_details () {
 
            $("#submit_details").hide()
            $("#pending").show()
-           poot($("#interpretation"), { 'key_string': key }, function () { });
+           poot($("#interpretation"), { 'key_string': json.key }, function () { });
        }
    });
   });
@@ -88,6 +87,10 @@ function change_details () {
  </form>
  </td>
  <td style="width: 40%">
+  <div id="submit_error" style="display: none">
+   <p>Problem: <span id="submit_error_text"></p>
+  </div>
+
   <div id="details_image" style="display: none">
    <p>
    Pooty picture in .gif, .jpg or .png format. Images must be smaller than 900x900 pixels and less than 1MB file size.

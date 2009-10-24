@@ -20,6 +20,11 @@
   overflow: hidden;
 }
 
+#submit_error {
+  font-size: 2em;
+  color: red;
+}
+
 #content_error {
   text-align: center;
   margin: 0px auto;

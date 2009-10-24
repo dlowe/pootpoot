@@ -2,6 +2,7 @@
 """fetch metadata describing a single random interpretation"""
 
 ## system
+import sys
 import logging
 
 ## app engine
@@ -39,10 +40,10 @@ class List(webapp.RequestHandler):
         try:
             interpretation_list = interpretation.list(
                 _get_interpretation_arguments(self.request))
-        except Exception, error:
-            logging.error("Unhandled (generic) exception: %s", str(error))
+        except:
+            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
             status  = 500
-            content = { 'error': str(error) }
+            content = { 'error': sys.exc_info()[0] }
         else:
             if interpretation_list == []:
                 status  = 404
@@ -76,10 +77,10 @@ class Count(webapp.RequestHandler):
         try:
             count = interpretation.count(
                 _get_interpretation_arguments(self.request))
-        except Exception, error:
-            logging.error("Unhandled (generic) exception: %s", str(error))
+        except:
+            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
             status  = 500
-            content = { 'error': str(error) }
+            content = { 'error': sys.exc_info()[0] }
         else:
             status  = 200
             content = { 'count': str(count) }
@@ -101,11 +102,12 @@ class Poot(webapp.RequestHandler):
         content = None
         i       = None
         try:
-            i = interpretation.poot(_get_interpretation_arguments(self.request))
-        except Exception, error:
-            logging.error("Unhandled (generic) exception: %s", str(error))
+            i = interpretation.poot(
+                _get_interpretation_arguments(self.request))
+        except:
+            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
             status  = 500
-            content = { 'error': str(error) }
+            content = { 'error': sys.exc_info()[0] }
         else:
             if i == None:
                 status = 404
@@ -121,7 +123,8 @@ class Poot(webapp.RequestHandler):
                 for property_name in i.properties().iterkeys():
                     if (property_name.startswith(i.type + '_')):
                         if (i.__dict__['_' + property_name] != None):
-                            content[property_name] = i.__dict__['_' + property_name]
+                            content[property_name] = i.__dict__['_'
+                                + property_name]
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
