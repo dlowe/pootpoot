@@ -109,7 +109,7 @@ function poot (target, filters, ready) {
     $.getJSON("/poot", filters, function (interpretation) {
         var content = target.find("#content");
         if (interpretation.type == "javascript") {
-            $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: false }); // or else assigning i=p does not work!
             $.getScript(interpretation.content_location, function () {
                 colorize(target);
@@ -122,7 +122,7 @@ function poot (target, filters, ready) {
                 ready();
             });
         } else if (interpretation.type == "text") {
-            $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
@@ -132,7 +132,7 @@ function poot (target, filters, ready) {
                 ready();
             }, "text");
         } else if (interpretation.type == "html") {
-            $.ajaxSetup({ cache: false });
+            $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
                 colorize(target);
