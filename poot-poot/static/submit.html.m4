@@ -88,7 +88,7 @@ function change_details () {
  </td>
  <td style="width: 40%">
   <div id="submit_error" style="display: none">
-   <p>Problem: <span id="submit_error_text"></p>
+   <p>Problem: <span id="submit_error_text"></span></p>
   </div>
 
   <div id="details_image" style="display: none">
