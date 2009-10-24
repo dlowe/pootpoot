@@ -51,7 +51,7 @@ function pages (target, filters) {
     $.ajaxSetup({ error: function () {}});
     $.ajaxSetup({ async: false });
     $.getJSON("/list_pages", filters, function (page_list) {
-        if (page_list.length > 0) {
+        if (page_list.length > 1) {
             colorize(target);
             var contents = "Pages: ";
             for (var i in page_list) {

@@ -33,7 +33,7 @@ m4_include(common_header.m4)
    var filters = path_to_filters(unescape(document.location.href));
 
    colorize($("body"));
-   pages($("#list_pages"));
+   pages($("#list_pages"), filters);
    list($("#list_interpretations"), filters);
 
    $(".page_link").click(function () {
