@@ -66,78 +66,77 @@ def _make_title_link(title):
         if query.count() == 0:
             return link
 
+def _apply_filters(query, filters):
+    if 'key_string' in filters:
+        if filters['key_string'] == None:
+            raise datastore_errors.BadKeyError()
+        query = query.filter('__key__', db.Key(filters['key_string']))
+    else:
+        query = query.filter('is_active', True)
+
+    if 'title_link' in filters:
+        query = query.filter('title_link', filters['title_link'])
+    if 'author' in filters:
+        query = query.filter('author', filters['author'])
+    if 'offset_key_string' in filters:
+        query = query.filter('__key__ >=', db.Key(filters['offset_key_string']))
+
+    query.order('__key__')
+
+    return query
+
 def poot(filters):
     """interpretation fetching magic"""
 
-    if 'key_string' in filters:
-        try:
-            key = db.Key(filters["key_string"])
-        except datastore_errors.BadKeyError:
-            return None
-    else:
-        query = db.Query(Interpretation, True).filter('is_active', True)
-        if 'title_link' in filters:
-            query = query.filter('title_link', filters['title_link'])
-        if 'author' in filters:
-            query = query.filter('author', filters['author'])
-        keys = query.fetch(1000)
-        if len(keys) == 0:
-            return None
-        key = random.choice(keys)
-
     try:
-        i = Interpretation.get(key)
+        query = _apply_filters(db.Query(Interpretation, True), filters)
     except datastore_errors.BadKeyError:
         return None
 
-    ## this can happen when a specific key is provided, but there's no
-    ## such entity
-    if (i == None):
+    keys = query.fetch(1000)
+    if (len(keys)) == 0:
         return None
 
-    return i
+    return Interpretation.get(random.choice(keys))
 
 def count(filters):
     """count interpretations"""
 
-    if 'key_string' in filters:
-        key = None
-        try:
-            key = db.Key(filters['key_string'])
-            if (Interpretation.get(key) == None):
-                return 0
-            return 1
-        except datastore_errors.BadKeyError:
-            return 0
+    try:
+        query = _apply_filters(db.Query(Interpretation, True), filters)
+    except datastore_errors.BadKeyError:
+        return 0
 
-    query = db.Query(Interpretation, True).filter('is_active', True)
-    if 'title_link' in filters:
-        query = query.filter('title_link', filters['title_link'])
-    if 'author' in filters:
-        query = query.filter('author', filters['author'])
     return query.count()
 
-def list(filters):
+INTERPRETATIONS_PER_PAGE = 20
+def list(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
     """list interpretations"""
 
-    if 'key_string' in filters:
-        key = None
-        try:
-            key = db.Key(filters['key_string'])
-            i = Interpretation.get(key)
-            if (i == None):
-                return []
-            return [i]
-        except datastore_errors.BadKeyError:
-            return []
+    try:
+        query = _apply_filters(db.Query(Interpretation, False), filters)
+    except datastore_errors.BadKeyError:
+        return []
 
-    query = db.Query(Interpretation, False).filter('is_active', True)
-    if 'title_link' in filters:
-        query = query.filter('title_link', filters['title_link'])
-    if 'author' in filters:
-        query = query.filter('author', filters['author'])
+    return query.fetch(interpretations_per_page)
 
-    return query.fetch(1000)
+def list_pages(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
+    """get list of pages"""
+
+    try:
+        query = _apply_filters(db.Query(Interpretation, True), filters)
+    except datastore_errors.BadKeyError:
+        return []
+
+    index = 0
+    pages = []
+    for key in query.fetch(1000):
+        if (index % interpretations_per_page) == 0:
+            pages.append({ 'page_number': (index // interpretations_per_page) + 1,
+                           'offset_key_string': str(key) })
+        index += 1
+
+    return pages
 
 IMAGE_WIDTH_MAX  = 900
 IMAGE_HEIGHT_MAX = 900

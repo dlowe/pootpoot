@@ -22,6 +22,9 @@ handlers:
 - url: /list
   script: poot
 
+- url: /list_pages
+  script: poot
+
 - url: /count
   script: poot
 

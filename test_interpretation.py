@@ -200,16 +200,19 @@ class TestInterpretation(InterpretationTestCase):
         ## even with a title_link (unique) fetch, can't see it yet:
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 0)
         self.assertEquals(interpretation.list({'title_link': i.title_link}), [])
+        self.assertEquals(interpretation.list_pages({'title_link': i.title_link}), [])
         self.assertEquals(interpretation.poot({'title_link': i.title_link}), None)
 
         ## with an author fetch, can't see it yet:
         self.assertEquals(interpretation.count({'author': i.author}), 0)
         self.assertEquals(interpretation.list({'author': i.author}), [])
+        self.assertEquals(interpretation.list_pages({'author': i.author}), [])
         self.assertEquals(interpretation.poot({'author': i.author}), None)
 
         ## but fetching without a key should return nothing
         self.assertEquals(interpretation.count({}), 0)
         self.assertEquals(interpretation.list({}), [])
+        self.assertEquals(interpretation.list_pages({}), [])
         self.assertEquals(interpretation.poot({}), None)
 
         ## attempting to approve with no owner_baton or bunk owner_baton should fail
@@ -230,6 +233,34 @@ class TestInterpretation(InterpretationTestCase):
         self.assertEquals(str(i.key()), str(k.key()))
         l = interpretation.list({})
         self.assertEquals(str(i.key()), str(l[0].key()))
+        lp = interpretation.list_pages({})
+        self.assertEquals(lp[0]['page_number'], 1)
+        self.assertEquals(lp[0]['offset_key_string'], str(i.key()))
+
+class TestPagination(InterpretationTestCase):
+    def test_basic_pagination(self):
+        actual_count = 21
+        for id in range(1, actual_count):
+            i = _stc('text', str(id))
+            interpretation.approve(i, i.owner_baton)
+
+        for page_size in [1, 2, 3, 4, 5, 10, 20, 25]:
+            looking_for = set(range(1, actual_count))
+            pages = interpretation.list_pages({}, page_size)
+            logging.info(repr(pages))
+
+            for page in pages:
+                logging.info('page %d of %d (size %d)' % (page['page_number'], len(pages), page_size))
+                self.assert_(page['page_number'] > 0)
+                l = interpretation.list({'offset_key_string': page['offset_key_string']}, page_size)
+                self.assert_(len(l) <= page_size)
+
+                ## this will blow up if we get a duplicate during page-walking
+                for i in l:
+                    looking_for.remove(int(i.content))
+
+            ## make sure we found every single interpretation
+            self.assertEquals(len(looking_for), 0)
 
 if __name__ == '__main__':
     unittest.main()

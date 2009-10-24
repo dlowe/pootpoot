@@ -29,7 +29,7 @@ function poot_title (target, interpretation) {
 }
 
 function path_to_filters (path) {
-    var re      = new RegExp('/(?:a/([^/]+)/)?(?:([^/]+).html)?$');
+    var re      = new RegExp('/(?:a/([^/]+)/)?(?:ok/([^/]+)/)?(?:([^/]+).html)?$');
     var filters = {};
     if (re.test(path)) {
         var matches = re.exec(path);
@@ -37,20 +37,38 @@ function path_to_filters (path) {
             filters['author'] = matches[1];
         }
         if (matches[2] != null) {
-            filters['title_link'] = matches[2];
+            filters['offset_key_string'] = matches[2];
+        }
+        if (matches[3] != null) {
+            filters['title_link'] = matches[3];
         }
     }
     return filters;
 }
 
+function pages (target, filters) {
+    $.ajaxSetup({ cache: false });
+    $.ajaxSetup({ error: function () {}});
+    $.ajaxSetup({ async: false });
+    $.getJSON("/list_pages", filters, function (page_list) {
+        if (page_list.length > 0) {
+            colorize(target);
+            var contents = "Pages: ";
+            for (var i in page_list) {
+                contents += '<span class="page_link" id="page_link_' + page_list[i].page_number + '">[' + page_list[i].page_number + ']<span style="display: none" class="offset_key_string">' + page_list[i].offset_key_string + '</span></span>';
+            }
+            target.html(contents);
+        }
+    });
+}
+
 function list (target, filters) {
     $.ajaxSetup({ cache: false });
-    $.ajaxSetup({ error: function () {
-    }});
+    $.ajaxSetup({ error: function () {}});
     $.getJSON("/list", filters, function (interpretation_list) {
         colorize(target);
         var contents = "";
-        var shuffled_list = shuffle(interpretation_list)
+        var shuffled_list = shuffle(interpretation_list);
         for (var i in shuffled_list) {
             contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by <a href=\"" + shuffled_list[i].author_location + "\">" + shuffled_list[i].author + "</a></div>"
         }

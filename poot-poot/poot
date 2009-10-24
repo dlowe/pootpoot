@@ -26,6 +26,9 @@ def _get_interpretation_arguments(request):
     if (request.get('author')):
         filters['author'] = request.get('author')
 
+    if (request.get('offset_key_string')):
+        filters['offset_key_string'] = request.get('offset_key_string')
+
     return filters
 
 class List(webapp.RequestHandler):
@@ -41,9 +44,9 @@ class List(webapp.RequestHandler):
             interpretation_list = interpretation.list(
                 _get_interpretation_arguments(self.request))
         except:
-            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
+            logging.error("Unhandled (generic) exception: ", str(sys.exc_info()[0]))
             status  = 500
-            content = { 'error': sys.exc_info()[0] }
+            content = { 'error': str(sys.exc_info()[0]) }
         else:
             if interpretation_list == []:
                 status  = 404
@@ -66,6 +69,38 @@ class List(webapp.RequestHandler):
 
         self.response.out.write(json.ify(content))
 
+class ListPages(webapp.RequestHandler):
+    """request handler for /list_pages"""
+
+    def get(self):
+        """get a list of pages of interpretations"""
+
+        status    = None
+        content   = None
+        page_list = []
+        try:
+            page_list = interpretation.list_pages(
+                _get_interpretation_arguments(self.request))
+        except:
+            logging.error("Unhandled (generic) exception: ", str(sys.exc_info()[0]))
+            status  = 500
+            content = { 'error': str(sys.exc_info()[0]) }
+        else:
+            if page_list == []:
+                status  = 404
+                content = { 'error': 'Not Found' }
+            else:
+                status  = 200
+                content = page_list
+
+        self.response.set_status(status)
+        if 'Content-Type' in self.response.headers:
+            del self.response.headers['Content-Type']
+        self.response.headers.add_header('Content-Type',
+            'text/plain')
+
+        self.response.out.write(json.ify(content))
+
 class Count(webapp.RequestHandler):
     """request handler for /count"""
 
@@ -78,9 +113,9 @@ class Count(webapp.RequestHandler):
             count = interpretation.count(
                 _get_interpretation_arguments(self.request))
         except:
-            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
+            logging.error("Unhandled (generic) exception: ", str(sys.exc_info()[0]))
             status  = 500
-            content = { 'error': sys.exc_info()[0] }
+            content = { 'error': str(sys.exc_info()[0]) }
         else:
             status  = 200
             content = { 'count': str(count) }
@@ -105,9 +140,9 @@ class Poot(webapp.RequestHandler):
             i = interpretation.poot(
                 _get_interpretation_arguments(self.request))
         except:
-            logging.error("Unhandled (generic) exception: ", sys.exc_info()[0])
+            logging.error("Unhandled (generic) exception: ", str(sys.exc_info()[0]))
             status  = 500
-            content = { 'error': sys.exc_info()[0] }
+            content = { 'error': str(sys.exc_info()[0]) }
         else:
             if i == None:
                 status = 404
@@ -135,6 +170,7 @@ class Poot(webapp.RequestHandler):
 
 APPLICATION = webapp.WSGIApplication([('/poot', Poot),
                                       ('/list', List),
+                                      ('/list_pages', ListPages),
                                       ('/count', Count)], debug=True)
 
 def main():

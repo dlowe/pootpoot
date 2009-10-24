@@ -12,8 +12,19 @@ m4_include(common_header.m4)
   overflow: hidden;
 }
 
+#list_pages {
+  margin: 0px auto;
+  width: 90%;
+  padding: 10px;
+  overflow: hidden;
+}
+
 .listed_interpretation {
   border-style: none none solid none
+}
+
+.page_link {
+  padding: 5px;
 }
  </style>
 
@@ -22,10 +33,16 @@ m4_include(common_header.m4)
    var filters = path_to_filters(unescape(document.location.href));
 
    colorize($("body"));
+   pages($("#list_pages"));
    list($("#list_interpretations"), filters);
-   shuffle_buttons($("#buttons"));
-   $("html").click(function (event) {
-     list($("#list_interpretations"), filters);
+
+   $(".page_link").click(function () {
+       filters['offset_key_string'] = $(this).find(".offset_key_string").text();
+       list($("#list_interpretations"), filters);
+   });
+
+   $("#list_interpretations").click(function (event) {
+     shuffle_buttons($("#list_interpretations"));
      shuffle_buttons($("#buttons"));
    });
   });
@@ -33,6 +50,8 @@ m4_include(common_header.m4)
 </head>
 
 <body>
+ <div id="list_pages">
+ </div>
  <div id="list_interpretations">
  </div>
 m4_include(buttons.m4)
