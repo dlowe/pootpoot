@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+APP_DIR=`mktemp -d -t /tmp`
+./mkapp poot-poot $APP_DIR
+~/google_appengine/bulkloader.py --dump --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --kind=Interpretation --url=http://poot-poot.appspot.com/remote_api --filename=live_interpretations.data $APP_DIR
+rm -rf $APP_DIR
+rm *.sql3
