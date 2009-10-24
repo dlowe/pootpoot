@@ -5,20 +5,6 @@
 m4_include(common_header.m4)
 
  <style type="text/css">
-#list_interpretations {
-  margin: 0px auto;
-  width: 90%;
-  padding: 10px;
-  overflow: hidden;
-}
-
-#list_pages {
-  margin: 0px auto;
-  width: 90%;
-  padding: 10px;
-  overflow: hidden;
-}
-
 .listed_interpretation {
   border-style: none none solid none
 }
@@ -50,9 +36,9 @@ m4_include(common_header.m4)
 </head>
 
 <body>
- <div id="list_pages">
+ <div id="list_pages" class="main_content">
  </div>
- <div id="list_interpretations">
+ <div id="list_interpretations" class="main_content">
  </div>
 m4_include(buttons.m4)
 </body>

@@ -2,7 +2,7 @@
   border-style: none none solid none
 }
 
-#interpretation {
+.main_content {
   margin: 0px auto;
   width: 90%;
   padding: 10px;
@@ -11,13 +11,6 @@
 
 #submit_details_header {
   border-style: none none solid none
-}
-
-#submit_details {
-  margin: 0px auto;
-  width: 90%;
-  padding: 10px;
-  overflow: hidden;
 }
 
 #submit_error {

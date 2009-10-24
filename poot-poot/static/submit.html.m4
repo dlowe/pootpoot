@@ -65,7 +65,7 @@ function change_details () {
 </head>
 
 <body>
- <div id="submit_details">
+ <div id="submit_details" class="main_content">
  <div id="submit_details_header">
   Use this form to submit your own interpretation of Poot.
  </div>
