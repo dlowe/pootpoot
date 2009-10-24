@@ -1,7 +1,7 @@
 <!-- begin interpretation.m4 -->
 <div id="interpretation">
  <div id="title" style="display: none">
-  <a id="title_a"><span id="interpretation_title"></span></a> by <a id="author_a"><span id="interpretation_author"></a></span>
+  <a id="title_a"><span id="interpretation_title"></span></a> by <a id="author_a"><span id="interpretation_author"></span></a>
  </div>
 
  <div id="content">
