@@ -67,6 +67,7 @@ def _make_title_link(title):
             return link
 
 def _apply_filters(query, filters):
+    """modify a Query object by the general-case interpretation filters"""
     if 'key_string' in filters:
         if filters['key_string'] == None:
             raise datastore_errors.BadKeyError()
@@ -132,8 +133,9 @@ def list_pages(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
     pages = []
     for key in query.fetch(1000):
         if (index % interpretations_per_page) == 0:
-            pages.append({ 'page_number': (index // interpretations_per_page) + 1,
-                           'offset_key_string': str(key) })
+            pages.append({
+                'page_number': (index // interpretations_per_page) + 1,
+                'offset_key_string': str(key) })
         index += 1
 
     return pages
