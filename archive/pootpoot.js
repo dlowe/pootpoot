@@ -10,6 +10,8 @@ var poot_styles = [
 
 function _pootpoot (target) {
     target.empty();
+    target.unbind('click');
+    target.click(function () { _pootpoot(target); });
     var line_count = r(1, 40);
     for (var i = 0; i < line_count; ++i) {
         var alignment = ["center", "left", "right"][r(0, 2)];

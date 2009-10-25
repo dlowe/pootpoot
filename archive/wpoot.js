@@ -41,8 +41,13 @@ function wpoot_predicate () {
 function pootpoot () {
     return {
         'start': function (target) { 
-            target.text(wpoot_subject() + " " + wpoot_predicate() + " " + wpoot_object() + ".");
-            target.wrapInner('<h1></h1>');
+            var wpoot = function (target) {
+                target.unbind('click');
+                target.click(function () { wpoot(target); });
+                target.text(wpoot_subject() + " " + wpoot_predicate() + " " + wpoot_object() + ".");
+                target.wrapInner('<h1></h1>');
+            };
+            wpoot(target);
         },
         'stop': function () { }
     }
