@@ -61,17 +61,19 @@ function pages (target, filters) {
      colorize($("#list_interpretations"));
      shuffle_children($("#list_interpretations"));
      shuffle_children($("#buttons"));
+     shuffle_children($("#bottom_links"));
    });
   });
  </script>
 </head>
 
 <body>
+m4_include(buttons.m4)
  <div id="list_pages" class="main_content">
  </div>
  <div id="list_interpretations" class="main_content">
  </div>
-m4_include(buttons.m4)
+m4_include(bottom_links.m4)
 </body>
 
 </html>

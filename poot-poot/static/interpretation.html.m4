@@ -21,6 +21,7 @@ m4_include(common_header.m4)
      }
      interpretation = poot($("#interpretation"), filters, interpretationReady);
      shuffle_children($("#buttons"));
+     shuffle_children($("#bottom_links"));
      if (filters['title_link'] == null) {
          $("#button_pootpoot").click(repoot);
      }
@@ -31,8 +32,9 @@ m4_include(common_header.m4)
 </head>
 
 <body>
-m4_include(interpretation.m4)
 m4_include(buttons.m4)
+m4_include(interpretation.m4)
+m4_include(bottom_links.m4)
 </body>
 
 </html>

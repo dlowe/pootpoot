@@ -16,6 +16,7 @@ function change_details () {
 
     colorize($("#submit_details"));
     shuffle_children($("#buttons"));
+    shuffle_children($("#bottom_links"));
     return;
 }
 
@@ -23,6 +24,7 @@ function change_details () {
    colorize($("body"));
    colorize($("#submit_details"));
    shuffle_children($("#buttons"));
+   shuffle_children($("#bottom_links"));
 
    $("#submit_form").ajaxForm({
        "iframe": true,
@@ -64,6 +66,7 @@ function change_details () {
 </head>
 
 <body>
+m4_include(buttons.m4)
  <div id="submit_details" class="main_content">
  <div id="submit_details_header">
   Use this form to submit your own interpretation of Poot.
@@ -153,8 +156,7 @@ function change_details () {
   Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br>
 m4_include(interpretation.m4)
  </div>
-
-m4_include(buttons.m4)
+m4_include(bottom_links.m4)
 </body>
 
 </html>

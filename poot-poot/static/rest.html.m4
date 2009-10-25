@@ -3,16 +3,31 @@
 <head>
  <title>pootpoot API documentation</title>
 m4_include(common_header.m4)
+ <style type="text/css">
+#rest_docs {
+  font-size: small;
+}
+
+.method_header {
+  font-family: monospace;
+}
+ </style>
  <script type="text/javascript">
   $(function () {
-   colorize($("body"));
-   colorize($("#rest_docs"));
-   shuffle_children($("#buttons"));
+   var repaint = function () {
+       colorize($("body"));
+       colorize($("#rest_docs"));
+       shuffle_children($("#buttons"));
+       shuffle_children($("#bottom_links"));
+   };
+   repaint();
+   $("#rest_docs").click(repaint);
   });
  </script>
 </head>
 
 <body>
+m4_include(buttons.m4)
  <div id="rest_docs" class="main_content">
  <p>
  If you're so inclined, you can access pootpoot data via the REST API.
@@ -26,7 +41,7 @@ m4_include(common_header.m4)
  <h2>Reading Interpretations</h2>
  <h3>Interpretation Filtering</h3>
  <p>
- All of the following methods accept a common set of parameters for filtering the set of interpretations
+ All of the following methods accept a common set of parameters for filtering the interpretations
  under consideration. These parameters are:
  </p>
  <dl>
@@ -41,7 +56,7 @@ m4_include(common_header.m4)
  </dl>
 
  <h3 class="method_header">/poot [GET]</h3>
- Given a set of filters, this returns <em>exactly one</em> interpretation, selected at random from the full set of matching interpretations, via a dictionary containing:
+ Given a set of filters, this returns <em>exactly one</em> interpretation, selected at random from the full set of matching interpretations, via an object containing:
   <dl>
    <dt>title</dt>
     <dd>Interpretation title</dd>
@@ -58,14 +73,14 @@ m4_include(common_header.m4)
   </dl>
 
  <h3 class="method_header">/count [GET]</h3>
- Given a set of filters, this returns a simple dictionary containing the following:
+ Given a set of filters, this returns a simple object containing the following:
   <dl>
    <dt>count</dt>
     <dd>Number of interpretations matched by the specified filters.</dd>
   </dl>
 
  <h3 class="method_header">/list_pages [GET]</h3>
- Given a set of filters, this returns a list of one or more dictionaries, each of which contains the following:
+ Given a set of filters, this returns a list of one or more objects, each of which contains the following:
   <dl>
    <dt>page_number</dt>
     <dd>Page number, starting from 1.</dd>
@@ -78,7 +93,7 @@ m4_include(common_header.m4)
  See /list_pages above; these two methods need to be used together if you're trying to browse interpretations. Basically, you want to use /list_pages with your original filters, and then for each page use /list with the page's offset_key_string, returned by /list_pages, as an additional filter.
  </p>
  <p>
- Given a set of filters, this returns a list of 1 to 20 dictionaries, each of which contains the following:
+ Given a set of filters, this returns a list of 1 to 20 objects, each of which contains the following:
  </p>
  <dl>
   <dt>title</dt>
@@ -108,7 +123,7 @@ m4_include(common_header.m4)
    <dd>The content of the interpretation.</dd>
  </dl>
  <p>
- On success, returns a dictionary containing the following:
+ On success, returns an object containing the following:
  </p>
  <dl>
   <dt>key</dt>
@@ -129,7 +144,7 @@ m4_include(common_header.m4)
  </dl>
  <p>XXX: NON-CONFORMING OUTPUT! WILL CHANGE!</p>
 
- <h3>/disapprove [GET] XXX: should be POST</h3>
+ <h3 class="method_header">/disapprove [GET] XXX: should be POST</h3>
  <p>Permanently delete a submitted interpretation. Requires the following arguments:</p>
  <dl>
   <dt>key_string</dt>
@@ -140,8 +155,7 @@ m4_include(common_header.m4)
  <p>XXX: NON-CONFORMING OUTPUT! WILL CHANGE!</p>
  
  </div>
-
-m4_include(buttons.m4)
+m4_include(bottom_links.m4)
 </body>
 
 </html>
