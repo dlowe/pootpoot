@@ -58,6 +58,7 @@ function pages (target, filters) {
    });
 
    $("#list_interpretations").click(function (event) {
+     colorize($("#list_interpretations"));
      shuffle_children($("#list_interpretations"));
      shuffle_children($("#buttons"));
    });
