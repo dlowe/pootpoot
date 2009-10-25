@@ -112,6 +112,7 @@ function poot (target, filters, ready) {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: false }); // or else assigning i=p does not work!
             $.getScript(interpretation.content_location, function () {
+                target.unbind('click');
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 var p = pootpoot();
@@ -125,23 +126,28 @@ function poot (target, filters, ready) {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
+                target.unbind('click');
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 content.find("#content_text").text(data);
                 show_content(content, interpretation.type);
+                target.click(function () { colorize(target) });
                 ready();
             }, "text");
         } else if (interpretation.type == "html") {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
+                target.unbind('click');
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
                 content.find("#content_html").html(data);
                 show_content(content, interpretation.type);
+                target.click(function () { colorize(target) });
                 ready();
             }, "html");
         } else if (interpretation.type == "image") {
+            target.unbind('click');
             colorize(target);
             poot_title(target.find("#title"), interpretation);
             var img = content.find("#content_image").find("img");
@@ -157,6 +163,7 @@ function poot (target, filters, ready) {
                 'title':  interpretation.title
             });
             show_content(content, interpretation.type);
+            target.click(function () { colorize(target) });
             ready();
         }
     });
