@@ -26,7 +26,7 @@ m4_include(common_header.m4)
 m4_include(buttons.m4)
  <div id="code" class="main_content">
  <p>
- pootpoot is open-source software. You can follow the project <a href="http://www.assembla.com/spaces/pootpoot/new_items">here</a>, browse the source <a href="http://trac-hg.assembla.com/pootpoot/browser">here</a>, and keep tabs on what I'm doing next <a href="http://trac-hg.assembla.com/pootpoot/browser">here</a>. I'd love help if you're interested!
+ pootpoot is open-source software. You can follow the project <a href="http://www.assembla.com/spaces/pootpoot/new_items">here</a>, browse the source <a href="http://trac-hg.assembla.com/pootpoot/browser">here</a>, and keep tabs on what I'm doing next <a href="http://trac-hg.assembla.com/pootpoot/report/1">here</a>. I'd love help if you're interested!
  </p>
 
  <p>
