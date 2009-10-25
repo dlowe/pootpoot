@@ -1,9 +1,4 @@
-var T_IMAGE      = 'image';
-var T_TEXT       = 'text';
-var T_HTML       = 'html';
-var T_JAVASCRIPT = 'javascript';
-var T_ALL        = [ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ];
-
+// general, unit-testable, non-state-manipulating functions...
 function r (a,b) {
     return (Math.floor(Math.random()*(b-a+1)) + a);
 }
@@ -16,22 +11,9 @@ function random_color () {
    return color;
 }
 
-function colorize (target) {
-   target.css("background-color", random_color());
-   target.css("color", random_color());
-}
-
 function shuffle (v) {
     for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
     return v;
-}
-
-function poot_title (target, interpretation) {
-    target.find("#title_a").attr('href', interpretation.decorated_location);
-    target.find("#interpretation_title").text(interpretation.title);
-    target.find("#interpretation_author").text(interpretation.author);
-    target.find("#author_a").attr('href', interpretation.author_location);
-    target.show();
 }
 
 function path_to_filters (path) {
@@ -52,34 +34,11 @@ function path_to_filters (path) {
     return filters;
 }
 
-function pages (target, filters) {
-    $.ajaxSetup({ cache: false });
-    $.ajaxSetup({ error: function () {}});
-    $.ajaxSetup({ async: false });
-    $.getJSON("/list_pages", filters, function (page_list) {
-        if (page_list.length > 1) {
-            colorize(target);
-            var contents = "Pages: ";
-            for (var i in page_list) {
-                contents += '<span class="page_link" id="page_link_' + page_list[i].page_number + '">[' + page_list[i].page_number + ']<span style="display: none" class="offset_key_string">' + page_list[i].offset_key_string + '</span></span>';
-            }
-            target.html(contents);
-        }
-    });
-}
 
-function list (target, filters) {
-    $.ajaxSetup({ cache: false });
-    $.ajaxSetup({ error: function () {}});
-    $.getJSON("/list", filters, function (interpretation_list) {
-        colorize(target);
-        var contents = "";
-        var shuffled_list = shuffle(interpretation_list);
-        for (var i in shuffled_list) {
-            contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by <a href=\"" + shuffled_list[i].author_location + "\">" + shuffled_list[i].author + "</a></div>"
-        }
-        target.html(contents);
-    });
+// very general pooty randomizing functions which whack a specified jQuery target directly
+function colorize (target) {
+   target.css("background-color", random_color());
+   target.css("color", random_color());
 }
 
 function shuffle_children (target) {
@@ -89,6 +48,22 @@ function shuffle_children (target) {
     target.append(shuffled_elements);
 }
 
+
+// everything else in here is the code for displaying interpretations, tightly tied
+// with interpretation.m4...
+function poot_title (target, interpretation) {
+    target.find("#title_a").attr('href', interpretation.decorated_location);
+    target.find("#interpretation_title").text(interpretation.title);
+    target.find("#interpretation_author").text(interpretation.author);
+    target.find("#author_a").attr('href', interpretation.author_location);
+    target.show();
+}
+
+var T_IMAGE      = 'image';
+var T_TEXT       = 'text';
+var T_HTML       = 'html';
+var T_JAVASCRIPT = 'javascript';
+var T_ALL        = [ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ];
 var TYPES = T_ALL.concat('error');
 function show_content(content, show_type) {
     for (var i in TYPES) {
