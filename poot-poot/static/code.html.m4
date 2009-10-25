@@ -17,7 +17,7 @@ m4_include(common_header.m4)
        shuffle_children($("#bottom_links"));
    };
    repaint();
-   $("#rest_docs").click(repaint);
+   $("#code").click(repaint);
   });
  </script>
 </head>
