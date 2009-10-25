@@ -21,7 +21,9 @@ m4_include(common_header.m4)
      }
      interpretation = poot($("#interpretation"), filters, interpretationReady);
      shuffle_buttons($("#buttons"));
-     $("#button_pootpoot").click(repoot);
+     if (filters['title_link'] == null) {
+         $("#button_pootpoot").click(repoot);
+     }
    };
    repoot(null);
   });
