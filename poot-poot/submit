@@ -2,6 +2,7 @@
 """store a new interpretation"""
 
 ## system
+import sys
 import logging
 
 ## app engine
@@ -28,13 +29,13 @@ class Submit(webapp.RequestHandler):
                  type=self.request.get('type'),
                  content=self.request.get('content'))
         except interpretation.BunkInterpretation, error:
-            logging.warn(str(error))
             status  = 400
             content = { 'error': str(error) }
-        except Exception, error:
-            logging.error("Unhandled (generic) exception: %s", str(error))
+        except:
+            logging.error("Unhandled (generic) exception: ",
+                str(sys.exc_info()[0]))
             status  = 500
-            content = { 'error': str(error) }
+            content = { 'error': str(sys.exc_info()[0]) }
         else:
             status  = 200
             content = { 'key': str(i.key()),
