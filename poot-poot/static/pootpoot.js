@@ -82,7 +82,7 @@ function list (target, filters) {
     });
 }
 
-function shuffle_buttons (target) {
+function shuffle_children (target) {
     var children          = target.children();
     var shuffled_elements = shuffle(children.get());
     target.empty();

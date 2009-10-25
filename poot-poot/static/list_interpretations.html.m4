@@ -28,8 +28,8 @@ m4_include(common_header.m4)
    });
 
    $("#list_interpretations").click(function (event) {
-     shuffle_buttons($("#list_interpretations"));
-     shuffle_buttons($("#buttons"));
+     shuffle_children($("#list_interpretations"));
+     shuffle_children($("#buttons"));
    });
   });
  </script>

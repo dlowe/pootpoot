@@ -7,7 +7,7 @@ m4_include(common_header.m4)
   $(function () {
    colorize($("body"));
    colorize($("#rest_docs"));
-   shuffle_buttons($("#buttons"));
+   shuffle_children($("#buttons"));
   });
  </script>
 </head>

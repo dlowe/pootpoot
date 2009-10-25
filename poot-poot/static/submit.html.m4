@@ -15,14 +15,14 @@ function change_details () {
     $("#details_" + show_type).show();
 
     colorize($("#submit_details"));
-    shuffle_buttons($("#buttons"));
+    shuffle_children($("#buttons"));
     return;
 }
 
   $(function () {
    colorize($("body"));
    colorize($("#submit_details"));
-   shuffle_buttons($("#buttons"));
+   shuffle_children($("#buttons"));
 
    $("#submit_form").ajaxForm({
        "iframe": true,

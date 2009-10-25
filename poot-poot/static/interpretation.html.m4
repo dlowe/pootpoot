@@ -20,7 +20,7 @@ m4_include(common_header.m4)
          interpretation.stop();
      }
      interpretation = poot($("#interpretation"), filters, interpretationReady);
-     shuffle_buttons($("#buttons"));
+     shuffle_children($("#buttons"));
      if (filters['title_link'] == null) {
          $("#button_pootpoot").click(repoot);
      }
