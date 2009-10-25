@@ -5,12 +5,11 @@
 m4_include(common_header.m4)
  <script type="text/javascript">
 
-var TYPES = [ 'image', 'text', 'html', 'javascript', 'error' ];
 function change_details () {
     var show_type = $("input[name='type']:checked").val();
-    for (var i in TYPES) {
-        if (TYPES[i] != show_type) {
-            $("#details_" + TYPES[i]).hide();
+    for (var i in T_ALL) {
+        if (T_ALL[i] != show_type) {
+            $("#details_" + T_ALL[i]).hide();
         }
     }
     $("#details_" + show_type).show();

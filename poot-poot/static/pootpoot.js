@@ -1,3 +1,9 @@
+var T_IMAGE      = 'image';
+var T_TEXT       = 'text';
+var T_HTML       = 'html';
+var T_JAVASCRIPT = 'javascript';
+var T_ALL        = [ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ];
+
 function r (a,b) {
     return (Math.floor(Math.random()*(b-a+1)) + a);
 }
@@ -83,7 +89,7 @@ function shuffle_buttons (target) {
     target.append(shuffled_elements);
 }
 
-var TYPES = [ 'error', 'image', 'text', 'html', 'javascript' ];
+var TYPES = T_ALL.concat('error');
 function show_content(content, show_type) {
     for (var i in TYPES) {
         if (TYPES[i] != show_type) {
@@ -108,7 +114,7 @@ function poot (target, filters, ready) {
     var i = { 'stop': function () { } };
     $.getJSON("/poot", filters, function (interpretation) {
         var content = target.find("#content");
-        if (interpretation.type == "javascript") {
+        if (interpretation.type == T_JAVASCRIPT) {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: false }); // or else assigning i=p does not work!
             $.getScript(interpretation.content_location, function () {
@@ -122,7 +128,7 @@ function poot (target, filters, ready) {
                 i = p;
                 ready();
             });
-        } else if (interpretation.type == "text") {
+        } else if (interpretation.type == T_TEXT) {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
@@ -134,7 +140,7 @@ function poot (target, filters, ready) {
                 target.click(function () { colorize(target) });
                 ready();
             }, "text");
-        } else if (interpretation.type == "html") {
+        } else if (interpretation.type == T_HTML) {
             $.ajaxSetup({ cache: true });
             $.ajaxSetup({ async: true });
             $.get(interpretation.content_location, function (data) {
@@ -146,7 +152,7 @@ function poot (target, filters, ready) {
                 target.click(function () { colorize(target) });
                 ready();
             }, "html");
-        } else if (interpretation.type == "image") {
+        } else if (interpretation.type == T_IMAGE) {
             target.unbind('click');
             colorize(target);
             poot_title(target.find("#title"), interpretation);

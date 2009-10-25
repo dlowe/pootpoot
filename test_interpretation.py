@@ -42,56 +42,56 @@ class TestImageValidation(InterpretationTestCase):
                      'bmp':  'image/bmp' }
 
         for ext, mime_type in ext_mime.iteritems():
-            i = _stc('image', open('test_good_image.' + ext).read())
+            i = _stc(interpretation.T_IMAGE, open('test_good_image.' + ext).read())
             self.assertEquals(i.content_type, mime_type)
             self.assertTrue(isinstance(i.image_height, int))
             self.assertTrue(isinstance(i.image_width, int))
 
     def test_not_an_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', 'fnord')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, 'fnord')
 
     def test_wide_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_wide_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_wide_image.png').read())
 
     def test_tall_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_tall_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_tall_image.png').read())
 
     def test_giant_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'image', open('test_giant_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_giant_image.png').read())
 
 class TestTextValidation(InterpretationTestCase):
     def test_text_type(self):
-        i = _stc('text', 'foo')
+        i = _stc(interpretation.T_TEXT, 'foo')
         self.assertEquals(i.content_type, 'text/plain')
 
     def test_unicode(self):
-        i = _stc('text', unicode.encode(u'わたし', 'utf-8'))
+        i = _stc(interpretation.T_TEXT, unicode.encode(u'わたし', 'utf-8'))
         self.assertEquals(i.content_type, 'text/plain')
         j = interpretation.poot({'key_string': str(i.key())})
         self.assertEquals(j.content, unicode.encode(u'わたし', 'utf-8'))
 
     def test_unprintable_text(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'text', '\0')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_TEXT, '\0')
 
 class TestHtmlValidation(InterpretationTestCase):
     def test_html_type(self):
-        i = _stc('html', '<p>foo</p>')
+        i = _stc(interpretation.T_HTML, '<p>foo</p>')
         self.assertEquals(i.content_type, 'text/html')
 
     def test_unprintable_html(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'html', '<p>\0</p>')
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_HTML, '<p>\0</p>')
 
     def test_script_tag(self):
-        i = _stc('html', '<script>foo</script>other')
+        i = _stc(interpretation.T_HTML, '<script>foo</script>other')
         self.assertEquals(i.content, 'other')
 
     def test_style_attribute(self):
-        i = _stc('html', '<p style="foo: bar">foo</p>')
+        i = _stc(interpretation.T_HTML, '<p style="foo: bar">foo</p>')
         self.assertEquals(i.content, '<p>foo</p>')
 
 class TestJavascriptValidation(InterpretationTestCase):
     def test_javascript_type(self):
-        i = _stc('javascript', """
+        i = _stc(interpretation.T_JAVASCRIPT, """
 function pootpoot () {
     return { 'start': function (target) { },
              'stop':  function () { } };
@@ -100,19 +100,19 @@ function pootpoot () {
         self.assertEquals(i.content_type, 'application/x-javascript')
 
     def test_bunk_javascript(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
 functon pootpoot () {
 }
 """)
 
     def test_no_pootpoot(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
 function notpootpoot () {
 }
 """)
 
     def test_pootpoot_arguments(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, 'javascript', """
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
 function pootpoot (fnord) {
 }
 """)
@@ -147,7 +147,7 @@ class TestInterpretation(InterpretationTestCase):
 
     def test_submit_disapprove(self):
         ## submitting an interpretation should create an inactive one
-        i = _stc('text', 'blart')
+        i = _stc(interpretation.T_TEXT, 'blart')
         self.assertFalse(i.is_active)
 
         ## cannot disapprove with no owner_baton
@@ -165,14 +165,14 @@ class TestInterpretation(InterpretationTestCase):
         i = interpretation.submit(
                            title=u'untitled',
                            author='Anonymous',
-                           type='text',
+                           type=interpretation.T_TEXT,
                            content='fnord')
         self.assertEquals(i.title_link, 'untitled')
 
         j = interpretation.submit(
                            title=u'untitled',
                            author='Anonymous',
-                           type='text',
+                           type=interpretation.T_TEXT,
                            content='fnord')
         self.assertEquals(j.title_link, 'untitled-1')
 
@@ -181,7 +181,7 @@ class TestInterpretation(InterpretationTestCase):
         i = interpretation.submit(
                            title=u'Test',
                            author='Anonymous',
-                           type='text',
+                           type=interpretation.T_TEXT,
                            content='fnord')
         self.assertFalse(i.is_active)
 
@@ -241,7 +241,7 @@ class TestPagination(InterpretationTestCase):
     def test_basic_pagination(self):
         actual_count = 21
         for id in range(1, actual_count):
-            i = _stc('text', str(id))
+            i = _stc(interpretation.T_TEXT, str(id))
             interpretation.approve(i, i.owner_baton)
 
         for page_size in [1, 2, 3, 4, 5, 10, 20, 25]:

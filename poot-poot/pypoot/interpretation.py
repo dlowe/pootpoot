@@ -18,11 +18,16 @@ from pypoot import permalink
 from pypoot import feedparser
 from pypoot import jsparser
 
+T_IMAGE      = 'image'
+T_TEXT       = 'text'
+T_HTML       = 'html'
+T_JAVASCRIPT = 'javascript'
+T_ALL        = set([ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ])
+
 class Interpretation(db.Model):
     """interpretation model"""
     is_active    = db.BooleanProperty(required=True)
-    type         = db.StringProperty(required=True,
-                       choices=set(['image', 'javascript', 'text', 'html']))
+    type         = db.StringProperty(required=True, choices=T_ALL)
     content_type = db.StringProperty(required=True, indexed=False)
     content      = db.BlobProperty(required=True)
     title        = db.StringProperty(required=True)
@@ -235,10 +240,10 @@ def _process_javascript(bytes):
     return { 'content_type': 'application/x-javascript' }
 
 PROCESSORS = {
-    'image':      _process_image,
-    'text':       _process_text,
-    'html':       _process_html,
-    'javascript': _process_javascript
+    T_IMAGE:      _process_image,
+    T_TEXT:       _process_text,
+    T_HTML:       _process_html,
+    T_JAVASCRIPT: _process_javascript
 }
 
 def submit(**attributes):
