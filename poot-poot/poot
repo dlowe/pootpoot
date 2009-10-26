@@ -62,7 +62,7 @@ class List(webapp.RequestHandler):
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
         self.response.headers.add_header('Content-Type',
-            'text/plain')
+            'application/json')
 
         self.response.out.write(json.ify(content))
 
@@ -95,7 +95,7 @@ class ListPages(webapp.RequestHandler):
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
         self.response.headers.add_header('Content-Type',
-            'text/plain')
+            'application/json')
 
         self.response.out.write(json.ify(content))
 
@@ -122,7 +122,7 @@ class Count(webapp.RequestHandler):
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type', 'application/json')
 
         self.response.out.write(json.ify(content))
 
@@ -154,7 +154,7 @@ class Poot(webapp.RequestHandler):
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type', 'application/json')
 
         self.response.out.write(json.ify(content))
 

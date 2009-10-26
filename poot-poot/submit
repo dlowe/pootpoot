@@ -44,7 +44,7 @@ class Submit(webapp.RequestHandler):
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type', 'application/json')
 
         self.response.out.write(json.ify(content))
 
@@ -81,7 +81,7 @@ class Approve(webapp.RequestHandler):
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type', 'application/json')
 
         self.response.out.write(json.ify(content))
 
@@ -118,7 +118,7 @@ class Disapprove(webapp.RequestHandler):
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
             del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
+        self.response.headers.add_header('Content-Type', 'application/json')
 
         self.response.out.write(json.ify(content))
 
