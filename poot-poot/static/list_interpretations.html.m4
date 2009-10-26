@@ -23,7 +23,7 @@ function list (target, filters) {
         var contents = "";
         var shuffled_list = shuffle(interpretation_list);
         for (var i in shuffled_list) {
-            contents += "<div class=\"listed_interpretation\"><a href=\"" + shuffled_list[i].decorated_location + "\">" + shuffled_list[i].title + "</a> by <a href=\"" + shuffled_list[i].author_location + "\">" + shuffled_list[i].author + "</a></div>"
+            contents += '<div class="listed_interpretation"><a href="' + shuffled_list[i].decorated_location + '">' + shuffled_list[i].title + '<\/a> by <a href="' + shuffled_list[i].author_location + '">' + shuffled_list[i].author + '<\/a><\/div>';
         }
         target.html(contents);
     });
@@ -38,7 +38,7 @@ function pages (target, filters) {
             colorize(target);
             var contents = "Pages: ";
             for (var i in page_list) {
-                contents += '<span class="page_link" id="page_link_' + page_list[i].page_number + '">[' + page_list[i].page_number + ']<span style="display: none" class="offset_key_string">' + page_list[i].offset_key_string + '</span></span>';
+                contents += '<span class="page_link" id="page_link_' + page_list[i].page_number + '">[' + page_list[i].page_number + ']<span style="display: none" class="offset_key_string">' + page_list[i].offset_key_string + '<\/span><\/span>';
             }
             target.html(contents);
         }

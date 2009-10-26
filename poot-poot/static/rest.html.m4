@@ -40,8 +40,7 @@ m4_include(buttons.m4)
 
  <h2>Interpretations</h2>
  <h3><a name="interpretation_object">Interpretation Objects</a></h3>
- <p>
- Many of the interpretation API methods below return serialized interpretation data, which are objects consisting of:
+ <p>Many of the interpretation API methods below return serialized interpretation data, which are objects consisting of:</p>
  <dl>
   <dt>title</dt>
    <dd>Title of the interpretation</dd>
@@ -56,7 +55,6 @@ m4_include(buttons.m4)
   <dt>decorated_location</dt>
    <dd>URL (relative to the API host) where the interpretation can be viewed</dd>
  </dl>
- </p>
  <h3><a name="filter_parameters">Filter Parameters</a></h3>
  <p>
  Many of the interpretation API methods below accept a common set of parameters for filtering the interpretations
@@ -74,17 +72,17 @@ m4_include(buttons.m4)
  </dl>
 
  <h3 class="method_header"><a name="method_poot">/poot [GET]</a></h3>
- Given a set of <a href="#filter_parameters">filter parameters</a>, this returns <em>exactly one</em> <a href="#interpretation_object">interpretation object</a>, selected at random from the full set of matching interpretations.
+ <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns <em>exactly one</em> <a href="#interpretation_object">interpretation object</a>, selected at random from the full set of matching interpretations.</p>
 
  <h3 class="method_header"><a name="method_count">/count [GET]</a></h3>
- Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a simple object containing the following:
+ <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a simple object containing the following:</p>
   <dl>
    <dt>count</dt>
     <dd>Number of interpretations matched by the specified filters.</dd>
   </dl>
 
  <h3 class="method_header"><a name="method_list_pages">/list_pages [GET]</a></h3>
- Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a list of one or more objects, each of which contains the following:
+ <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a list of one or more objects, each of which contains the following:</p>
   <dl>
    <dt>page_number</dt>
     <dd>Page number, starting from 1.</dd>
@@ -97,14 +95,9 @@ m4_include(buttons.m4)
  <p>
  See the <a href="#method_list_pages">/list_pages method</a> above; these two methods need to be used together if you're trying to browse interpretations. Basically, you want to call /list_pages with the desired filters. For each returned page, call /list with the page's offset_key_string (returned by /list_pages), as a filter in addition to the originals.
  </p>
- </dl>
-
- <h2>Writing Interpretations</h2>
 
  <h3 class="method_header"><a name="method_submit">/submit [POST]</a></h3>
- <p>
- Create a new (inactive) interpretation. Requires the following input parameters:
- </p>
+ <p>Create a new (inactive) interpretation. Requires the following input parameters:</p>
  <dl>
   <dt>title</dt>
    <dd>Interpretation title</dd>
@@ -115,9 +108,7 @@ m4_include(buttons.m4)
   <dt>content</dt>
    <dd>The content of the interpretation.</dd>
  </dl>
- <p>
- On success, returns an object containing the following:
- </p>
+ <p>On success, returns an object containing the following:</p>
  <dl>
   <dt>key_string</dt>
    <dd>Opaque unique identifier for this interpretation, which can be used to retrieve the interpretation even if it remains inactive.</dd>
@@ -133,8 +124,7 @@ m4_include(buttons.m4)
   <dt>owner_baton</dt>
    <dd>You saved it after calling the <a href="#method_submit">/submit method</a>, right?</dd>
  </dl>
- <p>On success, returns the approved interpretation.</p>
- </dl>
+ <p>On success, returns the approved <a href="#interpretation_object">interpretation object</a>.</p>
  
  <h3 class="method_header"><a name="method_disapprove">/disapprove [POST]</a></h3>
  <p>Permanently delete a submitted interpretation. Requires the following arguments:</p>
@@ -144,8 +134,7 @@ m4_include(buttons.m4)
   <dt>owner_baton</dt>
    <dd>You saved it after calling the <a href="#method_submit">/submit method</a>, right?</dd>
  </dl>
- <p>On success, returns the deleted interpretation.</p>
- </dl>
+ <p>On success, returns the deleted <a href="#interpretation_object">interpretation object</a>.</p>
  
  </div>
 m4_include(bottom_links.m4)
