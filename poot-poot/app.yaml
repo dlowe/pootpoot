@@ -8,6 +8,12 @@ handlers:
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
 
+- url: /(poot|list|list_pages|count|submit|approve|disapprove)
+  script: interpretation_api
+
+- url: /i/([^/]+)
+  script: i
+
 - url: /
   static_files: static/interpretation.html
   upload: static/interpretation.html
@@ -19,30 +25,6 @@ handlers:
 - url: /list_interpretations/.*
   static_files: static/list_interpretations.html
   upload: static/list_interpretations.html
-
-- url: /poot
-  script: poot
-
-- url: /list
-  script: poot
-
-- url: /list_pages
-  script: poot
-
-- url: /count
-  script: poot
-
-- url: /i/([^/]+)
-  script: i
-
-- url: /submit
-  script: submit
-
-- url: /approve
-  script: submit
-
-- url: /disapprove
-  script: submit
 
 - url: /(.*)\.(html|js|css|png|ico|txt)
   static_files: static/\1.\2
