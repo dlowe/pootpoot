@@ -52,22 +52,74 @@ class Submit(webapp.RequestHandler):
 class Approve(webapp.RequestHandler):
     """approve a submitted interpretation"""
 
-    def get(self):
+    def post(self):
         """approve a submitted interpretation"""
 
-        i = interpretation.poot({ 'key_string': self.request.get('key') })
-        interpretation.approve(i, self.request.get('owner_baton'))
-        self.response.out.write("ok")
+        status  = None
+        content = None
+        i       = None
+        try:
+            i = interpretation.poot({ 'key_string': self.request.get('key') })
+            if i != None:
+                interpretation.approve(i, self.request.get('owner_baton'))
+        except interpretation.BadOwnerBaton:
+            status  = 403
+            content = { 'error': 'Bad owner baton given' }
+        except:
+            logging.error("Unhandled (generic) exception: ",
+                str(sys.exc_info()[0]))
+            status  = 500
+            content = { 'error': str(sys.exc_info()[0]) }
+        else:
+            if i == None:
+                status = 404
+                content = { 'error': 'Not Found' }
+            else:
+                status  = 200
+                content = { 'ok': 'ok' }
+
+        self.response.set_status(status)
+        if 'Content-Type' in self.response.headers:
+            del self.response.headers['Content-Type']
+        self.response.headers.add_header('Content-Type', 'text/plain')
+
+        self.response.out.write(json.ify(content))
 
 class Disapprove(webapp.RequestHandler):
     """disapprove a submitted interpretation"""
 
-    def get(self):
+    def post(self):
         """disapprove a submitted interpretation"""
 
-        i = interpretation.poot({ 'key_string': self.request.get('key') })
-        interpretation.delete(i, self.request.get('owner_baton'))
-        self.response.out.write("ok")
+        status  = None
+        content = None
+        i       = None
+        try:
+            i = interpretation.poot({ 'key_string': self.request.get('key') })
+            if i != None:
+                interpretation.delete(i, self.request.get('owner_baton'))
+        except interpretation.BadOwnerBaton:
+            status  = 403
+            content = { 'error': 'Bad owner baton given' }
+        except:
+            logging.error("Unhandled (generic) exception: ",
+                str(sys.exc_info()[0]))
+            status  = 500
+            content = { 'error': str(sys.exc_info()[0]) }
+        else:
+            if i == None:
+                status = 404
+                content = { 'error': 'Not Found' }
+            else:
+                status  = 200
+                content = { 'ok': 'ok' }
+
+        self.response.set_status(status)
+        if 'Content-Type' in self.response.headers:
+            del self.response.headers['Content-Type']
+        self.response.headers.add_header('Content-Type', 'text/plain')
+
+        self.response.out.write(json.ify(content))
 
 APPLICATION = webapp.WSGIApplication([('/submit', Submit),
                                       ('/approve', Approve),

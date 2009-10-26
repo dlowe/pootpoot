@@ -134,7 +134,7 @@ m4_include(buttons.m4)
    <dd>Permalink URI (relative to the API host!) for fully decorated display of this interpretation. Note that this URI is not actually functional until the interpretation is active! XXX: should be returned by /approve instead, probably...</dd>
  </dl>
 
- <h3 class="method_header">/approve [GET] XXX: should be POST</h3>
+ <h3 class="method_header">/approve [POST]</h3>
  <p>Make a submitted interpretation active. Requires the following arguments:</p>
  <dl>
   <dt>key_string</dt>
@@ -142,9 +142,13 @@ m4_include(buttons.m4)
   <dt>owner_baton</dt>
    <dd>You saved it after calling /submit, right?</dd>
  </dl>
- <p>XXX: NON-CONFORMING OUTPUT! WILL CHANGE!</p>
-
- <h3 class="method_header">/disapprove [GET] XXX: should be POST</h3>
+ <p>On success, returns an object containing the following:</p>
+ <dl>
+  <dt>ok</dt>
+   <dt>ok</dt>
+ </dl>
+ 
+ <h3 class="method_header">/disapprove [POST]</h3>
  <p>Permanently delete a submitted interpretation. Requires the following arguments:</p>
  <dl>
   <dt>key_string</dt>
@@ -152,7 +156,11 @@ m4_include(buttons.m4)
   <dt>owner_baton</dt>
    <dd>You saved it after calling /submit, right?</dd>
  </dl>
- <p>XXX: NON-CONFORMING OUTPUT! WILL CHANGE!</p>
+ <p>On success, returns an object containing the following:</p>
+ <dl>
+  <dt>ok</dt>
+   <dt>ok</dt>
+ </dl>
  
  </div>
 m4_include(bottom_links.m4)

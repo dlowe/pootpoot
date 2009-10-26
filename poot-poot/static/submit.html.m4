@@ -41,7 +41,7 @@ function change_details () {
                eventObject.preventDefault();
                var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
-               $.get("/approve", arguments, function () {
+               $.post("/approve", arguments, function () {
                    window.location = json.decorated_location;
                });
            });
@@ -50,7 +50,7 @@ function change_details () {
                eventObject.preventDefault();
                var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
-               $.get("/disapprove", arguments, function () {
+               $.post("/disapprove", arguments, function () {
                });
                $("#pending").hide();
                $("#submit_details").show();
