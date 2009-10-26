@@ -58,7 +58,8 @@ class Approve(webapp.RequestHandler):
         content = None
         i       = None
         try:
-            i = interpretation.poot({ 'key_string': self.request.get('key_string') })
+            i = interpretation.poot(
+                { 'key_string': self.request.get('key_string') })
             if i != None:
                 interpretation.approve(i, self.request.get('owner_baton'))
         except interpretation.BadOwnerBaton:
@@ -94,7 +95,8 @@ class Disapprove(webapp.RequestHandler):
         content = None
         i       = None
         try:
-            i = interpretation.poot({ 'key_string': self.request.get('key_string') })
+            i = interpretation.poot(
+                { 'key_string': self.request.get('key_string') })
             if i != None:
                 interpretation.delete(i, self.request.get('owner_baton'))
         except interpretation.BadOwnerBaton:

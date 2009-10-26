@@ -45,8 +45,10 @@ class Interpretation(db.Model):
                  'author': self.author,
                  'type': self.type,
                  'content_location': "/i/%s" % self.key(),
-                 'author_location': "/list_interpretations/a/%s/" % urllib.quote(self.author),
-                 'decorated_location': "/interpretation/%s.html" % self.title_link }
+                 'author_location':
+                     "/list_interpretations/a/%s/" % urllib.quote(self.author),
+                 'decorated_location':
+                     "/interpretation/%s.html" % self.title_link }
 
         ## and type-specific properties
         for property_name in self.properties().iterkeys():
