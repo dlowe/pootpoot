@@ -56,11 +56,7 @@ class List(webapp.RequestHandler):
                 status  = 200
                 content = []
                 for i in interpretation_list:
-                    content.append({ 'title': i.title,
-                                     'author': i.author,
-                                     'author_location': i.author_location(),
-                                     'decorated_location':
-                                       i.decorated_location() })
+                    content.append(i.get_public_info())
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
@@ -153,17 +149,7 @@ class Poot(webapp.RequestHandler):
                 content = { 'error': 'Not Found' }
             else:
                 status  = 200
-                content = { 'title': i.title,
-                            'author': i.author,
-                            'author_location': i.author_location(),
-                            'type': i.type,
-                            'decorated_location': i.decorated_location(),
-                            'content_location': i.content_location() }
-                for property_name in i.properties().iterkeys():
-                    if (property_name.startswith(i.type + '_')):
-                        if (i.__dict__['_' + property_name] != None):
-                            content[property_name] = i.__dict__['_'
-                                + property_name]
+                content = i.get_public_info()
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:

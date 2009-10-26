@@ -39,7 +39,6 @@ class Submit(webapp.RequestHandler):
         else:
             status  = 200
             content = { 'key_string': str(i.key()),
-                        'decorated_location': i.decorated_location(),
                         'owner_baton': i.owner_baton }
 
         self.response.set_status(status)
@@ -76,7 +75,7 @@ class Approve(webapp.RequestHandler):
                 content = { 'error': 'Not Found' }
             else:
                 status  = 200
-                content = { 'ok': 'ok' }
+                content = i.get_public_info()
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:
@@ -112,7 +111,7 @@ class Disapprove(webapp.RequestHandler):
                 content = { 'error': 'Not Found' }
             else:
                 status  = 200
-                content = { 'ok': 'ok' }
+                content = i.get_public_info()
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:

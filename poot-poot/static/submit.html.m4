@@ -41,8 +41,9 @@ function change_details () {
                eventObject.preventDefault();
                var arguments = { 'key_string': json.key_string, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
-               $.post("/approve", arguments, function () {
-                   window.location = json.decorated_location;
+               $.ajaxSetup({ dataType: 'json' });
+               $.post("/approve", arguments, function (interpretation) {
+                   window.location = interpretation.decorated_location;
                });
            });
 
@@ -50,7 +51,8 @@ function change_details () {
                eventObject.preventDefault();
                var arguments = { 'key_string': json.key_string, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
-               $.post("/disapprove", arguments, function () {
+               $.ajaxSetup({ dataType: 'json' });
+               $.post("/disapprove", arguments, function (interpretation) {
                });
                $("#pending").hide();
                $("#submit_details").show();

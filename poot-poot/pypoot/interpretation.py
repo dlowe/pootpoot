@@ -37,15 +37,25 @@ class Interpretation(db.Model):
     created_at   = db.DateTimeProperty(required=True)
     image_height = db.IntegerProperty(required=False, indexed=False)
     image_width  = db.IntegerProperty(required=False, indexed=False)
-    def decorated_location(self):
-        """compute & return relative permalink path"""
-        return "/interpretation/%s.html" % self.title_link
-    def content_location(self):
-        """compute & return relative content URI"""
-        return "/i/%s" % self.key()
-    def author_location(self):
-        """compute & return relative author list URI"""
-        return "/list_interpretations/a/%s/" % urllib.quote(self.author)
+    def get_public_info(self):
+        """compute & return API-visible data"""
+
+        ## the basics
+        info = { 'title': self.title,
+                 'author': self.author,
+                 'type': self.type,
+                 'content_location': "/i/%s" % self.key(),
+                 'author_location': "/list_interpretations/a/%s/" % urllib.quote(self.author),
+                 'decorated_location': "/interpretation/%s.html" % self.title_link }
+
+        ## and type-specific properties
+        for property_name in self.properties().iterkeys():
+            if (property_name.startswith(self.type + '_')):
+                if (self.__dict__['_' + property_name] != None):
+                    info[property_name] = self.__dict__['_' + property_name]
+
+        return info
+
 
 class BunkInterpretation(Exception):
     """the interpretation cannot be validated"""
