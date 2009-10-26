@@ -155,9 +155,12 @@ m4_include(buttons.m4)
  </div>
 
  <div id="pending" style="display: none">
+ <div class="main_content">
   Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br>
+ </div>
 m4_include(interpretation.m4)
  </div>
+
 m4_include(bottom_links.m4)
 </body>
 
