@@ -38,7 +38,7 @@ class Submit(webapp.RequestHandler):
             content = { 'error': str(sys.exc_info()[0]) }
         else:
             status  = 200
-            content = { 'key': str(i.key()),
+            content = { 'key_string': str(i.key()),
                         'decorated_location': i.decorated_location(),
                         'owner_baton': i.owner_baton }
 
@@ -59,7 +59,7 @@ class Approve(webapp.RequestHandler):
         content = None
         i       = None
         try:
-            i = interpretation.poot({ 'key_string': self.request.get('key') })
+            i = interpretation.poot({ 'key_string': self.request.get('key_string') })
             if i != None:
                 interpretation.approve(i, self.request.get('owner_baton'))
         except interpretation.BadOwnerBaton:
@@ -95,7 +95,7 @@ class Disapprove(webapp.RequestHandler):
         content = None
         i       = None
         try:
-            i = interpretation.poot({ 'key_string': self.request.get('key') })
+            i = interpretation.poot({ 'key_string': self.request.get('key_string') })
             if i != None:
                 interpretation.delete(i, self.request.get('owner_baton'))
         except interpretation.BadOwnerBaton:

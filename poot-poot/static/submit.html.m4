@@ -39,7 +39,7 @@ function change_details () {
            $("#submit_error").hide();
            $("#good").click(function (eventObject) {
                eventObject.preventDefault();
-               var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
+               var arguments = { 'key_string': json.key_string, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
                $.post("/approve", arguments, function () {
                    window.location = json.decorated_location;
@@ -48,7 +48,7 @@ function change_details () {
 
            $("#bad").click(function (eventObject) {
                eventObject.preventDefault();
-               var arguments = { 'key': json.key, 'owner_baton': json.owner_baton };
+               var arguments = { 'key_string': json.key_string, 'owner_baton': json.owner_baton };
                $.ajaxSetup({ cache: false });
                $.post("/disapprove", arguments, function () {
                });
@@ -58,7 +58,7 @@ function change_details () {
 
            $("#submit_details").hide()
            $("#pending").show()
-           poot($("#interpretation"), { 'key_string': json.key }, function () { });
+           poot($("#interpretation"), { 'key_string': json.key_string }, function () { });
        }
    });
   });

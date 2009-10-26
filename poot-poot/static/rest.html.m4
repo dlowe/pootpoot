@@ -126,8 +126,8 @@ m4_include(buttons.m4)
  On success, returns an object containing the following:
  </p>
  <dl>
-  <dt>key</dt>
-   <dd>Opaque unique identifier for this interpretation, which can be used as a filter even when the interpretation remains inactive. XXX: should be key_string.</dd>
+  <dt>key_string</dt>
+   <dd>Opaque unique identifier for this interpretation, which can be used to retrieve the interpretation even if it remains inactive.</dd>
   <dt>owner_baton</dt>
    <dd>This is a password unique to the new interpretation. You will need an owner_baton to use any of the other writing methods!</dd>
   <dt>decorated_location</dt>
