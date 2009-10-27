@@ -6,7 +6,7 @@ var poot_styles = [
   {one_in: 10, style: "font-weight:bold"},
   {one_in: 6,  style: "text-transform:uppercase"},
   {one_in: 4,  style: "text-transform:capitalize"},
-  {one_in: 11, style: "font-style:italic"},
+  {one_in: 11, style: "font-style:italic"}
 ];
 
 function _pootpoot (target) {

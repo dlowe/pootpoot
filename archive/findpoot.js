@@ -96,14 +96,14 @@ function _find_poot(target, rows, columns, level, message, interval) {
                 }
             }(row, col, t));
 
-            t.mouseout(function(r_row, r_col, r_t) {
+            t.mouseout(function(r_t) {
                 return function () {
                     r_t.css('color', 'green');
                     r_t.text('Poot');
                 }
-            }(row, col, t));
+            }(t));
 
-            t.click(function(r_row, r_col, r_t) {
+            t.click(function(r_row, r_col) {
                 return function () {
                     if ((r_row == poot_row) && (r_col == poot_col)) {
                         interval.clear();
@@ -115,7 +115,7 @@ function _find_poot(target, rows, columns, level, message, interval) {
                         _find_poot(target, rows, columns, level, "That was Boot!! Try again!", interval);
                     }
                 }
-            }(row, col, t));
+            }(row, col));
 
             _css_box(t);
             t.css('color', 'green');
@@ -137,6 +137,6 @@ var interval = {
 
 return {
     'start': function (target) { _find_poot(target, 4, 5, 1, 'Level 1', interval) },
-    'stop':  function () { interval.clear() },
+    'stop':  function () { interval.clear() }
 };
 }
