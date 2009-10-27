@@ -38,7 +38,7 @@ m4_include(buttons.m4)
  If you're so inclined, you can access pootpoot data via the REST API.
  </p>
  <h2>The Basics</h2>
- <p>Since nobody is using it and I'm moving pretty fast, this API is a moving target with no backwards compatibility guarantees.</p>
+ <p>Since nobody is using it and I'm working pretty fast, this API is a moving target with no backwards compatibility guarantees.</p>
  <p>The API is HTTP-based; you interact through HTTP GET (for querying) and POST (for modifying) requests.</p>
  <p>The API currently uses only JSON for serializing responses.</p>
  <p>Errors from any method are indicated both by a non-200 HTTP Response Code, and by the presence of an 'error' value in the returned JSON data. Either is sufficient to know that an error occurred.</p>

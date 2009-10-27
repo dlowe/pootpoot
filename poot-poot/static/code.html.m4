@@ -34,6 +34,8 @@ m4_include(buttons.m4)
  </p>
 
  <dl>
+  <dt><a href="http://web.archive.org/">The Wayback Machine</a></dt>
+   <dd>recovering scads of 10-year-old content</dd>
   <dt><a href="http://code.google.com/appengine/">Google App Engine</a></dt>
    <dd>hosting, data storage, image manipulation</dd>
   <dt><a href="http://python.org/">Python</a></dt>
