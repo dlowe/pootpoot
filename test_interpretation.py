@@ -137,28 +137,28 @@ class TestInterpretation(InterpretationTestCase):
         ## none
         self.assertEquals(interpretation.poot({'key_string':None}), None)
         self.assertEquals(interpretation.count({'key_string':None}), 0)
-        self.assertEquals(interpretation.list({'key_string':None}), [])
+        self.assertEquals(interpretation.list({'key_string':None}, 20), [])
 
         ## does not look like a real key
         self.assertEquals(interpretation.poot({'key_string':'asdf'}), None)
         self.assertEquals(interpretation.count({'key_string':'asdf'}), 0)
-        self.assertEquals(interpretation.list({'key_string':'asdf'}), [])
+        self.assertEquals(interpretation.list({'key_string':'asdf'}, 20), [])
 
         ## looks like a real key, but refers to no element
         self.assertEquals(interpretation.poot({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), None)
         self.assertEquals(interpretation.count({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), 0)
-        self.assertEquals(interpretation.list({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}), [])
+        self.assertEquals(interpretation.list({'key_string':'aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAIM'}, 20), [])
 
     def test_bad_title_link(self):
         ## none
         self.assertEquals(interpretation.poot({'title_link':None}), None)
         self.assertEquals(interpretation.count({'title_link':None}), 0)
-        self.assertEquals(interpretation.list({'title_link':None}), [])
+        self.assertEquals(interpretation.list({'title_link':None}, 20), [])
 
         ## refers to no element
         self.assertEquals(interpretation.poot({'title_link':'foo-bar-baz'}), None)
         self.assertEquals(interpretation.count({'title_link':'foo-bar-baz'}), 0)
-        self.assertEquals(interpretation.list({'title_link':'foo-bar-baz'}), [])
+        self.assertEquals(interpretation.list({'title_link':'foo-bar-baz'}, 20), [])
 
     def test_submit_disapprove(self):
         ## submitting an interpretation should create an inactive one
@@ -202,7 +202,7 @@ class TestInterpretation(InterpretationTestCase):
 
         ## fetching it is possible if specific key is provided
         self.assertEquals(interpretation.count({'key_string': str(i.key())}), 1)
-        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0]]:
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())}, 20)[0]]:
             ## and the fetched interpretation should be identical
             self.assertEquals(i.title_link, j.title_link)
             self.assertEquals(i.title, j.title)
@@ -214,26 +214,26 @@ class TestInterpretation(InterpretationTestCase):
 
         ## even with a title_link (unique) fetch, can't see it yet:
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 0)
-        self.assertEquals(interpretation.list({'title_link': i.title_link}), [])
-        self.assertEquals(interpretation.list_pages({'title_link': i.title_link}), [])
+        self.assertEquals(interpretation.list({'title_link': i.title_link}, 20), [])
+        self.assertEquals(interpretation.list_pages({'title_link': i.title_link}, 20), [])
         self.assertEquals(interpretation.poot({'title_link': i.title_link}), None)
 
         ## with an author fetch, can't see it yet:
         self.assertEquals(interpretation.count({'author': i.author}), 0)
-        self.assertEquals(interpretation.list({'author': i.author}), [])
-        self.assertEquals(interpretation.list_pages({'author': i.author}), [])
+        self.assertEquals(interpretation.list({'author': i.author}, 20), [])
+        self.assertEquals(interpretation.list_pages({'author': i.author}, 20), [])
         self.assertEquals(interpretation.poot({'author': i.author}), None)
 
         ## with a type fetch, can't see it yet:
         self.assertEquals(interpretation.count({'type': i.type}), 0)
-        self.assertEquals(interpretation.list({'type': i.type}), [])
-        self.assertEquals(interpretation.list_pages({'type': i.type}), [])
+        self.assertEquals(interpretation.list({'type': i.type}, 20), [])
+        self.assertEquals(interpretation.list_pages({'type': i.type}, 20), [])
         self.assertEquals(interpretation.poot({'type': i.type}), None)
 
         ## but fetching without a key should return nothing
         self.assertEquals(interpretation.count({}), 0)
-        self.assertEquals(interpretation.list({}), [])
-        self.assertEquals(interpretation.list_pages({}), [])
+        self.assertEquals(interpretation.list({}, 20), [])
+        self.assertEquals(interpretation.list_pages({}, 20), [])
         self.assertEquals(interpretation.poot({}), None)
 
         ## attempting to approve with no owner_baton or bunk owner_baton should fail
@@ -245,16 +245,16 @@ class TestInterpretation(InterpretationTestCase):
         self.assertTrue(i.is_active)
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 1)
         self.assertEquals(interpretation.count({'author': i.author}), 1)
-        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0], interpretation.poot({'author': i.author}), interpretation.list({'author': i.author})[0], interpretation.poot({'type': i.type}), interpretation.list({'type': i.type})[0]]:
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())}, 20)[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link}, 20)[0], interpretation.poot({'author': i.author}), interpretation.list({'author': i.author}, 20)[0], interpretation.poot({'type': i.type}), interpretation.list({'type': i.type}, 20)[0]]:
             self.assertEquals(i.is_active, j.is_active)
 
         ## now fetching without a key should bring it up
         self.assertEquals(interpretation.count({}), 1)
         k = interpretation.poot({})
         self.assertEquals(str(i.key()), str(k.key()))
-        l = interpretation.list({})
+        l = interpretation.list({}, 20)
         self.assertEquals(str(i.key()), str(l[0].key()))
-        lp = interpretation.list_pages({})
+        lp = interpretation.list_pages({}, 20)
         self.assertEquals(lp[0]['page_number'], 1)
         self.assertEquals(lp[0]['offset_key_string'], str(i.key()))
 

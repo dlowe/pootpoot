@@ -21,12 +21,15 @@ m4_include(common_header.m4)
  </style>
 
  <script type="text/javascript">
+var INTERPRETATIONS_PER_PAGE = 16;
+
 function list (target, filters) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {
         colorize(target);
         target.find("#list_error").show();
     }});
+    filters['items'] = INTERPRETATIONS_PER_PAGE;
     $.getJSON("/list", filters, function (interpretation_list) {
         target.html(target.find("#listed_interpretation_template"));
         colorize(target);
@@ -44,6 +47,7 @@ function pages (target, filters) {
     $.ajaxSetup({ cache: false });
     $.ajaxSetup({ error: function () {}});
     $.ajaxSetup({ async: false });
+    filters['items'] = INTERPRETATIONS_PER_PAGE;
     $.getJSON("/list_pages", filters, function (page_list) {
         if (page_list.length > 1) {
             colorize(target);

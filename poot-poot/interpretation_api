@@ -18,10 +18,14 @@ def _get_filter_arguments(request):
     filters = {}
 
     for name in interpretation.FILTERS:
-        if (request.get(name)):
+        if request.get(name):
             filters[name] = request.get(name)
 
     return filters
+
+class MalformedRequest(Exception):
+    """missing a require parameter, etc"""
+    pass
 
 class APIRequestHandler(webapp.RequestHandler):
     """class implementing general logic for API methods"""
@@ -34,16 +38,19 @@ class APIRequestHandler(webapp.RequestHandler):
         content = None
         try:
             data = self._data()
+        except MalformedRequest:
+            status  = 403
+            content = { 'error': 'malformed request' }
         except interpretation.BunkInterpretation, error:
             status  = 400
             content = { 'error': str(error) }
         except interpretation.BadOwnerBaton:
             status  = 403
             content = { 'error': 'Bad owner baton given' }
-        except:
-            logging.error("Unhandled (generic) exception: " + str(sys.exc_info()[0]))
-            status  = 500
-            content = { 'error': str(sys.exc_info()[0]) }
+        # except:
+            # logging.error("Unhandled (generic) exception: " + str(sys.exc_info()[0]))
+            # status  = 500
+            # content = { 'error': str(sys.exc_info()[0]) }
         else:
             (status, content) = self._logic(data)
 
@@ -63,7 +70,9 @@ class List(APIRequestHandler):
 
     def _data(self):
         """fetch list of matching interpretations"""
-        return interpretation.list(_get_filter_arguments(self.request))
+        if not self.request.get('items'):
+            raise MalformedRequest()
+        return interpretation.list(_get_filter_arguments(self.request), int(self.request.get('items')))
 
     def _logic(self, interpretation_list):
         """convert empty set to 404, package the rest"""
@@ -86,7 +95,9 @@ class ListPages(APIRequestHandler):
 
     def _data(self):
         """fetch list of pages of matching interpretations"""
-        return interpretation.list_pages(_get_filter_arguments(self.request))
+        if not self.request.get('items'):
+            raise MalformedRequest()
+        return interpretation.list_pages(_get_filter_arguments(self.request), int(self.request.get('items')))
 
     def _logic(self, page_list):
         """convert empty set to 404, package the rest"""

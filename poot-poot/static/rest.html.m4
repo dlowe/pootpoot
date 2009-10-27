@@ -11,6 +11,11 @@ m4_include(common_header.m4)
 .method_header {
   font-family: monospace;
 }
+
+.doc_block {
+  position: relative;
+  left: 20px;
+}
  </style>
  <script type="text/javascript">
   $(function () {
@@ -32,7 +37,7 @@ m4_include(buttons.m4)
  <p>
  If you're so inclined, you can access pootpoot data via the REST API.
  </p>
- <h2>Basics</h2>
+ <h2>The Basics</h2>
  <p>Since nobody is using it and I'm moving pretty fast, this API is a moving target with no backwards compatibility guarantees.</p>
  <p>The API is HTTP-based; you interact through HTTP GET (for querying) and POST (for modifying) requests.</p>
  <p>The API currently uses only JSON for serializing responses.</p>
@@ -40,6 +45,7 @@ m4_include(buttons.m4)
 
  <h2>Interpretations</h2>
  <h3><a name="interpretation_object">Interpretation Objects</a></h3>
+ <div class="doc_block">
  <p>Many of the interpretation API methods below return serialized interpretation data, which are objects consisting of:</p>
  <dl>
   <dt>title</dt>
@@ -61,7 +67,10 @@ m4_include(buttons.m4)
   <dt>javascript_hook (iff type='javascript')</dt>
    <dd>hook function to call to get the plugin object</dd>
  </dl>
+ </div>
+
  <h3><a name="filter_parameters">Filter Parameters</a></h3>
+ <div class="doc_block">
  <p>
  Many of the interpretation API methods below accept a common set of parameters for filtering the interpretations
  under consideration. These parameters are:
@@ -78,33 +87,53 @@ m4_include(buttons.m4)
   <dt>offset_key_string</dt>
    <dd>A starting opaque key. Only interpretations whose key is &gt;= this value are considered. This is intended for use in pagination (see /list_pages and /list methods).</dd>
  </dl>
+ </div>
 
  <h3 class="method_header"><a name="method_poot">/poot [GET]</a></h3>
+ <div class="doc_block">
  <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns <em>exactly one</em> <a href="#interpretation_object">interpretation object</a>, selected at random from the full set of matching interpretations.</p>
+ </div>
 
  <h3 class="method_header"><a name="method_count">/count [GET]</a></h3>
+ <div class="doc_block">
  <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a simple object containing the following:</p>
   <dl>
    <dt>count</dt>
     <dd>Number of interpretations matched by the specified filters.</dd>
   </dl>
+ </div>
 
  <h3 class="method_header"><a name="method_list_pages">/list_pages [GET]</a></h3>
- <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a list of one or more objects, each of which contains the following:</p>
+ <div class="doc_block">
+ <p>Given a set of <a href="#filter_parameters">filter parameters</a> and, in addition:</p>
+  <dl>
+   <dt>items</dt>
+    <dd>The number of interpretations per page.</dd>
+  </dl> 
+ <p>This returns a list of one or more objects, each of which contains the following:</p>
   <dl>
    <dt>page_number</dt>
     <dd>Page number, starting from 1.</dd>
    <dt>offset_key_string</dt>
     <dd>Offset to pass as in the <a href="#filter_parameters">filter parameters</a> to the <a href="#method_list">/list method</a> to obtain the interpretations for the specified page.</dd>
   </dl>
+ </div>
 
  <h3 class="method_header"><a name="method_list">/list [GET]</a></h3>
- <p>Given a set of <a href="#filter_parameters">filter parameters</a>, this returns a list of 1 to 20 <a href="#interpretation_object">interpretation objects</a>.</p>
+ <div class="doc_block">
+ <p>Given a set of <a href="#filter_parameters">filter parameters</a> and, in addition:</p>
+  <dl>
+   <dt>items</dt>
+    <dd>The number of interpretations per page.</dd>
+  </dl>
+ <p>This returns a list of 1 to 'items' <a href="#interpretation_object">interpretation objects</a>.</p>
  <p>
- See the <a href="#method_list_pages">/list_pages method</a> above; these two methods need to be used together if you're trying to browse interpretations. Basically, you want to call /list_pages with the desired filters. For each returned page, call /list with the page's offset_key_string (returned by /list_pages), as a filter in addition to the originals.
+ See the <a href="#method_list_pages">/list_pages method</a> above; these two methods need to be used together if you're trying to iterate over interpretations. Basically, you want to call /list_pages with the desired filters and 'items'. For each returned page, call /list with the page's offset_key_string (returned by /list_pages), as a filter in addition to the original arguments given to /list_pages.
  </p>
+ </div>
 
  <h3 class="method_header"><a name="method_submit">/submit [POST]</a></h3>
+ <div class="doc_block">
  <p>Create a new (inactive) interpretation. Requires the following input parameters:</p>
  <dl>
   <dt>title</dt>
@@ -123,8 +152,10 @@ m4_include(buttons.m4)
   <dt>owner_baton</dt>
    <dd>This is a password unique to the new interpretation. You will need an owner_baton to use any of the other writing methods!</dd>
  </dl>
+ </div>
 
  <h3 class="method_header"><a name="method_approve">/approve [POST]</a></h3>
+ <div class="doc_block">
  <p>Make a submitted interpretation active. Requires the following arguments:</p>
  <dl>
   <dt>key_string</dt>
@@ -133,8 +164,10 @@ m4_include(buttons.m4)
    <dd>You saved it after calling the <a href="#method_submit">/submit method</a>, right?</dd>
  </dl>
  <p>On success, returns the approved <a href="#interpretation_object">interpretation object</a>.</p>
+ </div>
  
  <h3 class="method_header"><a name="method_disapprove">/disapprove [POST]</a></h3>
+ <div class="doc_block">
  <p>Permanently delete a submitted interpretation. Requires the following arguments:</p>
  <dl>
   <dt>key_string</dt>
@@ -143,6 +176,7 @@ m4_include(buttons.m4)
    <dd>You saved it after calling the <a href="#method_submit">/submit method</a>, right?</dd>
  </dl>
  <p>On success, returns the deleted <a href="#interpretation_object">interpretation object</a>.</p>
+ </div>
  
  </div>
 m4_include(bottom_links.m4)

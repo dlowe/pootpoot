@@ -132,8 +132,7 @@ def count(filters):
 
     return query.count()
 
-INTERPRETATIONS_PER_PAGE = 20
-def list(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
+def list(filters, interpretations_per_page):
     """list interpretations"""
 
     try:
@@ -143,7 +142,7 @@ def list(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
 
     return query.fetch(interpretations_per_page)
 
-def list_pages(filters, interpretations_per_page=INTERPRETATIONS_PER_PAGE):
+def list_pages(filters, interpretations_per_page):
     """get list of pages"""
 
     try:
