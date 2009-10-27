@@ -15,19 +15,6 @@ html {
   left: 130px;
 }
 
-#submit_details_header {
-  border-style: none none solid none
-}
-
-#submit_error {
-  font-size: 1.5em;
-  color: red;
-}
-
-.submit_info {
-  font-size: small;
-}
-
 #content_error {
   text-align: center;
   margin: 0px auto;

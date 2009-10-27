@@ -3,6 +3,21 @@
 <head>
  <title>submit to poot poot</title>
 m4_include(common_header.m4)
+ <style type="text/css">
+#submit_details_header {
+  border-style: none none solid none
+}
+
+#submit_error {
+  font-size: 1.1em;
+  color: red;
+}
+
+.submit_info {
+  font-size: small;
+}
+ </style>
+
  <script type="text/javascript">
 
 function change_details () {
