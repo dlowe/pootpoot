@@ -22,3 +22,5 @@ rm test_permalink.pyc
 
 /opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_json.py
 rm test_json.pyc
+
+rm poot-poot/pypoot/*.pyc
