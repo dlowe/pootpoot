@@ -12,12 +12,21 @@ m4_include(common_header.m4)
 .page_link {
   padding: 5px;
 }
+
+#list_error {
+  text-align: center;
+  margin: 0px auto;
+  font-size: 4em;
+}
  </style>
 
  <script type="text/javascript">
 function list (target, filters) {
     $.ajaxSetup({ cache: false });
-    $.ajaxSetup({ error: function () {}});
+    $.ajaxSetup({ error: function () {
+        colorize(target);
+        target.find("#list_error").show();
+    }});
     $.getJSON("/list", filters, function (interpretation_list) {
         target.html(target.find("#listed_interpretation_template"));
         colorize(target);
@@ -75,6 +84,8 @@ function pages (target, filters) {
 
 <body>
 m4_include(buttons.m4)
+ <div id="content_error" class="main_content" style="display:none">
+ </div>
  <div id="list_pages" class="main_content" style="display:none">
   Pages: 
   <span class="page_link" id="page_link_template" style="display:none">
@@ -83,6 +94,7 @@ m4_include(buttons.m4)
   </span>
  </div>
  <div id="list_interpretations" class="main_content">
+  <div id="list_error" style="display:none">?</div>
   <div class="listed_interpretation" id="listed_interpretation_template" style="display:none">
    <a id="title_a"><span id="interpretation_title"></span></a>
    by <a id="author_a"><span id="interpretation_author"></span></a>
