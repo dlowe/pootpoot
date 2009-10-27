@@ -73,6 +73,8 @@ m4_include(buttons.m4)
    <dd>Human-consumable unique identifier for a single interpretation. This is the preferred method for fetching a specific interpretation and/or building permalinks.</dd>
   <dt>author</dt>
    <dd>The interpretation's author. Only interpretations matching this exact (case-sensitive) string are considered.</dd>
+  <dt>type</dt>
+   <dd>The interpretation type.</dd>
   <dt>offset_key_string</dt>
    <dd>A starting opaque key. Only interpretations whose key is &gt;= this value are considered. This is intended for use in pagination (see /list_pages and /list methods).</dd>
  </dl>

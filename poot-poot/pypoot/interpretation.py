@@ -24,6 +24,8 @@ T_HTML       = 'html'
 T_JAVASCRIPT = 'javascript'
 T_ALL        = set([ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ])
 
+FILTERS      = set(['key_string', 'author', 'title_link', 'type', 'offset_key_string'])
+
 class Interpretation(db.Model):
     """interpretation model"""
     is_active       = db.BooleanProperty(required=True)
@@ -97,6 +99,8 @@ def _apply_filters(query, filters):
         query = query.filter('title_link', filters['title_link'])
     if 'author' in filters:
         query = query.filter('author', filters['author'])
+    if 'type' in filters:
+        query = query.filter('type', filters['type'])
     if 'offset_key_string' in filters:
         query = query.filter('__key__ >=', db.Key(filters['offset_key_string']))
 

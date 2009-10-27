@@ -224,6 +224,12 @@ class TestInterpretation(InterpretationTestCase):
         self.assertEquals(interpretation.list_pages({'author': i.author}), [])
         self.assertEquals(interpretation.poot({'author': i.author}), None)
 
+        ## with a type fetch, can't see it yet:
+        self.assertEquals(interpretation.count({'type': i.type}), 0)
+        self.assertEquals(interpretation.list({'type': i.type}), [])
+        self.assertEquals(interpretation.list_pages({'type': i.type}), [])
+        self.assertEquals(interpretation.poot({'type': i.type}), None)
+
         ## but fetching without a key should return nothing
         self.assertEquals(interpretation.count({}), 0)
         self.assertEquals(interpretation.list({}), [])
@@ -239,7 +245,7 @@ class TestInterpretation(InterpretationTestCase):
         self.assertTrue(i.is_active)
         self.assertEquals(interpretation.count({'title_link': i.title_link}), 1)
         self.assertEquals(interpretation.count({'author': i.author}), 1)
-        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0], interpretation.poot({'author': i.author}), interpretation.list({'author': i.author})[0]]:
+        for j in [interpretation.poot({'key_string': str(i.key())}), interpretation.list({'key_string': str(i.key())})[0], interpretation.poot({'title_link': i.title_link}), interpretation.list({'title_link': i.title_link})[0], interpretation.poot({'author': i.author}), interpretation.list({'author': i.author})[0], interpretation.poot({'type': i.type}), interpretation.list({'type': i.type})[0]]:
             self.assertEquals(i.is_active, j.is_active)
 
         ## now fetching without a key should bring it up

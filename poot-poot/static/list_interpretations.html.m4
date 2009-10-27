@@ -25,11 +25,7 @@ function list (target, filters) {
         for (var i in shuffled_list) {
             var template = target.find("#listed_interpretation_template").clone();
             template.attr('id', "listed_interpretation_" + i);
-            template.find("#title_a").attr('href', shuffled_list[i].decorated_location);
-            template.find("#interpretation_title").text(shuffled_list[i].title);
-            template.find("#interpretation_author").text(shuffled_list[i].author);
-            template.find("#author_a").attr('href', shuffled_list[i].author_location);
-            template.show();
+            expand_interpretation(template, shuffled_list[i]);
             target.append(template);
         }
     });

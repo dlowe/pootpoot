@@ -17,7 +17,7 @@ function shuffle (v) {
 }
 
 function path_to_filters (path) {
-    var re      = new RegExp('/(?:a/([^/]+)/)?(?:ok/([^/]+)/)?(?:([^/]+).html)?$');
+    var re      = new RegExp('/(?:a/([^/]+)/)?(?:t/([^/]+)/)?(?:ok/([^/]+)/)?(?:([^/]+).html)?$');
     var filters = {};
     if (re.test(path)) {
         var matches = re.exec(path);
@@ -25,10 +25,13 @@ function path_to_filters (path) {
             filters['author'] = matches[1];
         }
         if (matches[2] != null) {
-            filters['offset_key_string'] = matches[2];
+            filters['type'] = matches[2];
         }
         if (matches[3] != null) {
-            filters['title_link'] = matches[3];
+            filters['offset_key_string'] = matches[3];
+        }
+        if (matches[4] != null) {
+            filters['title_link'] = matches[4];
         }
     }
     return filters;
@@ -51,11 +54,12 @@ function shuffle_children (target) {
 
 // everything else in here is the code for displaying interpretations, tightly tied
 // with interpretation.m4...
-function poot_title (target, interpretation) {
+function expand_interpretation (target, interpretation) {
     target.find("#title_a").attr('href', interpretation.decorated_location);
     target.find("#interpretation_title").text(interpretation.title);
     target.find("#interpretation_author").text(interpretation.author);
     target.find("#author_a").attr('href', interpretation.author_location);
+    target.find("#content_a").attr('href', interpretation.content_location);
     target.show();
 }
 
@@ -96,7 +100,7 @@ function poot (target, filters, ready) {
             $.getScript(interpretation.content_location, function () {
                 target.unbind('click');
                 colorize(target);
-                poot_title(target.find("#title"), interpretation);
+                expand_interpretation(target.find("#title"), interpretation);
                 var p = global_this[interpretation.javascript_hook]();
                 content.find("#content_javascript").empty();
                 show_content(content, interpretation.type);
@@ -110,7 +114,7 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 target.unbind('click');
                 colorize(target);
-                poot_title(target.find("#title"), interpretation);
+                expand_interpretation(target.find("#title"), interpretation);
                 content.find("#content_text").text(data);
                 show_content(content, interpretation.type);
                 target.click(function () { colorize(target) });
@@ -122,7 +126,7 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 target.unbind('click');
                 colorize(target);
-                poot_title(target.find("#title"), interpretation);
+                expand_interpretation(target.find("#title"), interpretation);
                 content.find("#content_html").html(data);
                 show_content(content, interpretation.type);
                 target.click(function () { colorize(target) });
@@ -131,7 +135,7 @@ function poot (target, filters, ready) {
         } else if (interpretation.type == T_IMAGE) {
             target.unbind('click');
             colorize(target);
-            poot_title(target.find("#title"), interpretation);
+            expand_interpretation(target.find("#title"), interpretation);
             var img = content.find("#content_image").find("img");
             // to avoid UI warping the old image to new dimensions while the new image loads
             img.attr({

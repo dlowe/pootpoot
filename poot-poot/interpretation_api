@@ -17,17 +17,9 @@ def _get_filter_arguments(request):
     """turn interpretation filter arguments into a dictionary"""
     filters = {}
 
-    if (request.get('key_string')):
-        filters['key_string'] = request.get('key_string')
-
-    if (request.get('title_link')):
-        filters['title_link'] = request.get('title_link')
-
-    if (request.get('author')):
-        filters['author'] = request.get('author')
-
-    if (request.get('offset_key_string')):
-        filters['offset_key_string'] = request.get('offset_key_string')
+    for name in interpretation.FILTERS:
+        if (request.get(name)):
+            filters[name] = request.get(name)
 
     return filters
 

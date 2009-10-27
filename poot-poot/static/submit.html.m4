@@ -26,6 +26,15 @@ function change_details () {
    shuffle_children($("#buttons"));
    shuffle_children($("#bottom_links"));
 
+   for (var i in T_ALL) {
+       var discard = function(type) {
+           $.getJSON("/poot", {'type':type}, function (interpretation) {
+               var target = $("#" + type + "_example");
+               expand_interpretation(target, interpretation);
+           });
+       }(T_ALL[i]);
+   }
+
    $("#submit_form").ajaxForm({
        "iframe": true,
        "dataType": 'json',
@@ -104,8 +113,8 @@ m4_include(buttons.m4)
    Image interpretations are displayed unchanged, centered in the page.
    </p>
 
-   <p>
-   Example: <a href="/interpretation/poot-pie.html">Poot Pie</a>
+   <p id="image_example" style="display: none">
+   Example: <a id="title_a"><span id="interpretation_title"></span></a>
    </p>
   </div>
 
@@ -118,8 +127,8 @@ m4_include(buttons.m4)
    Text interpretations are displayed in fixed-width font, and the whitespace and newlines of the input file are retained.
    </p>
 
-   <p>
-   Example: <a href="/interpretation/poot-c.html">poot.c</a>
+   <p id="text_example" style="display: none">
+   Example: <a id="title_a"><span id="interpretation_title"></span></a>
    </p>
   </div>
 
@@ -132,8 +141,8 @@ m4_include(buttons.m4)
    HTML interpretations are just mashed into the page. Exciting!
    </p>
 
-   <p>
-   Example: <a href="/interpretation/what.html">What?</a>
+   <p id="html_example" style="display: none">
+   Example: <a id="title_a"><span id="interpretation_title"></span></a>
    </p>
   </div>
 
@@ -146,8 +155,8 @@ m4_include(buttons.m4)
    Javascript interpretations must consist of a single function which takes no arguments and returns an object with two methods: start() and stop(). The start() method will be called with a single jQuery object argument, which refers to the area on the page your script can manipulate at will. The stop() method will be called with no arguments when the code should stop and clean up.
    </p>
 
-   <p>
-   Example: <a href="/interpretation/original-poot.html">The Original Poot</a> (and the <a href="/i/aglwb290LXBvb3RyFAsSDkludGVycHJldGF0aW9uGAUM">plugin code</a>)
+   <p id="javascript_example" style="display: none">
+   Example: <a id="title_a"><span id="interpretation_title"></span></a> (and the <a id="content_a">plugin code</a>)
    </p>
   </div>
  </td>
