@@ -72,9 +72,7 @@ class BadOwnerBaton(Exception):
 
 def _new_owner_baton():
     """generate a new random owner_baton string"""
-    owner_baton = ""
-    for i in range(15):
-        owner_baton += random.choice('abcdefghijklmnopqrstuvwxyx')
+    owner_baton = str([random.choice('abcdefghijklmnopqrstuvwxyx') for _ in range(15)])
     return owner_baton
 
 def _make_title_link(title):
@@ -120,7 +118,7 @@ def poot(filters):
     if (len(keys)) == 0:
         return None
 
-    return Interpretation.get(random.choice(keys))
+    return Interpretation.get([random.choice(keys)])[0]
 
 def count(filters):
     """count interpretations"""
@@ -132,7 +130,7 @@ def count(filters):
 
     return query.count()
 
-def list(filters, interpretations_per_page):
+def list_interpretations(filters, interpretations_per_page):
     """list interpretations"""
 
     try:
@@ -227,7 +225,7 @@ def _process_html(bytes):
 
     _assert_printable(bytes)
 
-    bytes = feedparser._sanitizeHTML(bytes, 'utf-8')
+    bytes = feedparser.sanitizeHTML(bytes, 'utf-8')
 
     logging.warn(bytes)
 

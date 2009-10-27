@@ -4,8 +4,6 @@
 ## standard
 import time
 import re
-import logging
-import sys
 
 ## app engine
 from google.appengine.ext import webapp
@@ -26,32 +24,25 @@ class InterpretationContent(webapp.RequestHandler):
         content      = None
         content_type = None
         i            = None
-        try:
-            match = re.search('/([^/]+)$', self.request.path)
-            if match:
-                key_string = match.group(1)
-                i = interpretation.poot({ 'key_string': key_string })
-        except:
-            logging.error("Unhandled (generic) exception: ",
-                str(sys.exc_info()[0]))
-            status       = 500
+
+        match = re.search('/([^/]+)$', self.request.path)
+        if match:
+            key_string = match.group(1)
+            i = interpretation.poot({ 'key_string': key_string })
+        if i == None:
+            status = 404
             content_type = 'text/plain'
-            content      = "{\"error\":\"%s\"}" % str(sys.exc_info()[0])
+            content      = "{\"error\":\"Not Found\"}"
         else:
-            if i == None:
-                status = 404
-                content_type = 'text/plain'
-                content      = "{\"error\":\"Not Found\"}"
-            else:
-                if 'Cache-Control' in self.response.headers:
-                    del self.response.headers['Cache-Control']
-                self.response.headers.add_header('Cache-Control', 'public')
-                self.response.headers.add_header('Expires',
-                    time.strftime('%a, %d %b %Y %H:%M:%S GMT',
-                                  time.localtime(time.time() + EXPIRE)))
-                status       = 200
-                content_type = i.content_type
-                content      = i.content
+            if 'Cache-Control' in self.response.headers:
+                del self.response.headers['Cache-Control']
+            self.response.headers.add_header('Cache-Control', 'public')
+            self.response.headers.add_header('Expires',
+                time.strftime('%a, %d %b %Y %H:%M:%S GMT',
+                              time.localtime(time.time() + EXPIRE)))
+            status       = 200
+            content_type = i.content_type
+            content      = i.content
 
         self.response.set_status(status)
         if 'Content-Type' in self.response.headers:

@@ -643,7 +643,7 @@ class _FeedParserMixin:
         # sanitize embedded markup
         if self.mapContentType(self.contentparams.get('type', 'text/html')) in self.html_types:
             if element in self.can_contain_dangerous_markup:
-                output = _sanitizeHTML(output, self.encoding)
+                output = sanitizeHTML(output, self.encoding)
 
         if self.encoding and type(output) != type(u''):
             try:
@@ -1647,7 +1647,7 @@ class _HTMLSanitizer(_BaseHTMLProcessor):
         if not self.unacceptablestack:
             _BaseHTMLProcessor.handle_data(self, text)
 
-def _sanitizeHTML(htmlSource, encoding):
+def sanitizeHTML(htmlSource, encoding):
     p = _HTMLSanitizer(encoding)
     p.feed(htmlSource)
     data = p.output()

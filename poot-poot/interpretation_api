@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 """fetch metadata describing a single random interpretation"""
 
-## system
-import sys
-import logging
-
 ## app engine
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -30,6 +26,14 @@ class MalformedRequest(Exception):
 class APIRequestHandler(webapp.RequestHandler):
     """class implementing general logic for API methods"""
 
+    def _data(self):
+        """implement in sublcass!"""
+        pass
+
+    def _logic(self, data):
+        """implement in subclass!"""
+        pass
+
     def api_worker(self):
         """generic flow for API methods..."""
 
@@ -47,10 +51,6 @@ class APIRequestHandler(webapp.RequestHandler):
         except interpretation.BadOwnerBaton:
             status  = 403
             content = { 'error': 'Bad owner baton given' }
-        # except:
-            # logging.error("Unhandled (generic) exception: " + str(sys.exc_info()[0]))
-            # status  = 500
-            # content = { 'error': str(sys.exc_info()[0]) }
         else:
             (status, content) = self._logic(data)
 
@@ -72,7 +72,8 @@ class List(APIRequestHandler):
         """fetch list of matching interpretations"""
         if not self.request.get('items'):
             raise MalformedRequest()
-        return interpretation.list(_get_filter_arguments(self.request), int(self.request.get('items')))
+        return interpretation.list_interpretations(_get_filter_arguments(self.request),
+            int(self.request.get('items')))
 
     def _logic(self, interpretation_list):
         """convert empty set to 404, package the rest"""
@@ -97,7 +98,8 @@ class ListPages(APIRequestHandler):
         """fetch list of pages of matching interpretations"""
         if not self.request.get('items'):
             raise MalformedRequest()
-        return interpretation.list_pages(_get_filter_arguments(self.request), int(self.request.get('items')))
+        return interpretation.list_pages(_get_filter_arguments(self.request),
+            int(self.request.get('items')))
 
     def _logic(self, page_list):
         """convert empty set to 404, package the rest"""
