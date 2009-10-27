@@ -5,7 +5,7 @@ jsure -quiet -check poot-poot/static/pootpoot.js
 export PYTHONPATH="./poot-poot/:/Users/dlowe/google_appengine/:$PYTHONPATH"
 PYLINT='/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint -r n'
 $PYLINT poot-poot/i
-$PYLINT poot-poot/poot
+$PYLINT poot-poot/interpretation_api
 $PYLINT poot-poot/pypoot/interpretation.py
 $PYLINT poot-poot/pypoot/json.py
 $PYLINT poot-poot/pypoot/permalink.py
