@@ -9,10 +9,10 @@ handlers:
   login: admin
 
 - url: /(poot|list|list_pages|count|submit|approve|disapprove)
-  script: interpretation_api
+  script: api/interpretation.py
 
 - url: /i/([^/]+)
-  script: i
+  script: api/i.py
 
 - url: /
   static_files: static/interpretation.html

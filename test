@@ -8,8 +8,8 @@ jsure -quiet -check archive/wpoot.js
 
 export PYTHONPATH="./poot-poot/:/Users/dlowe/google_appengine/:$PYTHONPATH"
 PYLINT='/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
-$PYLINT poot-poot/i
-$PYLINT poot-poot/interpretation_api
+$PYLINT poot-poot/api/i.py
+$PYLINT poot-poot/api/interpretation.py
 $PYLINT poot-poot/pypoot/interpretation.py
 $PYLINT poot-poot/pypoot/json.py
 $PYLINT poot-poot/pypoot/permalink.py
