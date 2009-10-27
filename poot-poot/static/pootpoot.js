@@ -75,6 +75,7 @@ function show_content(content, show_type) {
     return;
 }
 
+var global_this = (function(){return this;})();
 function poot (target, filters, ready) {
     var content = target.find("#content");
 
@@ -96,7 +97,7 @@ function poot (target, filters, ready) {
                 target.unbind('click');
                 colorize(target);
                 poot_title(target.find("#title"), interpretation);
-                var p = pootpoot();
+                var p = global_this[interpretation.javascript_hook]();
                 content.find("#content_javascript").empty();
                 show_content(content, interpretation.type);
                 p.start(content.find("#content_javascript"));

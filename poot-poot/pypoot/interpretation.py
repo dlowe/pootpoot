@@ -26,17 +26,18 @@ T_ALL        = set([ T_IMAGE, T_TEXT, T_HTML, T_JAVASCRIPT ])
 
 class Interpretation(db.Model):
     """interpretation model"""
-    is_active    = db.BooleanProperty(required=True)
-    type         = db.StringProperty(required=True, choices=T_ALL)
-    content_type = db.StringProperty(required=True, indexed=False)
-    content      = db.BlobProperty(required=True)
-    title        = db.StringProperty(required=True)
-    title_link   = db.StringProperty(required=True)
-    owner_baton  = db.StringProperty(required=True, indexed=False)
-    author       = db.StringProperty(required=True)
-    created_at   = db.DateTimeProperty(required=True)
-    image_height = db.IntegerProperty(required=False, indexed=False)
-    image_width  = db.IntegerProperty(required=False, indexed=False)
+    is_active       = db.BooleanProperty(required=True)
+    type            = db.StringProperty(required=True, choices=T_ALL)
+    content_type    = db.StringProperty(required=True, indexed=False)
+    content         = db.BlobProperty(required=True)
+    title           = db.StringProperty(required=True)
+    title_link      = db.StringProperty(required=True)
+    owner_baton     = db.StringProperty(required=True, indexed=False)
+    author          = db.StringProperty(required=True)
+    created_at      = db.DateTimeProperty(required=True)
+    image_height    = db.IntegerProperty(required=False, indexed=False)
+    image_width     = db.IntegerProperty(required=False, indexed=False)
+    javascript_hook = db.StringProperty(required=False, indexed=False)
     def get_public_info(self):
         """compute & return API-visible data"""
 
@@ -240,22 +241,23 @@ def _process_javascript(bytes):
     except jsparser.SyntaxError_, error:
         raise BunkInterpretation("Can't parse your javascript: " + str(error))
 
-    ## ensure that we have a function 'pootpoot' taking zero arguments,
-    ## and no other functions
-    found_pootpoot = 0
+    ## ensure that we have exactly one function, taking zero arguments,
+    ## and no other top-level constructs
+    hook = None
     for i in parsed:
         if (i.type_ == 74): ## magic!
-            if (not found_pootpoot) and (i.name == 'pootpoot') and (i.params == []):
-                found_pootpoot = 1
+            if (hook == None) and (i.params == []):
+                hook = i.name
             else:
-                raise BunkInterpretation("Only one function, pootpoot (), is allowed")
+                raise BunkInterpretation("Only one function (of no arguments) is allowed")
         else:
             raise BunkInterpretation("Script must consist of a single function only")
 
-    if not found_pootpoot:
-        raise BunkInterpretation("Script must include function pootpoot ()")
+    if hook == None:
+        raise BunkInterpretation("Script must include one function (of no arguments)")
 
-    return { 'content_type': 'application/x-javascript' }
+    return { 'content_type':    'application/x-javascript',
+             'javascript_hook': hook }
 
 PROCESSORS = {
     T_IMAGE:      _process_image,

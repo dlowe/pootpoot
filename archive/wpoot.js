@@ -1,4 +1,4 @@
-function pootpoot () {
+function wpoot () {
 var ADJ_V = ['honest', 'insane', 'emotional', 'empty', 'absent-minded', 'aloof', 'impossible', 'open-minded', 'original', 'underated', 'ugly', 'unequalled'];
 var ADJ_C = ['friendly', 'happy', 'true', 'perfect', 'wild', 'lousy', 'foolish', 'stinky', 'radiant', 'weak', 'half-hearted', 'passionate'];
 var NOUN_M = ['man', 'boy'];

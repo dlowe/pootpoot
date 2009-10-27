@@ -105,12 +105,6 @@ functon pootpoot () {
 }
 """)
 
-    def test_no_pootpoot(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
-function notpootpoot () {
-}
-""")
-
     def test_pootpoot_arguments(self):
         self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
 function pootpoot (fnord) {

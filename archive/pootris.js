@@ -1,4 +1,4 @@
-function pootpoot () {
+function play_pootris () {
 function _fixposition(X,Y,total_position) {
     var position = total_position;
     if (position == (2 * (X + Y))) {

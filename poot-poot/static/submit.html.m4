@@ -143,7 +143,7 @@ m4_include(buttons.m4)
    </p>
 
    <p>
-   Javascript interpretations must consist of a single function pootpoot(), which returns an object with two methods: start() and stop(). The start() method will be called with a single jQuery object argument, which refers to the area on the page your script can manipulate at will. The stop() method will be called with no arguments when the code should stop and clean up.
+   Javascript interpretations must consist of a single function which takes no arguments and returns an object with two methods: start() and stop(). The start() method will be called with a single jQuery object argument, which refers to the area on the page your script can manipulate at will. The stop() method will be called with no arguments when the code should stop and clean up.
    </p>
 
    <p>

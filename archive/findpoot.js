@@ -1,4 +1,4 @@
-function pootpoot () {
+function find_poot_classic () {
 function _css_box(target) {
     target.css({ 'width':        100,
                  'min-width':    100,

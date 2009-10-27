@@ -54,6 +54,12 @@ m4_include(buttons.m4)
    <dd>URL (relative to the API host) where information about the author can be found</dd>
   <dt>decorated_location</dt>
    <dd>URL (relative to the API host) where the interpretation can be viewed</dd>
+  <dt>image_height (iff type='image')</dt>
+   <dd>height of the image, in pixels</dd>
+  <dt>image_width (iff type='image')</dt>
+   <dd>width of the image, in pixels</dd>
+  <dt>javascript_hook (iff type='javascript')</dt>
+   <dd>hook function to call to get the plugin object</dd>
  </dl>
  <h3><a name="filter_parameters">Filter Parameters</a></h3>
  <p>
