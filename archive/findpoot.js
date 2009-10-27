@@ -1,4 +1,4 @@
-
+function pootpoot () {
 function _css_box(target) {
     target.css({ 'width':        100,
                  'min-width':    100,
@@ -125,19 +125,18 @@ function _find_poot(target, rows, columns, level, message, interval) {
     $("#find_poot_splash").show();
 }
 
-function pootpoot () {
-    var interval_id = null;
-    var interval = {
-        'set': function (f, t) {
-            interval_id = setInterval(f, t);
-        },
-        'clear': function () {
-            clearInterval(interval_id);
-        }
-    };
+var interval_id = null;
+var interval = {
+    'set': function (f, t) {
+        interval_id = setInterval(f, t);
+    },
+    'clear': function () {
+        clearInterval(interval_id);
+    }
+};
 
-    return {
-        'start': function (target) { _find_poot(target, 4, 5, 1, 'Level 1', interval) },
-        'stop':  function () { interval.clear() },
-    };
+return {
+    'start': function (target) { _find_poot(target, 4, 5, 1, 'Level 1', interval) },
+    'stop':  function () { interval.clear() },
+};
 }

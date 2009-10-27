@@ -95,7 +95,7 @@ m4_include(buttons.m4)
    <p>Problem: <span id="submit_error_text"></span></p>
   </div>
 
-  <div id="details_image" style="display: none">
+  <div id="details_image" class="submit_info" style="display: none">
    <p>
    Pooty picture in .gif, .jpg or .png format. Images must be smaller than 900x900 pixels and less than 1MB file size.
    </p>
@@ -109,7 +109,7 @@ m4_include(buttons.m4)
    </p>
   </div>
 
-  <div id="details_text" style="display: none">
+  <div id="details_text" class="submit_info" style="display: none">
    <p>
    Pooty plain text.
    </p>
@@ -123,7 +123,7 @@ m4_include(buttons.m4)
    </p>
   </div>
 
-  <div id="details_html" style="display: none">
+  <div id="details_html" class="submit_info" style="display: none">
    <p>
    Pooty HTML fragment. Your input HTML will be liberally mangled to prevent abuse; basically anything beyond basic formatting markup is verboten.
    </p>
@@ -137,13 +137,13 @@ m4_include(buttons.m4)
    </p>
   </div>
 
-  <div id="details_javascript" style="display: none">
+  <div id="details_javascript" class="submit_info" style="display: none">
    <p>
    Pooty plugin written in javascript. Input javascript is checked for safety. Sorta.
    </p>
 
    <p>
-   Javascript interpretations must include a function pootpoot(), which returns an object with two methods: start() and stop(). The start() method will be called with a single jQuery object argument, which refers to the area on the page your script can manipulate at will. The stop() method will be called with no arguments when the code should stop and clean up.
+   Javascript interpretations must consist of a single function pootpoot(), which returns an object with two methods: start() and stop(). The start() method will be called with a single jQuery object argument, which refers to the area on the page your script can manipulate at will. The stop() method will be called with no arguments when the code should stop and clean up.
    </p>
 
    <p>

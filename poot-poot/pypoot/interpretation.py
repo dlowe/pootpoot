@@ -240,14 +240,20 @@ def _process_javascript(bytes):
     except jsparser.SyntaxError_, error:
         raise BunkInterpretation("Can't parse your javascript: " + str(error))
 
-    ## ensure that we have a function 'pootpoot' taking zero arguments
+    ## ensure that we have a function 'pootpoot' taking zero arguments,
+    ## and no other functions
     found_pootpoot = 0
-    for function in parsed.funDecls:
-        if function.name == 'pootpoot' and function.params == []:
-            found_pootpoot = 1
+    for i in parsed:
+        if (i.type_ == 74): ## magic!
+            if (not found_pootpoot) and (i.name == 'pootpoot') and (i.params == []):
+                found_pootpoot = 1
+            else:
+                raise BunkInterpretation("Only one function, pootpoot (), is allowed")
+        else:
+            raise BunkInterpretation("Script must consist of a single function only")
 
     if not found_pootpoot:
-        raise BunkInterpretation("Can't find function pootpoot ()")
+        raise BunkInterpretation("Script must include function pootpoot ()")
 
     return { 'content_type': 'application/x-javascript' }
 

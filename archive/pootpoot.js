@@ -1,3 +1,4 @@
+function pootpoot () {
 var poot_styles = [
   {one_in: 15, style: "text-decoration:underline"},
   {one_in: 30, style: "text-decoration:line-through"},
@@ -20,7 +21,7 @@ function _pootpoot (target) {
 
         var poot_count = r(1, 8);
         for (var j = 0; j < poot_count; ++j) {
-            var poot = '<font style="color:' + random_color() + ";font-size:" + ((Math.random() * 3) + 0.2) + "em";
+            var poot = '<font style="color:' + random_color() + ";font-size:" + ((Math.random() * 2) + 0.2) + "em";
             for (var s in poot_styles) {
                 if (r(1, poot_styles[s].one_in) == 1) {
                     poot += ";" + poot_styles[s].style;
@@ -44,9 +45,8 @@ function _pootpoot (target) {
     return;
 }
 
-function pootpoot () {
-    return {
-        'start': function (target) { _pootpoot(target) },
-        'stop':  function () { }
-    };
+return {
+    'start': function (target) { _pootpoot(target) },
+    'stop':  function () { }
+};
 }

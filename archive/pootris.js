@@ -1,3 +1,4 @@
+function pootpoot () {
 function _fixposition(X,Y,total_position) {
     var position = total_position;
     if (position == (2 * (X + Y))) {
@@ -323,24 +324,23 @@ function pootris (target, X, Y, string, timeout) {
     shortcut.add('D', piece.drop);
 }
 
-function pootpoot () {
-    var timeout_id = null;
-    var timeout = {
-        'set': function (f) {
-            timeout_id = setTimeout(f, 40);
-        },
-        'clear': function () {
-            clearTimeout(timeout_id);
-        }
-    };
+var timeout_id = null;
+var timeout = {
+    'set': function (f) {
+        timeout_id = setTimeout(f, 40);
+    },
+    'clear': function () {
+        clearTimeout(timeout_id);
+    }
+};
 
-    return {
-        'start': function (target) { pootris(target, 15, 12, "POOT", timeout) },
-        'stop':  function () {
-            timeout.clear();
-            shortcut.remove('A');
-            shortcut.remove('S');
-            shortcut.remove('D');
-        }
-    };
+return {
+    'start': function (target) { pootris(target, 15, 12, "POOT", timeout) },
+    'stop':  function () {
+        timeout.clear();
+        shortcut.remove('A');
+        shortcut.remove('S');
+        shortcut.remove('D');
+    }
+};
 }

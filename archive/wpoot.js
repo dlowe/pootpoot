@@ -1,3 +1,4 @@
+function pootpoot () {
 var ADJ_V = ['honest', 'insane', 'emotional', 'empty', 'absent-minded', 'aloof', 'impossible', 'open-minded', 'original', 'underated', 'ugly', 'unequalled'];
 var ADJ_C = ['friendly', 'happy', 'true', 'perfect', 'wild', 'lousy', 'foolish', 'stinky', 'radiant', 'weak', 'half-hearted', 'passionate'];
 var NOUN_M = ['man', 'boy'];
@@ -38,17 +39,16 @@ function wpoot_predicate () {
     return PREDICATES[r(0, PREDICATES.length - 1)];
 }
 
-function pootpoot () {
-    return {
-        'start': function (target) { 
-            var wpoot = function (target) {
-                target.unbind('click');
-                target.click(function () { wpoot(target); });
-                target.text(wpoot_subject() + " " + wpoot_predicate() + " " + wpoot_object() + ".");
-                target.wrapInner('<h1></h1>');
-            };
-            wpoot(target);
-        },
-        'stop': function () { }
-    }
+return {
+    'start': function (target) { 
+        var wpoot = function (target) {
+            target.unbind('click');
+            target.click(function () { wpoot(target); });
+            target.text(wpoot_subject() + " " + wpoot_predicate() + " " + wpoot_object() + ".");
+            target.wrapInner('<h1></h1>');
+        };
+        wpoot(target);
+    },
+    'stop': function () { }
+};
 }

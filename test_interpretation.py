@@ -117,6 +117,27 @@ function pootpoot (fnord) {
 }
 """)
 
+    def test_pootpoot_andmore(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
+function pootpoot () {
+}
+
+function notpootpoot () {
+}
+""")
+
+    def test_globals_variables(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
+var nastyglobal;
+function pootpoot () { }
+""")
+
+    def test_top_level_statements(self):
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_JAVASCRIPT, """
+foo="bar";
+function pootpoot () { }
+""")
+
 class TestInterpretation(InterpretationTestCase):
     def test_bad_key(self):
         ## none

@@ -20,8 +20,12 @@ html {
 }
 
 #submit_error {
-  font-size: 2em;
+  font-size: 1.5em;
   color: red;
+}
+
+.submit_info {
+  font-size: small;
 }
 
 #content_error {
