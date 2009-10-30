@@ -43,6 +43,7 @@ a.button {
   text-decoration: none;
   font-weight: bold;
   text-align: center;
+  overflow: hidden;
 }
 
 #bottom_links {

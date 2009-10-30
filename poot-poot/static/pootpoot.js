@@ -167,7 +167,7 @@ function poot (target, filters, ready) {
 
 // down here is pootifier code... incomplete
 function pootify_word (word) {
-    return 'poot';
+    return 'poot' + word + 'poot';
 }
 
 function pootify_text (text) {
@@ -175,7 +175,7 @@ function pootify_text (text) {
 }
 
 function pootify_document (target) {
-    for (l in target.childNodes) {
+    for (var l in target.childNodes) {
         var node = target.childNodes[l];
         if (node.nodeType == 3) {
             if (/\S/.test(node.nodeValue)) {
