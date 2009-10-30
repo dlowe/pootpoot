@@ -43,7 +43,7 @@ return {
     'start': function (target) { 
         var wpoot = function (target) {
             target.unbind('click');
-            target.click(function () { wpoot(target); });
+            target.click(function () { wpoot(target); repaint(); });
             target.text(wpoot_subject() + " " + wpoot_predicate() + " " + wpoot_object() + ".");
             target.wrapInner('<h1></h1>');
         };
