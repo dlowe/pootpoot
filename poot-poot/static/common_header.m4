@@ -18,4 +18,8 @@ try {
 var pageTracker = _gat._getTracker("UA-2604035-2");
 pageTracker._trackPageview();
 } catch(err) {}</script>
+
+<script type="text/javascript">
+$(function () { shortcut.add('P', function () { pootify_document(document.body); }); });
+</script>
 <!-- end common_header.m4 -->

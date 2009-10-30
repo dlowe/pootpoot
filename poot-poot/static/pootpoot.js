@@ -156,3 +156,25 @@ function poot (target, filters, ready) {
 
     return i;
 }
+
+function pootify_word (word) {
+    return 'poot';
+}
+
+function pootify_text (text) {
+    return pootify_word(text);
+}
+
+function pootify_document (target) {
+    for (l in target.childNodes) {
+        var node = target.childNodes[l];
+        if (node.nodeType == 3) {
+            if (/\S/.test(node.nodeValue)) {
+                node.parentNode.replaceChild(document.createTextNode(pootify_text(node.nodeValue)), node);
+            }
+        } else if (node.nodeType == 1)  {
+            pootify_document(node);
+        }
+    }
+    return;
+}
