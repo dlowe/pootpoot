@@ -20,6 +20,10 @@ pageTracker._trackPageview();
 } catch(err) {}</script>
 
 <script type="text/javascript">
-$(function () { shortcut.add('P', function () { pootify_document(document.body); }); });
+$(function () {
+    colorize($("body"));
+    shortcut.add('P', function () { pootify_document(document.body); });
+});
 </script>
+
 <!-- end common_header.m4 -->

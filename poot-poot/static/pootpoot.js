@@ -51,6 +51,14 @@ function shuffle_children (target) {
     target.append(shuffled_elements);
 }
 
+function repaint () {
+    $(".main_content").each(function () { colorize(jQuery(this)) });
+    colorize($("body"));
+    shuffle_children($("#buttons"));
+    shuffle_children($("#bottom_links"));
+    $("a").click(function (event) { event.stopPropagation(); });
+}
+
 
 // everything else in here is the code for displaying interpretations, tightly tied
 // with interpretation.m4...
@@ -117,7 +125,7 @@ function poot (target, filters, ready) {
                 expand_interpretation(target.find("#title"), interpretation);
                 content.find("#content_text").text(data);
                 show_content(content, interpretation.type);
-                target.click(function () { colorize(target) });
+                target.click(function () { repaint(); });
                 ready();
             }, "text");
         } else if (interpretation.type == T_HTML) {
@@ -129,7 +137,7 @@ function poot (target, filters, ready) {
                 expand_interpretation(target.find("#title"), interpretation);
                 content.find("#content_html").html(data);
                 show_content(content, interpretation.type);
-                target.click(function () { colorize(target) });
+                target.click(function () { repaint(); });
                 ready();
             }, "html");
         } else if (interpretation.type == T_IMAGE) {
@@ -149,7 +157,7 @@ function poot (target, filters, ready) {
                 'title':  interpretation.title
             });
             show_content(content, interpretation.type);
-            target.click(function () { colorize(target) });
+            target.click(function () { repaint(); });
             ready();
         }
     });
@@ -157,6 +165,7 @@ function poot (target, filters, ready) {
     return i;
 }
 
+// down here is pootifier code... incomplete
 function pootify_word (word) {
     return 'poot';
 }

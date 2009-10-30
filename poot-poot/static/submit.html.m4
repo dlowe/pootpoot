@@ -29,17 +29,12 @@ function change_details () {
     }
     $("#details_" + show_type).show();
 
-    colorize($("#submit_details"));
-    shuffle_children($("#buttons"));
-    shuffle_children($("#bottom_links"));
+    repaint();
     return;
 }
 
   $(function () {
-   colorize($("body"));
-   colorize($("#submit_details"));
-   shuffle_children($("#buttons"));
-   shuffle_children($("#bottom_links"));
+   repaint();
 
    for (var i in T_ALL) {
        var discard = function(type) {

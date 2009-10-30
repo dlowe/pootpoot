@@ -6,7 +6,8 @@ m4_include(common_header.m4)
 
  <script type="text/javascript">
   function interpretationReady () {
-      colorize($("body"));
+      //colorize($("body"));
+      repaint();
   }
   $(function () {
    var filters = path_to_filters(unescape(document.location.href));
@@ -20,8 +21,6 @@ m4_include(common_header.m4)
          interpretation.stop();
      }
      interpretation = poot($("#interpretation"), filters, interpretationReady);
-     shuffle_children($("#buttons"));
-     shuffle_children($("#bottom_links"));
      if (filters['title_link'] == null) {
          $("#button_pootpoot").click(repoot);
      }

@@ -49,6 +49,10 @@ a.button {
   text-align: right;
   padding: 0px;
   margin: 0px;
+  width: 80%;
+  overflow: hidden;
+  position: relative;
+  left: 130px;
 }
 
 a.bottom_link {

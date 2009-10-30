@@ -19,12 +19,6 @@ m4_include(common_header.m4)
  </style>
  <script type="text/javascript">
   $(function () {
-   var repaint = function () {
-       colorize($("body"));
-       colorize($("#rest_docs"));
-       shuffle_children($("#buttons"));
-       shuffle_children($("#bottom_links"));
-   };
    repaint();
    $("#rest_docs").click(repaint);
   });
