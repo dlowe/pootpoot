@@ -40,6 +40,7 @@ function list (target, filters) {
             expand_interpretation(template, shuffled_list[i]);
             target.append(template);
         }
+        target.find("a").click(function (event) { event.stopPropagation(); });
     });
 }
 
@@ -79,6 +80,7 @@ function pages (target, filters) {
    $("#list_interpretations").click(function (event) {
      colorize($("#list_interpretations"));
      shuffle_children($("#list_interpretations"));
+     $("#list_interpretations").find("a").click(function (event) { event.stopPropagation(); });
      shuffle_children($("#buttons"));
      shuffle_children($("#bottom_links"));
    });
