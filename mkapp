@@ -7,12 +7,18 @@ function copy_and_expand () {
     IN=$1;
     OUT=$2;
 
+    DEFINES=""
+    for key in `env | grep ^POOTPOOT | sed -e 's/=.*//'`; do
+        value=`env | grep ^${key} | sed -e 's/[^=]*=//'`
+        DEFINES="$DEFINES --define=${key}=${value}"
+    done
+
     ## the m4 rules:
     ##  . files named *.m4 are ignored
     ##  . files named *.*.m4 are expanded as *.*
     for path in `(cd $IN; ls -1 | grep '\..*\.m4$')`; do
         outpath=`echo $path | sed -e 's/\.m4$//'`
-        m4 -E -I $IN -P $IN/$path > $OUT/$outpath
+        m4 $DEFINES -E -I $IN -P $IN/$path > $OUT/$outpath
     done
 
     for path in `(cd $IN; ls -1 | grep -v '\.m4$')`; do
