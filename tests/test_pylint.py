@@ -6,10 +6,10 @@ import logging
 
 FILES = [
     'poot-poot/api/i.py',
-    #'poot-poot/api/interpretation.py',
-    #'poot-poot/pypoot/interpretation.py',
-    #'poot-poot/pypoot/json.py',
-    #'poot-poot/pypoot/permalink.py'
+    'poot-poot/api/interpretation.py',
+    'poot-poot/pypoot/interpretation.py',
+    'poot-poot/pypoot/json.py',
+    'poot-poot/pypoot/permalink.py'
 ]
 
 PYLINT = '/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
