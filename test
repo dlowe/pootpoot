@@ -1,26 +1,7 @@
 #!/usr/bin/env bash
 
-jsure -quiet -check poot-poot/static/pootpoot.js
-jsure -quiet -check archive/pootpoot.js
-jsure -quiet -check archive/findpoot.js
-jsure -quiet -check archive/pootris.js
-jsure -quiet -check archive/wpoot.js
-
 export PYTHONPATH="./poot-poot/:/Users/dlowe/google_appengine/:$PYTHONPATH"
-PYLINT='/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
-$PYLINT poot-poot/api/i.py
-$PYLINT poot-poot/api/interpretation.py
-$PYLINT poot-poot/pypoot/interpretation.py
-$PYLINT poot-poot/pypoot/json.py
-$PYLINT poot-poot/pypoot/permalink.py
+/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/
 
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_interpretation.py
-rm test_interpretation.pyc
-
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_permalink.py
-rm test_permalink.pyc
-
-/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=/Users/dlowe/desktop/pootpoot/poot-poot/ ./test_json.py
-rm test_json.pyc
-
+rm *.pyc
 rm poot-poot/pypoot/*.pyc

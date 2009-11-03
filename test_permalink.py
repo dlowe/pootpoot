@@ -58,6 +58,3 @@ class TestPerma(unittest.TestCase):
             self.assertEquals(g.next(), link)
             self.assertEquals(g.next(), link + '-1')
             self.assertEquals(g.next(), link + '-2')
-
-if __name__ == '__main__':
-    unittest.main()

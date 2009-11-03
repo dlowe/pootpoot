@@ -2,7 +2,6 @@
 
 import sys
 import unittest
-sys.path = [ './poot-poot' ] + sys.path
 
 ## import from the app
 from pypoot import json
@@ -25,6 +24,3 @@ class TestJsonify(unittest.TestCase):
         self.assertEquals(j, '{"a":1}')
         j = json.ify({'a':1L})
         self.assertEquals(j, '{"a":1}')
-
-if __name__ == '__main__':
-    unittest.main()

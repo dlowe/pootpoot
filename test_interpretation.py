@@ -2,9 +2,7 @@
 # coding: utf-8
 
 import logging
-import sys
 import unittest
-sys.path = [ './poot-poot' ] + sys.path
 
 ## import from the app
 from pypoot import interpretation
@@ -282,6 +280,3 @@ class TestPagination(InterpretationTestCase):
 
             ## make sure we found every single interpretation
             self.assertEquals(len(looking_for), 0)
-
-if __name__ == '__main__':
-    unittest.main()
