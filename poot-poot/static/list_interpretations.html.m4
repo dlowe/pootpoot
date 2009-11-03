@@ -74,6 +74,7 @@ function pages (target, filters) {
    $(".page_link").click(function () {
        filters['offset_key_string'] = $(this).find(".offset_key_string").text();
        list($("#list_interpretations"), filters);
+       repaint();
    });
 
    $("#list_interpretations").click(function (event) {
