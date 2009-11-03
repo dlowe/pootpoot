@@ -167,11 +167,44 @@ function poot (target, filters, ready) {
 
 // down here is pootifier code... incomplete
 function pootify_word (word) {
-    return 'poot' + word + 'poot';
+    if (word.length < 4) {
+        return word;
+    } else if (word.length < 8) {
+        var poot = '';
+        for (var i = 0; i < 4; ++i) {
+            if ((word.charCodeAt(i) >= 65) && (word.charCodeAt(i) <= 90)) {
+                poot += 'POOT'.charAt(i);
+            } else {
+                poot += 'poot'.charAt(i);
+            }
+        }
+        return poot;
+    }
+    var pootpoot = '';
+    for (var i = 0; i < 8; ++i) {
+        if ((word.charCodeAt(i) >= 65) && (word.charCodeAt(i) <= 90)) {
+            pootpoot += 'POOTPOOT'.charAt(i);
+        } else {
+            pootpoot += 'pootpoot'.charAt(i);
+        }
+    }
+    return pootpoot;
 }
 
 function pootify_text (text) {
-    return pootify_word(text);
+    var pootified = '';
+    var word      = '';
+    for (var i = 0; i < text.length; ++i) {
+        if (/\W/.test(text.charAt(i))) {
+            pootified += pootify_word(word);
+            word       = '';
+            pootified += text.charAt(i);
+        } else {
+            word += text.charAt(i);
+        }
+    }
+    pootified += pootify_word(word);
+    return pootified;
 }
 
 function pootify_document (target) {
