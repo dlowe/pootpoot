@@ -6,8 +6,8 @@ if [ $? -ne 0 ]; then
     exit $?
 fi
 
-APP_DIR=`mktemp -d -t /tmp`
+export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
 export POOTPOOT_ANALYTICS_KEY='UA-2604035-2'
-./mkapp poot-poot $APP_DIR
-~/google_appengine/appcfg.py update $APP_DIR
-rm -rf $APP_DIR
+./mkapp poot-poot $POOTPOOT_APP_DIR
+~/google_appengine/appcfg.py update $POOTPOOT_APP_DIR
+rm -rf $POOTPOOT_APP_DIR

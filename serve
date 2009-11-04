@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-APP_DIR=`mktemp -d -t /tmp`
-./mkapp poot-poot $APP_DIR
+export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
+./mkapp poot-poot $POOTPOOT_APP_DIR
 
 export -n POOTPOOT_ANALYTICS_KEY
 
 ## "background job" to propagate changes into built app directory
-(while [ -d $APP_DIR ]; do ./mkapp poot-poot $APP_DIR; sleep 1; done) &
+(while [ -d $POOTPOOT_APP_DIR ]; do ./mkapp poot-poot $POOTPOOT_APP_DIR; sleep 1; done) &
 
 ## "background job" to bootstrap production data into the local test app
-(sleep 3; rm /tmp/bulkloader.db; echo foo | ~/google_appengine/bulkloader.py --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --restore --kind=Interpretation --filename=live_interpretations.data --url=http://localhost:8080/remote_api --app_id=poot-poot --email=j.david.lowe@gmail.com --passin $APP_DIR) &
+(sleep 3; rm /tmp/bulkloader.db; echo foo | ~/google_appengine/bulkloader.py --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --restore --kind=Interpretation --filename=live_interpretations.data --url=http://localhost:8080/remote_api --app_id=poot-poot --email=j.david.lowe@gmail.com --passin $POOTPOOT_APP_DIR) &
 
 ## start app server...
-~/google_appengine/dev_appserver.py --clear_datastore --require_indexes $APP_DIR
-rm -rf $APP_DIR
+~/google_appengine/dev_appserver.py --clear_datastore --require_indexes $POOTPOOT_APP_DIR
+rm -rf $POOTPOOT_APP_DIR
