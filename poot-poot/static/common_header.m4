@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/shortcuts.js"></script>
 <script type="text/javascript" src="/pootpoot.js"></script>
 
-m4_ifdef(`POOTPOOT_ANALYTICS_KEY','
+m4_ifdef(`POOTPOOT_ANALYTICS_KEY',
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -19,7 +19,7 @@ try {
 var pageTracker = _gat._getTracker('POOTPOOT_ANALYTICS_KEY');
 pageTracker._trackPageview();
 } catch(err) {}</script>
-')
+)
 
 <script type="text/javascript">
 $(function () {
