@@ -5,11 +5,11 @@ import unittest
 import logging
 
 FILES = [
-    'poot-poot/api/i.py',
-    'poot-poot/api/interpretation.py',
-    'poot-poot/pypoot/interpretation.py',
-    'poot-poot/pypoot/json.py',
-    'poot-poot/pypoot/permalink.py'
+    '/api/i.py',
+    '/api/interpretation.py',
+    '/pypoot/interpretation.py',
+    '/pypoot/json.py',
+    '/pypoot/permalink.py'
 ]
 
 PYLINT = '/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
@@ -17,7 +17,7 @@ PYLINT = '/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint
 class TestPylint(unittest.TestCase):
     def test(self):
         for file in FILES:
-            out = os.popen(PYLINT + " " + file)
+            out = os.popen(PYLINT + " " + os.environ['POOTPOOT_APP_DIR'] + file)
             for i in out:
                 logging.info(i)
             x = out.close()

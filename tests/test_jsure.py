@@ -5,11 +5,7 @@ import unittest
 import logging
 
 FILES = [
-    'poot-poot/static/pootpoot.js',
-    'archive/pootpoot.js',
-    'archive/findpoot.js',
-    'archive/pootris.js',
-    'archive/wpoot.js'
+    '/static/pootpoot.js'
 ]
 
 JSURE = 'jsure -quiet'
@@ -17,7 +13,7 @@ JSURE = 'jsure -quiet'
 class TestJsure(unittest.TestCase):
     def test(self):
         for file in FILES:
-            out = os.popen(JSURE + " " + file)
+            out = os.popen(JSURE + " " + os.environ['POOTPOOT_APP_DIR'] + file)
             for i in out:
                 logging.info(i)
             x = out.close()

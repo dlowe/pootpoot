@@ -22,7 +22,7 @@ class InterpretationTestCase(unittest.TestCase):
                 rootLogger.removeHandler(handler)
 
         # clear existing interpretations
-        for i in db.GqlQuery("SELECT * FROM Interpretation").fetch(1000):
+        for i in db.Query(interpretation.Interpretation, False).fetch(1000):
             i.delete()
 
 class TestOwnerBaton(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestImageValidation(InterpretationTestCase):
                      'bmp':  'image/bmp' }
 
         for ext, mime_type in ext_mime.iteritems():
-            i = _stc(interpretation.T_IMAGE, open('tests/test_good_image.' + ext).read())
+            i = _stc(interpretation.T_IMAGE, open('test_good_image.' + ext).read())
             self.assertEquals(i.content_type, mime_type)
             self.assertTrue(isinstance(i.image_height, int))
             self.assertTrue(isinstance(i.image_width, int))
@@ -49,13 +49,13 @@ class TestImageValidation(InterpretationTestCase):
         self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, 'fnord')
 
     def test_wide_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('tests/test_wide_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_wide_image.png').read())
 
     def test_tall_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('tests/test_tall_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_tall_image.png').read())
 
     def test_giant_image(self):
-        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('tests/test_giant_image.png').read())
+        self.assertRaises(interpretation.BunkInterpretation, _stc, interpretation.T_IMAGE, open('test_giant_image.png').read())
 
 class TestTextValidation(InterpretationTestCase):
     def test_text_type(self):
