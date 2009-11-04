@@ -92,10 +92,10 @@ m4_include(buttons.m4)
  <div id="submit_details_header">
   Use this form to submit your own interpretation of Poot.
  </div>
- <table style="width: 90%; table-layout: fixed"><tr>
+ <table style="width: 90%; table-layout: fixed" summary="interpretation submission form and help"><tr>
  <td style="width: 60%; vertical-align: top">
  <form id="submit_form" action="/submit" method="post" enctype="multipart/form-data" style="margin-top: 0px">
-   <table>
+   <table summary="interpretation submission form">
     <tr><td>title:</td><td><input type="text" name="title"></td></tr>
     <tr><td>author:</td><td><input type="text" name="author"></td></tr>
     <tr><td>type:</td><td>
@@ -124,7 +124,7 @@ m4_include(buttons.m4)
    </p>
 
    <p id="image_example" style="display: none">
-   Example: <a id="title_a"><span id="interpretation_title"></span></a>
+   Example: <a class="title_a"><span class="interpretation_title">title</span></a>
    </p>
   </div>
 
@@ -138,7 +138,7 @@ m4_include(buttons.m4)
    </p>
 
    <p id="text_example" style="display: none">
-   Example: <a id="title_a"><span id="interpretation_title"></span></a>
+   Example: <a class="title_a"><span class="interpretation_title">title</span></a>
    </p>
   </div>
 
@@ -152,7 +152,7 @@ m4_include(buttons.m4)
    </p>
 
    <p id="html_example" style="display: none">
-   Example: <a id="title_a"><span id="interpretation_title"></span></a>
+   Example: <a class="title_a"><span class="interpretation_title">title</span></a>
    </p>
   </div>
 
@@ -166,7 +166,7 @@ m4_include(buttons.m4)
    </p>
 
    <p id="javascript_example" style="display: none">
-   Example: <a id="title_a"><span id="interpretation_title"></span></a> (and the <a id="content_a">plugin code</a>)
+   Example: <a class="title_a"><span class="interpretation_title">title</span></a> (and the <a class="content_a">plugin code</a>)
    </p>
   </div>
  </td>
@@ -175,7 +175,7 @@ m4_include(buttons.m4)
 
  <div id="pending" style="display: none">
  <div class="main_content">
-  Here's what I got. How's it look? <a id="good" href="">good</a> <a id="bad" href="">bad</a><br>
+  Here's what I got. How's it look? <a id="good" href="#">good</a> <a id="bad" href="#">bad</a><br>
  </div>
 m4_include(interpretation.m4)
  </div>

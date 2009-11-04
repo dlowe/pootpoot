@@ -63,11 +63,11 @@ function repaint () {
 // everything else in here is the code for displaying interpretations, tightly tied
 // with interpretation.m4...
 function expand_interpretation (target, interpretation) {
-    target.find("#title_a").attr('href', interpretation.decorated_location);
-    target.find("#interpretation_title").text(interpretation.title);
-    target.find("#interpretation_author").text(interpretation.author);
-    target.find("#author_a").attr('href', interpretation.author_location);
-    target.find("#content_a").attr('href', interpretation.content_location);
+    target.find(".title_a").attr('href', interpretation.decorated_location);
+    target.find(".interpretation_title").text(interpretation.title);
+    target.find(".interpretation_author").text(interpretation.author);
+    target.find(".author_a").attr('href', interpretation.author_location);
+    target.find(".content_a").attr('href', interpretation.content_location);
     target.show();
 }
 

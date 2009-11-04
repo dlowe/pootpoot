@@ -99,14 +99,14 @@ m4_include(buttons.m4)
  <div id="list_pages" class="main_content" style="display:none">
   Pages: 
   <span class="page_link" id="page_link_template" style="display:none">
-   [<span class="page_number"></span>]
+   [<span class="page_number">0</span>]
   </span>
  </div>
  <div id="list_interpretations" class="main_content">
   <div id="list_error" style="display:none">?</div>
   <div class="listed_interpretation" id="listed_interpretation_template" style="display:none">
-   <a id="title_a"><span id="interpretation_title"></span></a>
-   by <a id="author_a"><span id="interpretation_author"></span></a>
+   <a class="title_a"><span class="interpretation_title">title</span></a>
+   by <a class="author_a"><span class="interpretation_author">author</span></a>
   </div>
  </div>
 m4_include(bottom_links.m4)
