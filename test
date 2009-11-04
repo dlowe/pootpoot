@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
 export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
-./mkapp poot-poot $POOTPOOT_APP_DIR
-
+export POOTPOOT_APP_PORT=7021
 export -n POOTPOOT_ANALYTICS_KEY
+
+./mkapp poot-poot $POOTPOOT_APP_DIR
+~/google_appengine/dev_appserver.py --clear_datastore --require_indexes --port=$POOTPOOT_APP_PORT $POOTPOOT_APP_DIR >/dev/null 2>&1 &
+
+sleep 1
 
 export PYTHONPATH="$POOTPOOT_APP_DIR:/Users/dlowe/google_appengine/:$PYTHONPATH"
 /opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/nosetests -q --with-gae --gae-lib-root=/Users/dlowe/google_appengine/ --gae-application=$POOTPOOT_APP_DIR -w tests $@
@@ -11,5 +15,7 @@ retval=$?
 
 rm -f tests/*.pyc
 rm -rf $POOTPOOT_APP_DIR
+
+kill `ps -ef | grep $POOTPOOT_APP_PORT | grep -v grep | awk '{print $2}'`
 
 exit $retval
