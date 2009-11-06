@@ -1,0 +1,3 @@
+queue:
+- name: new-interpretation
+  rate: 1/s

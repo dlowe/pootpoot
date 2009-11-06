@@ -6,6 +6,8 @@ export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
 export POOTPOOT_APP_PORT=8080
 
 export -n POOTPOOT_ANALYTICS_KEY
+export -n POOTPOOT_BITLY_KEY
+export -n POOTPOOT_BITLY_LOGIN
 
 ## "background job" to propagate changes into built app directory
 (while [ -d $POOTPOOT_APP_DIR ]; do ./mkapp poot-poot $POOTPOOT_APP_DIR; sleep 1; done) &

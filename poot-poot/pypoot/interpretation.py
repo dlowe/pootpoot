@@ -40,6 +40,7 @@ class Interpretation(db.Model):
     image_height    = db.IntegerProperty(required=False, indexed=False)
     image_width     = db.IntegerProperty(required=False, indexed=False)
     javascript_hook = db.StringProperty(required=False, indexed=False)
+    short_url       = db.StringProperty(required=False, indexed=False)
     def get_public_info(self):
         """compute & return API-visible data"""
 

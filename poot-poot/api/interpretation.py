@@ -2,6 +2,7 @@
 """fetch metadata describing a single random interpretation"""
 
 ## app engine
+from google.appengine.api.labs import taskqueue
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
@@ -156,11 +157,16 @@ class Submit(APIRequestHandler):
 
     def _data(self):
         """submit a new interpretation"""
-        return interpretation.submit(
+        i = interpretation.submit(
                  title=self.request.get('title'),
                  author=self.request.get('author'),
                  type=self.request.get('type'),
                  content=self.request.get('content'))
+        task = taskqueue.Task(
+            method='GET',
+            params={'key_string': str(i.key())})
+        task.add(queue_name='new-interpretation')
+        return i
 
     def _logic(self, i):
         """..."""

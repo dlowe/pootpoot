@@ -8,6 +8,8 @@ fi
 
 export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
 export POOTPOOT_ANALYTICS_KEY='UA-2604035-2'
+export POOTPOOT_BITLY_LOGIN='pootpoot'
+export POOTPOOT_BITLY_KEY='R_9afee89d6b001b79dcf5c29a0a8b5a0a'
 ./mkapp poot-poot $POOTPOOT_APP_DIR
 ~/google_appengine/appcfg.py update $POOTPOOT_APP_DIR
 rm -rf $POOTPOOT_APP_DIR

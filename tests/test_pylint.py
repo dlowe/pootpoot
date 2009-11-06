@@ -9,7 +9,9 @@ FILES = [
     '/api/interpretation.py',
     '/pypoot/interpretation.py',
     '/pypoot/json.py',
-    '/pypoot/permalink.py'
+    '/pypoot/permalink.py',
+    '/pypoot/integration.py',
+    '/queue_handlers/new_interpretation.py',
 ]
 
 PYLINT = '/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
