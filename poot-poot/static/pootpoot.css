@@ -6,6 +6,13 @@ html {
   border-style: none none solid none
 }
 
+.linkers {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  margin: 0px;
+}
+
 .main_content {
   margin: 0px;
   padding: 8px;

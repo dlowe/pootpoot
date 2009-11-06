@@ -30,6 +30,6 @@ handlers:
   static_files: static/list_interpretations.html
   upload: static/list_interpretations.html
 
-- url: /(.*)\.(html|js|css|png|ico|txt)
+- url: /(.*)\.(html|js|css|png|ico|txt|jpg)
   static_files: static/\1.\2
   upload: static/.*
