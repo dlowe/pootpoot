@@ -46,6 +46,8 @@ m4_include(buttons.m4)
    <dd>Title of the interpretation</dd>
   <dt>author</dt>
    <dd>Author of the interpretation</dd>
+  <dt>is_active</dt>
+   <dd>Boolean indicating whether this interpretation is in active rotation</dd>
   <dt>type</dt>
    <dd>Type of the interpretation (one of 'image', 'text', 'html', 'javascript')</dd>
   <dt>content_location</dt>
@@ -54,6 +56,8 @@ m4_include(buttons.m4)
    <dd>URL (relative to the API host) where information about the author can be found</dd>
   <dt>decorated_location</dt>
    <dd>URL (relative to the API host) where the interpretation can be viewed</dd>
+  <dt>short_url</dt>
+   <dd>shortened (bit.ly) absolute URL to this interpretation</dd>
   <dt>image_height (iff type='image')</dt>
    <dd>height of the image, in pixels</dd>
   <dt>image_width (iff type='image')</dt>
