@@ -69,8 +69,23 @@ function expand_interpretation (target, interpretation) {
     target.find(".author_a").attr('href', interpretation.author_location);
     target.find(".content_a").attr('href', interpretation.content_location);
     if (interpretation.is_active && interpretation.short_url) {
-        target.find("#link_twitter").click(function () { alert('tweet'); });
-        target.find("#link_facebook").click(function () { alert('face'); });
+        target.find("#link_twitter").click(function (e) {
+            e.preventDefault();
+            window.open(
+                "http://twitter.com/home?status="
+                + encodeURIComponent(interpretation.title + ": " + interpretation.short_url),
+            "sharer",
+            "toolbar=0,status=0,width=626,height=436");
+        });
+        target.find("#link_facebook").click(function (e) {
+            e.preventDefault();
+            window.open(
+                "http://www.facebook.com/sharer.php?u="
+                + encodeURIComponent(interpretation.short_url)
+                + "&t=" + encodeURIComponent(interpretation.title),
+            "sharer",
+            "toolbar=0,status=0,width=626,height=436");
+        });
         target.find(".linkers").show();
     }
     target.show();
