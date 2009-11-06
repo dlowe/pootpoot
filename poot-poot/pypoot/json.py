@@ -9,7 +9,7 @@ def ify(thing):
     if (thing == None):
         json = 'null'
     elif (isinstance(thing, bool)):
-        if (thing == True):
+        if thing:
             json = 'true'
         else:
             json = 'false'

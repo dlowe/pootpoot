@@ -3,8 +3,8 @@
  <div id="title" style="display: none">
   <a class="title_a"><span class="interpretation_title">title</span></a> by <a class="author_a"><span class="interpretation_author">author</span></a>
   <span class="linkers" style="display: none">
-    <a id="link_twitter" href="#"><img border=0 height=20 width=20 src="/twitter.jpg"></a>
-    <a id="link_facebook" href="#"><img border=0 height=20 width=20 src="/facebook.jpg"></a>
+    <a id="link_twitter" href="#"><img border=0 height=20 width=20 src="/twitter.jpg" alt="tweet this" title="tweet this"></a>
+    <a id="link_facebook" href="#"><img border=0 height=20 width=20 src="/facebook.jpg" alt="share on facebook" title="share on facebook"></a>
   </span>
  </div>
 
