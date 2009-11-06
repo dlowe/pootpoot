@@ -25,7 +25,8 @@ class NewInterpretation(webapp.RequestHandler):
 
         if (('BITLY_KEY' in integration.INTEGRATIONS)
           and ('BITLY_LOGIN' in integration.INTEGRATIONS)):
-            url = 'http://api.bit.ly/shorten?version=2.0.1&login=%s&apiKey=%s&longUrl=%s' % (
+            url = 'http://api.bit.ly/shorten?version=2.0.1&history=1'
+            url = url + '&login=%s&apiKey=%s&longUrl=%s' % (
                 integration.INTEGRATIONS['BITLY_LOGIN'],
                 integration.INTEGRATIONS['BITLY_KEY'],
                 urllib.quote_plus('http://www.pootpoot.net/interpretation/%s.html' % i.title_link))
