@@ -49,6 +49,8 @@ class Interpretation(db.Model):
                  'author': self.author,
                  'type': self.type,
                  'content_location': "/i/%s" % self.key(),
+                 'short_url': self.short_url,
+                 'is_active': self.is_active,
                  'author_location':
                      "/list_interpretations/a/%s/" % urllib.quote(self.author),
                  'decorated_location':

@@ -6,7 +6,14 @@ def ify(thing):
 
     json = ""
 
-    if (isinstance(thing, basestring)):
+    if (thing == None):
+        json = 'null'
+    elif (isinstance(thing, bool)):
+        if (thing == True):
+            json = 'true'
+        else:
+            json = 'false'
+    elif (isinstance(thing, basestring)):
         json = '"' + thing.replace('"', '\\"') + '"'
     elif (isinstance(thing, int)) or (isinstance(thing, long)):
         json = str(thing)

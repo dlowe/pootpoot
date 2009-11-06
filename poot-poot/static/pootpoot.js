@@ -68,6 +68,11 @@ function expand_interpretation (target, interpretation) {
     target.find(".interpretation_author").text(interpretation.author);
     target.find(".author_a").attr('href', interpretation.author_location);
     target.find(".content_a").attr('href', interpretation.content_location);
+    if (interpretation.is_active && interpretation.short_url) {
+        target.find("#link_twitter").click(function () { alert('tweet'); });
+        target.find("#link_facebook").click(function () { alert('face'); });
+        target.find(".linkers").show();
+    }
     target.show();
 }
 
