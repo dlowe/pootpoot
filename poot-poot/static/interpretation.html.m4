@@ -2,6 +2,7 @@
 <html>
 <head>
  <title>poot poot</title>
+ <link rel="alternate" type="application/rss+xml" title="poot poot" href="/feeds/interpretations/" />
 m4_include(common_header.m4)
 
  <script type="text/javascript">
