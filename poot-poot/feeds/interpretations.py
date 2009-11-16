@@ -4,6 +4,8 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+from pypoot import interpretation
+
 class Feed(webapp.RequestHandler):
     """request handler for /list"""
 
@@ -21,14 +23,26 @@ class Feed(webapp.RequestHandler):
     <title>poot poot</title>
     <link>http://www.pootpoot.net/</link>
     <description>poot interpretations</description>
+""")
+
+        interpretations = interpretation.list_interpretations({}, 1000)
+        interpretations.reverse()
+        for i in interpretations:
+            description = i.title
+            if i.type == interpretation.T_IMAGE:
+                description = "&lt;img src=\"http://www.pootpoot.net/i/%s\" " % i.key()
+                description += "alt=\"%s\" title=\"%s\"&gt;" % (i.title, i.title)
+
+            self.response.out.write("""
     <item>
-       <title>Poot Does a Body Good sticker design</title>
-       <guid>http://www.pootpoot.net/interpretation/poot-does-a-body-good-sticker-design.html</guid>
-       <link>http://www.pootpoot.net/interpretation/poot-does-a-body-good-sticker-design.html</link>
-       <description>
-        &lt;img src="http://www.pootpoot.net/i/aglwb290LXBvb3RyFQsSDkludGVycHJldGF0aW9uGPlVDA" alt="Poot Does a Body Good sticker design" title="Poot Does a Body Good sticker design"&gt;
-       </description>
+     <title>%s</title>
+     <guid>http://www.pootpoot.net/interpretation/%s.html</guid>
+     <link>http://www.pootpoot.net/interpretation/%s.html</link>
+     <description>%s</description>
     </item>
+""" % (i.title, i.title_link, i.title_link, description))
+
+        self.response.out.write("""
   </channel>
 </rss>
 """)
