@@ -24,7 +24,7 @@ pageTracker._trackPageview();
 <script type="text/javascript">
 $(function () {
     colorize($("body"));
-    shortcut.add('P', function () { pootify_document(document.body); });
+    shortcut.add('P', function () { pootify_document(document.body); }, { 'disable_in_input': true });
 });
 </script>
 
