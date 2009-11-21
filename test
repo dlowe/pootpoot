@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
+export POOTPOOT_APP_DOMAIN=localhost
 export POOTPOOT_APP_PORT=7021
 export -n POOTPOOT_ANALYTICS_KEY
 export -n POOTPOOT_BITLY_KEY

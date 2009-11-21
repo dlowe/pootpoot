@@ -7,6 +7,8 @@ if [ $? -ne 0 ]; then
 fi
 
 export POOTPOOT_APP_DIR=`mktemp -d -t /tmp`
+export POOTPOOT_APP_DOMAIN='www.pootpoot.net'
+export POOTPOOT_APP_PORT=80
 export POOTPOOT_ANALYTICS_KEY='UA-2604035-2'
 export POOTPOOT_BITLY_LOGIN='pootpoot'
 export POOTPOOT_BITLY_KEY='R_9afee89d6b001b79dcf5c29a0a8b5a0a'

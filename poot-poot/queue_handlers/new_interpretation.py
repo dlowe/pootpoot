@@ -29,8 +29,8 @@ class NewInterpretation(webapp.RequestHandler):
                 url = url + '&login=%s&apiKey=%s&longUrl=%s' % (
                     integration.INTEGRATIONS['BITLY_LOGIN'],
                     integration.INTEGRATIONS['BITLY_KEY'],
-                    urllib.quote_plus('http://www.pootpoot.net/interpretation/%s.html'
-                        % i.title_link))
+                    urllib.quote_plus('%sinterpretation/%s.html'
+                        % (integration.INTEGRATIONS['APP_ROOT_URL'], i.title_link)))
                 result = urlfetch.fetch(url, method='GET')
                 if result.status_code == 200:
                     ## "shortUrl": "http://bit.ly/1R2vI8",
