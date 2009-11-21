@@ -18,7 +18,7 @@ class Feed(webapp.RequestHandler):
         self.response.headers.add_header('Content-Type', 'application/rss+xml')
 
         self.response.out.write("""
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <atom:link href="%sfeeds/interpretations/" rel="self" type="application/rss+xml"/>
     <title>poot poot</title>
@@ -41,9 +41,12 @@ class Feed(webapp.RequestHandler):
      <guid>%sinterpretation/%s.html</guid>
      <link>%sinterpretation/%s.html</link>
      <description>%s</description>
+     <dc:creator>%s</dc:creator>
+     <pubDate>%s</pubDate>
     </item>
 """ % (i.title, integration.INTEGRATIONS['APP_ROOT_URL'], i.title_link,
-       integration.INTEGRATIONS['APP_ROOT_URL'], i.title_link, description))
+       integration.INTEGRATIONS['APP_ROOT_URL'], i.title_link, description, i.author,
+       i.created_at.strftime('%a, %d %b %Y %H:%M:%S GMT')))
 
         self.response.out.write("""
   </channel>
