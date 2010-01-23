@@ -1,5 +1,5 @@
 <!-- begin common_header.m4 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta charset="utf-8">
 
 <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico">
 <link rel="stylesheet" type="text/css" href="/pootpoot.css">
