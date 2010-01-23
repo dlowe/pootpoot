@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
  <title>poot poot interpretation list</title>
 m4_include(common_header.m4)

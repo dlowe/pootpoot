@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
  <title>contact poot poot</title>
 m4_include(common_header.m4)

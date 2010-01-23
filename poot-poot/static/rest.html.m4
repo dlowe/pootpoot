@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
  <title>pootpoot API documentation</title>
 m4_include(common_header.m4)
