@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
  <title>poot poot</title>
+ <meta name="google-site-verification" content="wrrT2vJ0lSOQ6jY0YYun4Q4Dma7jXXDdWzjEtvoIJUU" />
  <link rel="alternate" type="application/rss+xml" title="poot poot" href="/feeds/interpretations/" />
 m4_include(common_header.m4)
 
