@@ -107,6 +107,7 @@ m4_include(buttons.m4)
   <div class="listed_interpretation" id="listed_interpretation_template" style="display:none">
    <a class="title_a"><span class="interpretation_title">title</span></a>
    by <a class="author_a"><span class="interpretation_author">author</span></a>
+   <span class="comments" style="display:none">(<span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span>)</span>
   </div>
  </div>
 m4_include(bottom_links.m4)

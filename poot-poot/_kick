@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
+
+from pypoot import interpretation
+from pypoot import comment
+
+class Kick(webapp.RequestHandler):
+    """request handler for /i"""
+
+    def get(self):
+        """fetch the content of a single interpretation by key"""
+
+        i = interpretation.poot({'title_link': 'happy-poot'})
+        comment.submit(author='David Lowe', content='fnord', interpretation=i)
+
+        self.response.out.write("ok")
+
+APPLICATION = webapp.WSGIApplication([('/_kick', Kick)], debug=True)
+
+def main():
+    """invoke the wsgi thingy"""
+    run_wsgi_app(APPLICATION)
+
+if __name__ == "__main__":
+    main()

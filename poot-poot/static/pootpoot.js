@@ -63,6 +63,15 @@ function repaint () {
 // everything else in here is the code for displaying interpretations, tightly tied
 // with interpretation.m4...
 function expand_interpretation (target, interpretation) {
+    if (interpretation.is_active && interpretation.comments) {
+        if (interpretation.comments > 1) {
+            target.find(".interpretation_comments_plural").text('s');
+        } else {
+            target.find(".interpretation_comments_plural").text('');
+        }
+        target.find(".interpretation_comments").text(interpretation.comments);
+        target.find(".comments").show();
+    }
     target.find(".title_a").attr('href', interpretation.decorated_location);
     target.find(".interpretation_title").text(interpretation.title);
     target.find(".interpretation_author").text(interpretation.author);
@@ -128,7 +137,7 @@ function poot (target, filters, ready) {
             $.getScript(interpretation.content_location, function () {
                 target.unbind('click');
                 colorize(target);
-                expand_interpretation(target.find("#title"), interpretation);
+                expand_interpretation(target, interpretation);
                 var p = global_this[interpretation.javascript_hook]();
                 content.find("#content_javascript").empty();
                 show_content(content, interpretation.type);
@@ -142,7 +151,7 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 target.unbind('click');
                 colorize(target);
-                expand_interpretation(target.find("#title"), interpretation);
+                expand_interpretation(target, interpretation);
                 content.find("#content_text").text(data);
                 show_content(content, interpretation.type);
                 target.click(function () { repaint(); });
@@ -154,7 +163,7 @@ function poot (target, filters, ready) {
             $.get(interpretation.content_location, function (data) {
                 target.unbind('click');
                 colorize(target);
-                expand_interpretation(target.find("#title"), interpretation);
+                expand_interpretation(target, interpretation);
                 content.find("#content_html").html(data);
                 show_content(content, interpretation.type);
                 target.click(function () { repaint(); });
@@ -163,7 +172,7 @@ function poot (target, filters, ready) {
         } else if (interpretation.type == T_IMAGE) {
             target.unbind('click');
             colorize(target);
-            expand_interpretation(target.find("#title"), interpretation);
+            expand_interpretation(target, interpretation);
             var img = content.find("#content_image").find("img");
             // to avoid UI warping the old image to new dimensions while the new image loads
             img.attr({

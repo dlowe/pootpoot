@@ -1,6 +1,6 @@
 <!-- begin interpretation.m4 -->
 <div id="interpretation" class="main_content">
- <div id="title" style="display: none">
+ <div id="title">
   <a class="title_a"><span class="interpretation_title">title</span></a> by <a class="author_a"><span class="interpretation_author">author</span></a>
   <span class="linkers" style="display: none">
     <a id="link_twitter" href="#"><img border=0 height=20 width=20 src="/twitter.jpg" alt="tweet this" title="tweet this"></a>
@@ -21,6 +21,10 @@
 
   <div id="content_javascript" style="display: none"></div>
  </div>
+
+ <span class="comments" style="display: none">
+  <span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span>.
+ </span>
 
 </div>
 <!-- end interpretation.m4 -->
