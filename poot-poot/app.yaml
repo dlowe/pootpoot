@@ -18,6 +18,9 @@ handlers:
 - url: /(poot|list|list_pages|count|submit|approve|disapprove)
   script: api/interpretation.py
 
+- url: /(comment_list)
+  script: api/comment.py
+
 - url: /i/([^/]+)
   script: api/i.py
 

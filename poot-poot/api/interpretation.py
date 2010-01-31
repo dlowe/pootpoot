@@ -7,7 +7,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 ## this app
-from pypoot import json
+from api import api_request_handler
 from pypoot import interpretation
 
 def _get_filter_arguments(request):
@@ -20,49 +20,7 @@ def _get_filter_arguments(request):
 
     return filters
 
-class MalformedRequest(Exception):
-    """missing a require parameter, etc"""
-    pass
-
-class APIRequestHandler(webapp.RequestHandler):
-    """class implementing general logic for API methods"""
-
-    def _data(self):
-        """implement in sublcass!"""
-        pass
-
-    def _logic(self, data):
-        """implement in subclass!"""
-        pass
-
-    def api_worker(self):
-        """generic flow for API methods..."""
-
-        data    = None
-        status  = None
-        content = None
-        try:
-            data = self._data()
-        except MalformedRequest:
-            status  = 403
-            content = { 'error': 'malformed request' }
-        except interpretation.BunkInterpretation, error:
-            status  = 400
-            content = { 'error': str(error) }
-        except interpretation.BadOwnerBaton:
-            status  = 403
-            content = { 'error': 'Bad owner baton given' }
-        else:
-            (status, content) = self._logic(data)
-
-        self.response.set_status(status)
-        if 'Content-Type' in self.response.headers:
-            del self.response.headers['Content-Type']
-        self.response.headers.add_header('Content-Type', 'text/plain')
-
-        self.response.out.write(json.ify(content))
-
-class List(APIRequestHandler):
+class List(api_request_handler.APIRequestHandler):
     """request handler for /list"""
 
     def get(self):
@@ -72,7 +30,7 @@ class List(APIRequestHandler):
     def _data(self):
         """fetch list of matching interpretations"""
         if not self.request.get('items'):
-            raise MalformedRequest()
+            raise api_request_handler.MalformedRequest()
         return interpretation.list_interpretations(_get_filter_arguments(self.request),
             int(self.request.get('items')))
 
@@ -88,7 +46,7 @@ class List(APIRequestHandler):
                 content.append(i.get_public_info())
         return (status, content)
 
-class ListPages(APIRequestHandler):
+class ListPages(api_request_handler.APIRequestHandler):
     """request handler for /list_pages"""
 
     def get(self):
@@ -98,7 +56,7 @@ class ListPages(APIRequestHandler):
     def _data(self):
         """fetch list of pages of matching interpretations"""
         if not self.request.get('items'):
-            raise MalformedRequest()
+            raise api_request_handler.MalformedRequest()
         return interpretation.list_pages(_get_filter_arguments(self.request),
             int(self.request.get('items')))
 
@@ -112,7 +70,7 @@ class ListPages(APIRequestHandler):
             content = page_list
         return (status, content)
 
-class Count(APIRequestHandler):
+class Count(api_request_handler.APIRequestHandler):
     """request handler for /count"""
 
     def get(self): 
@@ -127,7 +85,7 @@ class Count(APIRequestHandler):
         """..."""
         return (200, { 'count': str(count) })
 
-class Poot(APIRequestHandler):
+class Poot(api_request_handler.APIRequestHandler):
     """request handler for /poot"""
 
     def get(self):
@@ -148,7 +106,7 @@ class Poot(APIRequestHandler):
             content = i.get_public_info()
         return (status, content)
 
-class Submit(APIRequestHandler):
+class Submit(api_request_handler.APIRequestHandler):
     """request handler for /submit"""
 
     def post(self):
@@ -173,7 +131,7 @@ class Submit(APIRequestHandler):
         return (200, { 'key_string': str(i.key()),
                        'owner_baton': i.owner_baton })
 
-class Approve(APIRequestHandler):
+class Approve(api_request_handler.APIRequestHandler):
     """request handler for /approve"""
 
     def post(self):
@@ -198,7 +156,7 @@ class Approve(APIRequestHandler):
             content = i.get_public_info()
         return (status, content)
 
-class Disapprove(APIRequestHandler):
+class Disapprove(api_request_handler.APIRequestHandler):
     """request handler for /disapprove"""
 
     def post(self):

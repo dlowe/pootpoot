@@ -6,7 +6,9 @@ import logging
 
 FILES = [
     '/api/i.py',
+    '/api/api_request_handler.py',
     '/api/interpretation.py',
+    '/api/comment.py',
     '/pypoot/interpretation.py',
     '/pypoot/json.py',
     '/pypoot/permalink.py',

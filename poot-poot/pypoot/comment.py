@@ -24,6 +24,15 @@ def count(interpretation):
 
     return query.count(1000)
 
+def list_comments(interpretation_key):
+    """return all of the comments associated with a given interpretation"""
+
+    query = db.Query(Comment, False)
+    query.filter('is_active', True)
+    query.filter('interpretation', db.Key(interpretation_key))
+
+    return query.fetch(1000)
+
 def submit (**attributes):
     """save a comment"""
 
