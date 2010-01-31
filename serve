@@ -13,7 +13,7 @@ export -n POOTPOOT_BITLY_LOGIN
 (while [ -d $POOTPOOT_APP_DIR ]; do ./mkapp poot-poot $POOTPOOT_APP_DIR; sleep 1; done) &
 
 ## "background job" to bootstrap production data into the local test app
-(sleep 3; rm /tmp/bulkloader.db; echo foo | ~/google_appengine/bulkloader.py --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --restore --kind=Interpretation --filename=live_interpretations.data --url=http://$POOTPOOT_APP_DOMAIN:$POOTPOOT_APP_PORT/remote_api --app_id=poot-poot --email=j.david.lowe@gmail.com --passin $POOTPOOT_APP_DIR) &
+(sleep 3; rm /tmp/bulkloader.db; echo foo | ~/google_appengine/bulkloader.py --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --restore --kind=Interpretation --filename=live_interpretations.data --url=http://$POOTPOOT_APP_DOMAIN:$POOTPOOT_APP_PORT/remote_api --app_id=poot-poot --email=j.david.lowe@gmail.com --passin $POOTPOOT_APP_DIR; rm /tmp/bulkloader.db; echo foo | ~/google_appengine/bulkloader.py --log_file=/tmp/bulkloader.log --db_filename=/tmp/bulkloader.db --restore --kind=Comment --filename=live_comments.data --url=http://$POOTPOOT_APP_DOMAIN:$POOTPOOT_APP_PORT/remote_api --app_id=poot-poot --email=j.david.lowe@gmail.com --passin $POOTPOOT_APP_DIR) &
 
 ## start app server...
 ~/google_appengine/dev_appserver.py --clear_datastore --require_indexes --port=$POOTPOOT_APP_PORT $POOTPOOT_APP_DIR
