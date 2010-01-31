@@ -14,7 +14,10 @@ def ify(thing):
         else:
             json = 'false'
     elif (isinstance(thing, basestring)):
-        json = '"' + thing.replace('"', '\\"') + '"'
+        thing = thing.replace('"', '\\"')
+        thing = thing.replace("\n", '\\n')
+        thing = thing.replace("\r", '\\r')
+        json = '"' + thing + '"'
     elif (isinstance(thing, int)) or (isinstance(thing, long)):
         json = str(thing)
     elif (isinstance(thing, dict)):

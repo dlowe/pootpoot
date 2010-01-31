@@ -22,9 +22,16 @@
   <div id="content_javascript" style="display: none"></div>
  </div>
 
- <span class="comments" style="display: none">
-  <a id="link_show_comments" href="#"><span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span></a>.
- </span>
+ <div id="footer">
+  <span class="interpretation_created_at">your birthday</span>
+  <span class="comments" style="display: none">
+   &middot; <a id="link_show_comments" href="#"><span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span></a>
+  </span>
+
+  <span class="add_comments" style="display: none">
+   &middot; <a id="link_add_comment" href="#">Comment</a>
+  </span>
+ </div>
 
 </div>
 <!-- end interpretation.m4 -->

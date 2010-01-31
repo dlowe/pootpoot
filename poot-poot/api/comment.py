@@ -9,7 +9,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from api import api_request_handler
 from pypoot import comment
 
-class Comments(api_request_handler.APIRequestHandler):
+class CommentList(api_request_handler.APIRequestHandler):
     """request handler for /comment_list"""
 
     def get(self):
@@ -34,8 +34,28 @@ class Comments(api_request_handler.APIRequestHandler):
                 content.append(i.get_public_info())
         return (status, content)
 
+class Submit(api_request_handler.APIRequestHandler):
+    """request handler for /comment_submit"""
+
+    def post(self):
+        """POST handler"""
+        self.api_worker()
+
+    def _data(self):
+        """submit a new comment"""
+        new_comment = comment.submit(
+              author=self.request.get('author'),
+              content=self.request.get('content'),
+              interpretation_key_string=self.request.get('interpretation_key_string'))
+        return new_comment
+
+    def _logic(self, new_comment):
+        """..."""
+        return (200, { 'key_string': str(new_comment.key()) })
+
 APPLICATION = webapp.WSGIApplication([
-   ('/comment_list', Comments)],
+   ('/comment_list', CommentList),
+   ('/comment_submit', Submit)],
    debug=True)
 
 def main():

@@ -6,6 +6,7 @@ from google.appengine.ext import webapp
 
 ## this app
 from pypoot import json
+from pypoot import comment
 from pypoot import interpretation
 
 class MalformedRequest(Exception):
@@ -35,6 +36,9 @@ class APIRequestHandler(webapp.RequestHandler):
             status  = 403
             content = { 'error': 'malformed request' }
         except interpretation.BunkInterpretation, error:
+            status  = 400
+            content = { 'error': str(error) }
+        except comment.BunkComment, error:
             status  = 400
             content = { 'error': str(error) }
         except interpretation.BadOwnerBaton:

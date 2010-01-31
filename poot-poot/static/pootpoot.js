@@ -75,6 +75,7 @@ function expand_interpretation (target, interpretation) {
     target.find(".title_a").attr('href', interpretation.decorated_location);
     target.find(".interpretation_title").text(interpretation.title);
     target.find(".interpretation_author").text(interpretation.author);
+    target.find(".interpretation_created_at").text(interpretation.created_at);
     target.find(".author_a").attr('href', interpretation.author_location);
     target.find(".content_a").attr('href', interpretation.content_location);
     if (interpretation.is_active && interpretation.short_url) {

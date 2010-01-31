@@ -6,6 +6,10 @@ html {
   border-style: none none solid none
 }
 
+#footer {
+  border-style: solid none none none
+}
+
 .linkers {
   position: absolute;
   top: 7px;

@@ -48,6 +48,7 @@ class Interpretation(db.Model):
         ## the basics
         info = { 'title': self.title,
                  'author': self.author,
+                 'created_at': self.created_at.strftime('%a, %d %b %Y %H:%M:%S GMT'),
                  'type': self.type,
                  'content_location': "/i/%s" % self.key(),
                  'short_url': self.short_url,

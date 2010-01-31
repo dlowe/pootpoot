@@ -5,6 +5,7 @@
 from datetime import datetime
 
 ## app engine
+from google.appengine.api import datastore_errors
 from google.appengine.ext import db
 
 class Comment(db.Model):
@@ -19,10 +20,14 @@ class Comment(db.Model):
         """compute & return API-visible data"""
 
         info = { 'author': self.author,
-                 'created_at': str(self.created_at),
+                 'created_at': self.created_at.strftime('%a, %d %b %Y %H:%M:%S GMT'),
                  'content': self.content }
 
         return info
+
+class BunkComment(Exception):
+    """the interpretation cannot be validated"""
+    pass
 
 def count(interpretation):
     """count the comments associated with a given interpretation"""
@@ -45,9 +50,16 @@ def list_comments(interpretation_key_string):
 def submit (**attributes):
     """save a comment"""
 
-    new_comment = Comment(is_active = True,
-                          created_at = datetime.utcnow(),
-                          **attributes)
+    if 'interpretation_key_string' in attributes:
+        attributes['interpretation'] = db.Key(attributes['interpretation_key_string'])
+        del attributes['interpretation_key_string']
+
+    try:
+        new_comment = Comment(is_active = True,
+                              created_at = datetime.utcnow(),
+                              **attributes)
+    except datastore_errors.BadValueError, error:
+        raise BunkComment(str(error))
 
     new_comment.put()
     return new_comment

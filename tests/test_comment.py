@@ -37,7 +37,7 @@ class TestComment(CommentTestCase):
 
         self.assertEquals(comment.count(i), 0)
 
-        c = comment.submit(author='Anonymous', content='yadda', interpretation=i)
+        c = comment.submit(author='Anonymous', content='yadda', interpretation_key_string=str(i.key()))
 
         self.assertEquals(comment.count(i), 1)
 
