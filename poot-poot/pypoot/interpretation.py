@@ -17,6 +17,7 @@ from google.appengine.ext import db
 from pypoot import permalink
 from pypoot import feedparser
 from pypoot import jsparser
+from pypoot import comment
 
 T_IMAGE      = 'image'
 T_TEXT       = 'text'
@@ -51,6 +52,7 @@ class Interpretation(db.Model):
                  'content_location': "/i/%s" % self.key(),
                  'short_url': self.short_url,
                  'is_active': self.is_active,
+                 'comments': comment.count(self),
                  'author_location':
                      "/list_interpretations/a/%s/" % urllib.quote(self.author),
                  'decorated_location':

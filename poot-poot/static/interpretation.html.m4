@@ -8,7 +8,6 @@ m4_include(common_header.m4)
 
  <script type="text/javascript">
   function interpretationReady () {
-      //colorize($("body"));
       repaint();
   }
   $(function () {

@@ -21,5 +21,6 @@
 
   <div id="content_javascript" style="display: none"></div>
  </div>
+
 </div>
 <!-- end interpretation.m4 -->

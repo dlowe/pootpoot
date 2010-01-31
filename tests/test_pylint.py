@@ -11,6 +11,7 @@ FILES = [
     '/pypoot/json.py',
     '/pypoot/permalink.py',
     '/pypoot/integration.py',
+    '/pypoot/comment.py',
     '/queue_handlers/new_interpretation.py',
     '/feeds/interpretations.py',
 ]
