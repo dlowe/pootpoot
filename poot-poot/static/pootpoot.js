@@ -143,7 +143,7 @@ function poot (target, filters, ready) {
                 show_content(content, interpretation.type);
                 p.start(content.find("#content_javascript"));
                 i = p;
-                ready();
+                ready(interpretation);
             });
         } else if (interpretation.type == T_TEXT) {
             $.ajaxSetup({ cache: true });
@@ -155,7 +155,7 @@ function poot (target, filters, ready) {
                 content.find("#content_text").text(data);
                 show_content(content, interpretation.type);
                 target.click(function () { repaint(); });
-                ready();
+                ready(interpretation);
             }, "text");
         } else if (interpretation.type == T_HTML) {
             $.ajaxSetup({ cache: true });
@@ -167,7 +167,7 @@ function poot (target, filters, ready) {
                 content.find("#content_html").html(data);
                 show_content(content, interpretation.type);
                 target.click(function () { repaint(); });
-                ready();
+                ready(interpretation);
             }, "html");
         } else if (interpretation.type == T_IMAGE) {
             target.unbind('click');
@@ -187,7 +187,7 @@ function poot (target, filters, ready) {
             });
             show_content(content, interpretation.type);
             target.click(function () { repaint(); });
-            ready();
+            ready(interpretation);
         }
     });
 

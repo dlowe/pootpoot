@@ -53,6 +53,7 @@ class Interpretation(db.Model):
                  'short_url': self.short_url,
                  'is_active': self.is_active,
                  'comments': comment.count(self),
+                 'key_string': str(self.key()),
                  'author_location':
                      "/list_interpretations/a/%s/" % urllib.quote(self.author),
                  'decorated_location':

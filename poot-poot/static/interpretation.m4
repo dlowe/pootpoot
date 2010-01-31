@@ -23,7 +23,7 @@
  </div>
 
  <span class="comments" style="display: none">
-  <span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span>.
+  <a id="link_show_comments" href="#"><span class="interpretation_comments">0</span> comment<span class="interpretation_comments_plural">s</span></a>.
  </span>
 
 </div>

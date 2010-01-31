@@ -18,9 +18,9 @@ class Comments(api_request_handler.APIRequestHandler):
 
     def _data(self):
         """fetch list of matching comments"""
-        if not self.request.get('interpretation_key'):
+        if not self.request.get('interpretation_key_string'):
             raise api_request_handler.MalformedRequest()
-        return comment.list_comments(self.request.get('interpretation_key'))
+        return comment.list_comments(self.request.get('interpretation_key_string'))
 
     def _logic(self, comment_list):
         """convert empty set to 404, package the rest"""
