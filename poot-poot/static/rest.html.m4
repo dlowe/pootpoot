@@ -42,10 +42,14 @@ m4_include(buttons.m4)
  <div class="doc_block">
  <p>Many of the interpretation API methods below return serialized interpretation data, which are objects consisting of:</p>
  <dl>
+  <dt>key_string</dt>
+   <dd>Unique key identifying this interpretation</dd>
   <dt>title</dt>
    <dd>Title of the interpretation</dd>
   <dt>author</dt>
    <dd>Author of the interpretation</dd>
+  <dt>created_at</dt>
+   <dd>Formatted date string (%a, %d %b %Y %H:%M:%S GMT) when this interpretation was created</dd>
   <dt>is_active</dt>
    <dd>Boolean indicating whether this interpretation is in active rotation</dd>
   <dt>type</dt>
@@ -58,6 +62,8 @@ m4_include(buttons.m4)
    <dd>URL (relative to the API host) where the interpretation can be viewed</dd>
   <dt>short_url</dt>
    <dd>shortened (bit.ly) absolute URL to this interpretation</dd>
+  <dt>comments</dt>
+   <dd>number of comments associated with this interpretation</dd>
   <dt>image_height (iff type='image')</dt>
    <dd>height of the image, in pixels</dd>
   <dt>image_width (iff type='image')</dt>
@@ -174,6 +180,53 @@ m4_include(buttons.m4)
    <dd>You saved it after calling the <a href="#method_submit">/submit method</a>, right?</dd>
  </dl>
  <p>On success, returns the deleted <a href="#interpretation_object">interpretation object</a>.</p>
+ </div>
+
+ <h2>Comments</h2>
+ <h3><a name="comment_object">Comment Objects</a></h3>
+ <div class="doc_block">
+ <p>Many of the comment API methods below return serialized comment data, which are objects
+ consisting of:</p>
+ <dl>
+  <dt>author</dt>
+   <dd>Author of the comment</dd>
+  <dt>created_at</dt>
+   <dd>Formatted date string (%a, %d %b %Y %H:%M:%S GMT) when this comment was created</dd>
+  <dt>content</dt>
+   <dd>The comment itself</dd>
+ </dl>
+ </div>
+
+ <h3 class="method_header"><a name="method_comment_list">/comment_list [GET]</a></h3>
+ <div class="doc_block">
+ <p>Fetch all comments attached to a given interpretation. Requires the following argument:</p>
+ <dl>
+  <dt>interpretation_key_string</dt>
+   <dd>The key_string from an <a href="#interpretation_object">interpretation object</a>.</dd>
+  </dl>
+  <p>On success, returns a list of <a href="#comment_object">comment objects</a>.</p>
+  <dl>
+   <dt>key_string</dt>
+    <dd>Unique key identifying this comment</dd>
+  </dl>
+ </div>
+
+ <h3 class="method_header"><a name="method_coment_submit">/comment_submit [POST]</a></h3>
+ <div class="doc_block">
+ <p>Create a new comment. Requires the following arguments:</p>
+ <dl>
+  <dt>interpretation_key_string</dt>
+   <dd>The key_string from an <a href="#interpretation_object">interpretation object</a>. This will be the interpretation to which this comment is attached.</dd>
+  <dt>author</dt>
+   <dd>Author of the comment</dd>
+  <dt>content</dt>
+   <dd>The comment itself</dd>
+  </dl>
+  <p>On success, returns an object containing the following:</p>
+  <dl>
+   <dt>key_string</dt>
+    <dd>Unique key identifying this comment</dd>
+  </dl>
  </div>
  
  </div>
