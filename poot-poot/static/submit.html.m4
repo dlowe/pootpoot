@@ -29,6 +29,12 @@ function change_details () {
     }
     $("#details_" + show_type).show();
 
+    if (show_type == T_IMAGE) {
+        $("#content_textarea").hide();
+    } else {
+        $("#content_textarea").show();
+    }
+
     repaint();
     return;
 }
@@ -104,7 +110,10 @@ m4_include(buttons.m4)
      <input type="radio" name="type" value="html" onChange="change_details();">html
      <input type="radio" name="type" value="javascript" onChange="change_details();">javascript
    </td></tr>
-   <tr><td>content:</td><td><input type="file" name="content"></td></tr>
+   <tr><td>content:</td><td><input id="file_content" type="file" name="file_content" onChange="$('#inline_content').attr('name', 'inline_content'); $('#inline_content').attr('value', ''); $('#file_content').attr('name', 'content');"></td></tr>
+   <tr id="content_textarea" style="display: none">
+    <td>OR inline:</td><td><textarea id="inline_content" cols=40 rows=10 name="inline_content" onChange="$('#file_content').attr('name', 'file_content'); $('#file_content').attr('value', ''); $('#inline_content').attr('name', 'content');"></textarea></td>
+   </tr>
    </table>
    <div><input type="submit" value="poot"></div>
  </form>

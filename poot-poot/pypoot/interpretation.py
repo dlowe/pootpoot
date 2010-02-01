@@ -277,6 +277,9 @@ PROCESSORS = {
 def submit(**attributes):
     """save an interpretation"""
 
+    if isinstance(attributes['content'], unicode):
+        attributes['content'] = attributes['content'].encode('utf-8')
+
     if (attributes['type'] in PROCESSORS):
         attributes.update(PROCESSORS[attributes['type']](attributes['content']))
 
