@@ -86,6 +86,9 @@ m4_include(common_header.m4)
 
            $("#comment_error").hide();
            $("#link_show_comments").click();
+           $("#author").attr('value', '');
+           $("#content").attr('value', '');
+           $("#add_comment").hide();
        }
    });
 
