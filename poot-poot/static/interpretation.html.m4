@@ -48,7 +48,7 @@ m4_include(common_header.m4)
       $("#link_add_comment").click(function (event) {
           event.preventDefault();
           $("#add_comment").show();
-          $("#author").focus();
+          $("#form_author").focus();
       });
       $(".add_comments").show();
 
@@ -86,8 +86,8 @@ m4_include(common_header.m4)
 
            $("#comment_error").hide();
            $("#link_show_comments").click();
-           $("#author").attr('value', '');
-           $("#content").attr('value', '');
+           $("#form_author").attr('value', '');
+           $("#form_content").val('');
            $("#add_comment").hide();
        }
    });
@@ -126,8 +126,8 @@ m4_include(interpretation.m4)
   <table style="table-layout: fixed" summary="comment submission form and help">
   <tr><td style="width: 60%; vertical-align: top">
    <table summary="comment submission form">
-    <tr><td>your name:</td><td><input id="author" type="text" name="author"></td></tr>
-    <tr><td>your comment:</td><td><textarea name="content" cols=40 rows=10></textarea></td></tr>
+    <tr><td>your name:</td><td><input id="form_author" type="text" name="author"></td></tr>
+    <tr><td>your comment:</td><td><textarea id="form_content" name="content" cols=40 rows=10></textarea></td></tr>
    </table>
    <div>
     <input id="interpretation_key_string" type="hidden" name="interpretation_key_string" value="fnord">
