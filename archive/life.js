@@ -1,41 +1,31 @@
 function life () {
 var current = [
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,1,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,1,1,1,1,1,0,0],
-[0,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-[0,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-[0,0,1,1,1,1,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-[0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-[0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,1,1,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
 function _xy(x,y) {
     return $("#life_" + x + '_' + y);
 }
 
-function _live_neighbors(X,Y,x,y) {
-    var live = 0;
-    for (var dx = -1; dx < 2; ++dx) {
-        if (((x + dx) >= 0) && ((x + dx) < X)) {
-            for (var dy = -1; dy < 2; ++dy) {
-                if (((y + dy) >= 0) && ((y + dy) < Y)) {
-                    if (! ((dx == 0) && (dy == 0))) {
-                        live += _is_alive(x+dx, y+dy);
-                    }
-                }
-            }
-        }
-    }
-    return live;
-}
-
-function _is_alive(x,y) {
-    return _xy(x, y).hasClass('alive');
-}
-
 function _life (target, X, Y, start, timeout) {
-
     var h = '<table id="life_table" cellpadding=0 cellspacing=0';
     for (var y = 0; y < Y; ++y) {
         h += '<tr>';
@@ -45,10 +35,9 @@ function _life (target, X, Y, start, timeout) {
         h += '</tr>';
     }
     h += '</table>';
-    // h += '<textarea id="debug" rows=100 cols=80></textarea>';
     target.html(h);
 
-    $("#life_table").css({'margin': '10px auto',
+    $("#life_table").css({'margin':       '10px auto',
                           'border-width': 1,
                           'border-style': 'solid',
                           'color':        '#000000'});
@@ -57,10 +46,8 @@ function _life (target, X, Y, start, timeout) {
         for (var x = 0; x < X; ++x) {
             var color;
             if (start[y][x] == 1) {
-                _xy(x, y).addClass('alive');
                 color = '#000000';
             } else {
-                _xy(x, y).removeClass('alive');
                 color = '#FFFFFF';
             }
 
@@ -80,6 +67,37 @@ function _life (target, X, Y, start, timeout) {
         }
     }
 
+    var display = new Array(Y);
+    for (var y = 0; y < Y; ++y) {
+        display[y] = new Array(X);
+        for (var x = 0; x < X; ++x) {
+            display[y][x] = _xy(x, y);
+        }
+    }
+
+    var _is_alive = function (x,y) {
+        return start[y][x] == 1;
+    };
+
+    var _live_neighbors = function (x,y) {
+        var live = 0;
+        for (var dx = -1; dx < 2; ++dx) {
+            if (((x + dx) >= 0) && ((x + dx) < X)) {
+                for (var dy = -1; dy < 2; ++dy) {
+                    if (((y + dy) >= 0) && ((y + dy) < Y)) {
+                        if (! ((dx == 0) && (dy == 0))) {
+                            live += start[y+dy][x+dx];
+                            if (live > 3) {
+                                return live;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return live;
+    };
+
     var next = new Array(Y);
     for (var y = 0; y < Y; ++y) {
         next[y] = new Array(X);
@@ -89,9 +107,7 @@ function _life (target, X, Y, start, timeout) {
         // compute the next step
         for (var x = 0; x < X; ++x) {
             for (var y = 0; y < Y; ++y) {
-                var live_neighbors = _live_neighbors(X, Y, x, y);
-                //$("#debug").append("(" + x + "," + y + ") bit: " + _is_alive(x, y) + "\n");
-                //$("#debug").append("(" + x + "," + y + ") has " + live_neighbors + "\n");
+                var live_neighbors = _live_neighbors(x, y);
                 if (_is_alive(x, y)) {
                     if (live_neighbors < 2) {
                         next[y][x] = 0;
@@ -113,22 +129,22 @@ function _life (target, X, Y, start, timeout) {
         // draw it
         for (var x = 0; x < X; ++x) {
             for (var y = 0; y < Y; ++y) {
-                var color;
-                if (next[y][x] == 1) {
-                    color = '#000000';
-                    _xy(x, y).addClass('alive');
-                } else {
-                    color = '#FFFFFF';
-                    _xy(x, y).removeClass('alive');
-                }
+                if (start[y][x] != next[y][x]) {
+                    var color;
+                    if (start[y][x] = next[y][x]) {
+                        color = '#000000';
+                    } else {
+                        color = '#FFFFFF';
+                    }
 
-                _xy(x, y).css({'background-color': color});
+                    display[y][x].css({'background-color': color});
+                }
             }
         }
 
         timeout.set(animate);
     }
-    timeout.set(animate);
+    setTimeout(animate, 2000);
 }
 
 var timeout_id = null;
