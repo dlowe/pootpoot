@@ -5,5 +5,6 @@
  <a class="button" id="button_play"     href="/interpretation/find-poot.html">Play</a>
  <a class="button" id="button_what"     href="/what.html">What?</a>
  <a class="button" id="button_submit"   href="/submit.html">Submit</a>
+ <a class="button" id="button_pootify"  href="/pootify.html">Pootify</a>
 </div>
 <!-- end buttons.m4 -->

@@ -24,6 +24,9 @@ handlers:
 - url: /i/([^/]+)
   script: api/i.py
 
+- url: /pootify
+  script: pootify.py
+
 - url: /
   static_files: static/interpretation.html
   upload: static/interpretation.html
