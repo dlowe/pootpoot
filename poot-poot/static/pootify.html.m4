@@ -23,8 +23,8 @@ m4_include(buttons.m4)
  <div id="pootify" class="main_content">
  <div id="pootify_text">
 
- <div>Pootify all web pages!</div>
- <div>See the world wide web as it was truly meant to be seen!</div>
+ <p>Pootify all web pages!</p>
+ <p>See the world wide web as it was truly meant to be seen!</p>
 
  <form action="/pootify" method="get">
   <input type="text" name="url" value="http://" size=50><br>

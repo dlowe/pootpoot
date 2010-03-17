@@ -250,3 +250,38 @@ function pootify_document (target) {
     }
     return;
 }
+
+function pootify_link (node, attribute_index, base_current, base_pootifier) {
+    var v = node.attributes[attribute_index].value;
+    if (! /^http:\/\//.test(v)) {
+        v = base_current + v;
+    }
+    node.attributes[attribute_index].value = base_pootifier + encodeURIComponent(v);
+}
+
+function pootify_links (target, base_current, base_pootifier) {
+    for (var l in target.childNodes) {
+        var node = target.childNodes[l];
+
+        if (node.nodeName == 'FRAME') {
+            for (var a in node.attributes) {
+                if (node.attributes[a].name == 'src') {
+                    pootify_link(node, a, base_current, base_pootifier);
+                }
+            }
+        }
+
+        if (node.nodeName == 'A') {
+            for (var a in node.attributes) {
+                if (node.attributes[a].name == 'href') {
+                    pootify_link(node, a, base_current, base_pootifier);
+                }
+            }
+        }
+
+        if (node.nodeType == 1) {
+            pootify_links(node, base_current, base_pootifier);
+        }
+    }
+    return;
+}
