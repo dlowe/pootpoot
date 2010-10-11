@@ -20,7 +20,7 @@ m4_include(common_header.m4)
 m4_include(buttons.m4)
  <div id="code" class="main_content">
  <p>
- pootpoot is open-source software. You can follow the project <a href="http://www.assembla.com/spaces/pootpoot/new_items">here</a>, browse the source <a href="http://trac-hg.assembla.com/pootpoot/browser">here</a>, and keep tabs on what I'm doing next <a href="http://trac-hg.assembla.com/pootpoot/report/1">here</a>. I'd love help if you're interested!
+ pootpoot is open-source software. You can follow the project and browse the source <a href="http://github.com/dlowe/pootpoot">here</a>, and keep tabs on what I'm doing next <a href="http://github.com/dlowe/pootpoot/issues">here</a>. I'd love help if you're interested!
  </p>
 
  <p>
@@ -44,12 +44,8 @@ m4_include(buttons.m4)
    <dd>AJAXy forms</dd>
   <dt><a href="http://www.openjs.com/scripts/events/keyboard_shortcuts/">shortcuts.js</a></dt>
    <dd>javascript keyboard shortcuts</dd>
-  <dt><a href="http://mercurial.selenic.com/wiki/">mercurial</a></dt>
-   <dd>source control</dd>
-  <dt><a href="http://trac.edgewall.org/">trac</a></dt>
-   <dd>defect and work tracking</dd>
-  <dt><a href="http://www.assembla.com/">assembla</a></dt>
-   <dd>trac and mercurial hosting</dd>
+  <dt><a href="http://www.github.com/">github</a></dt>
+   <dd>code and issue hosting</dd>
   <dt><a href="http://www.gnu.org/software/m4/">m4</a></dt>
    <dd>template expansion</dd>
   <dt><a href="http://somethingaboutorange.com/mrl/projects/nose/0.11.1/">nose</a> and <a href="http://code.google.com/p/nose-gae/">nose-gae</a></dt>
