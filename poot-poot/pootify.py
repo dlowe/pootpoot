@@ -21,8 +21,7 @@ class Pootifier(webapp.RequestHandler):
 
         url = self.request.get('url')
         if not url:
-            self.response.set_status(400)
-            self.response.out.write('Huh?')
+            self.redirect("/pootify.html")
             return
 
         result    = urlfetch.fetch(url, follow_redirects=True)
