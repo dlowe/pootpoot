@@ -18,7 +18,7 @@ FILES = [
     '/feeds/interpretations.py',
 ]
 
-PYLINT = '/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin/pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --max-branchs=13 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
+PYLINT = 'pylint --reports=n --persistent=n --max-line-length=100 --output-format=parseable --max-public-methods=30 --max-branchs=13 --deprecated-modules=regsub,TERMIOS,Bastion,rexec'
 
 class TestPylint(unittest.TestCase):
     def test(self):

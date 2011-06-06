@@ -168,13 +168,13 @@ def list_pages(filters, interpretations_per_page):
 
 IMAGE_WIDTH_MAX  = 900
 IMAGE_HEIGHT_MAX = 900
-def _process_image(bytes):
+def _process_image(bytes_in):
     """process and validate the contents of an image interpretation"""
 
     height = None
     width  = None
     try:
-        image  = images.Image(bytes)
+        image  = images.Image(bytes_in)
         height = image.height
         width  = image.width
     except images.Error:
@@ -191,19 +191,19 @@ def _process_image(bytes):
     ## note: cut & pasted from the innards of the Image API, because
     ## the API does not provide introspection into the content-type
     content_type = None
-    size         = len(bytes)
-    if size >= 6 and bytes.startswith("GIF"):
+    size         = len(bytes_in)
+    if size >= 6 and bytes_in.startswith("GIF"):
         content_type = 'image/gif'
-    elif size >= 8 and bytes.startswith("\x89PNG\x0D\x0A\x1A\x0A"):
+    elif size >= 8 and bytes_in.startswith("\x89PNG\x0D\x0A\x1A\x0A"):
         content_type = 'image/png'
-    elif size >= 2 and bytes.startswith("\xff\xD8"):
+    elif size >= 2 and bytes_in.startswith("\xff\xD8"):
         content_type = 'image/jpeg'
-    elif (size >= 8 and (bytes.startswith("II\x2a\x00") or
-                         bytes.startswith("MM\x00\x2a"))):
+    elif (size >= 8 and (bytes_in.startswith("II\x2a\x00") or
+                         bytes_in.startswith("MM\x00\x2a"))):
         content_type = 'image/tiff'
-    elif size >= 2 and bytes.startswith("BM"):
+    elif size >= 2 and bytes_in.startswith("BM"):
         content_type = 'image/bmp'
-    elif size >= 4 and bytes.startswith("\x00\x00\x01\x00"):
+    elif size >= 4 and bytes_in.startswith("\x00\x00\x01\x00"):
         content_type = 'image/x-icon'
     else:
         raise BunkInterpretation("Content doesn't look like an image to me")
@@ -212,40 +212,40 @@ def _process_image(bytes):
              'image_height': height,
              'image_width':  width }
 
-def _assert_printable(bytes):
+def _assert_printable(bytes_in):
     """raise BunkInterpretation if non-printable characters are in the input"""
 
-    for char in bytes.decode('utf-8'):
+    for char in bytes_in.decode('utf-8'):
         if (unicodedata.category(char) == 'Cc') and not (ord(char)
           in (9, 10, 11, 13)):
             raise BunkInterpretation("Non-printable characters in the content")
 
-def _process_text(bytes):
+def _process_text(bytes_in):
     """process and validate the contents of a text interpretation"""
 
-    _assert_printable(bytes)
+    _assert_printable(bytes_in)
 
     return { 'content_type': 'text/plain' }
 
-def _process_html(bytes):
+def _process_html(bytes_in):
     """process and validate the contents of an html interpretation"""
 
-    _assert_printable(bytes)
+    _assert_printable(bytes_in)
 
-    bytes = feedparser.sanitizeHTML(bytes, 'utf-8')
+    bytes_in = feedparser.sanitizeHTML(bytes_in, 'utf-8')
 
-    logging.warn(bytes)
+    logging.warn(bytes_in)
 
     return { 'content_type': 'text/html',
-             'content':      bytes }
+             'content':      bytes_in }
 
-def _process_javascript(bytes):
+def _process_javascript(bytes_in):
     """process and validate the contents of a javascript interpretation"""
 
     ## attempt to parse
     parsed = None
     try:
-        parsed = jsparser.parse(bytes)
+        parsed = jsparser.parse(bytes_in)
     except jsparser.SyntaxError_, error:
         raise BunkInterpretation("Can't parse your javascript: " + str(error))
 
