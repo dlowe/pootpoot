@@ -2,7 +2,7 @@
 """fetch metadata describing a single random interpretation"""
 
 ## app engine
-from google.appengine.api.labs import taskqueue
+from google.appengine.api import taskqueue
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
