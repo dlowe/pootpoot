@@ -6,7 +6,7 @@ test:
   override:
     - ./test:
         environment:
-          POOTPOOT_GAE_HOME=~/venv/lib/python2.7/site-packages/google/appengine/
+          POOTPOOT_GAE_HOME: ~/venv/lib/python2.7/site-packages/google/appengine/
 
 deploy:
   master:
