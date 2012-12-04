@@ -1,7 +1,9 @@
 dependencies:
   pre:
-    - curl -O https://googleappengine.googlecode.com/files/google_appengine_1.5.1.zip
-    - unzip google_appengine_1.5.1.zip
+    - curl -O https://googleappengine.googlecode.com/files/google_appengine_1.5.1.zip:
+        pwd: ~
+    - unzip google_appengine_1.5.1.zip:
+        pwd: ~
     - pip install ez_setup
     - pip install google-appengine
 
