@@ -1,0 +1,9 @@
+test:
+  override:
+    ./test
+
+deploy:
+  master:
+    branch: master
+    commands:
+      - ./deploy
