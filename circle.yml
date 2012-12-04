@@ -1,12 +1,15 @@
 dependencies:
   pre:
+    - curl -O https://googleappengine.googlecode.com/files/google_appengine_1.5.1.zip
+    - unzip google_appengine_1.5.1.zip
     - pip install ez_setup
+    - pip install google-appengine
 
 test:
   override:
-    - ./test:
+    - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot
         environment:
-          POOTPOOT_GAE_HOME: ~/venv/lib/python2.7/site-packages/google/appengine/
+          PYTHONPATH: $PYTHONPATH:~/google_appengine
 
 deploy:
   master:
