@@ -1,1 +1,2 @@
-google-app-engine
+nose-gae
+google-appengine
