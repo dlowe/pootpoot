@@ -1,3 +1,2 @@
 NoseGae
-ez_setup
 google-appengine

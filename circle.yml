@@ -1,3 +1,7 @@
+dependencies:
+  pre:
+    - pip install ez_setup
+
 test:
   override:
     - ./test
