@@ -7,7 +7,7 @@ dependencies:
 
 test:
   override:
-    - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot
+    - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot:
         environment:
           PYTHONPATH: $PYTHONPATH:~/google_appengine
 
