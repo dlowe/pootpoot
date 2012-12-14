@@ -1,4 +1,3 @@
-
 dependencies:
   pre:
     - curl -O https://googleappengine.googlecode.com/files/google_appengine_1.5.1.zip
