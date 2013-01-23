@@ -5,21 +5,20 @@ dependencies:
 
 database:
   post:
-    commands:
-      - cp -R /opt/solr $HOME/solr
-      - mkdir $HOME/solr/contexts
-      - |
-        cat > $HOME/solr/contexts/circle.xml <<EOF
-        <?xml version="1.0" encoding="ISO-8859-1"?>
-        <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
-        <Configure class="org.eclipse.jetty.webapp.WebAppContext">
-         <Set name="contextPath">/solr</Set>
-         <Set name="war">./webapps/solr.war</Set>
-        </Configure>
-        EOF
-      # - cp ~/pootpoot/config/solrconfig.xml $HOME/solr/solr/collection1/conf
-      # - cp ~/pootpoot/config/schema.xml $HOME/solr/solr/collection1/conf
-      - nohup bash -c "cd $HOME/solr; java -jar start.jar -Dsolr.velocity.enabled=false &" > $HOME/solr.log
+    - cp -R /opt/solr $HOME/solr
+    - mkdir $HOME/solr/contexts
+    - |
+      cat > $HOME/solr/contexts/circle.xml <<EOF
+      <?xml version="1.0" encoding="ISO-8859-1"?>
+      <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+      <Configure class="org.eclipse.jetty.webapp.WebAppContext">
+       <Set name="contextPath">/solr</Set>
+       <Set name="war">./webapps/solr.war</Set>
+      </Configure>
+      EOF
+    # - cp ~/pootpoot/config/solrconfig.xml $HOME/solr/solr/collection1/conf
+    # - cp ~/pootpoot/config/schema.xml $HOME/solr/solr/collection1/conf
+    - nohup bash -c "cd $HOME/solr; java -jar start.jar -Dsolr.velocity.enabled=false &" > $HOME/solr.log
 
 test:
   override:
