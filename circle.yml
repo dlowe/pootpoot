@@ -1,20 +1,12 @@
 machine:
   services:
-    - elasticsearch
-
-dependencies:
-  pre:
-    - npm install -g grunt
-    - npm install -g grunt-cli
+    - rabbitmq-server
 
 test:
-  pre:
-    - grunt --help
   override:
     - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot:
         environment:
           PYTHONPATH: $PYTHONPATH:~/google_appengine
-    - cat $HOME/solr.log
 
 deploy:
   master:
