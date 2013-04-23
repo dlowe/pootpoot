@@ -1,6 +1,6 @@
 machine:
   services:
-    - rabbitmq-server
+    - neo4j-service
 
 test:
   override:
