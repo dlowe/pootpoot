@@ -1,7 +1,3 @@
-machine:
-  services:
-    - neo4j-service
-
 test:
   override:
     - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot:
