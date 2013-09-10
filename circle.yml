@@ -4,8 +4,9 @@ test:
         environment:
           PYTHONPATH: $PYTHONPATH:~/google_appengine
 
-deploy:
+deployment:
   master:
     branch: master
     commands:
-      - ./deploy
+      - ./deploy:
+        timeout: 1000
