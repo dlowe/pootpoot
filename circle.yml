@@ -9,4 +9,4 @@ deployment:
     branch: master
     commands:
       - ./deploy:
-        timeout: 1000
+          timeout: 1000
