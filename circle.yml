@@ -4,4 +4,4 @@ dependencies:
 test:
   override:
     - mkdir foo
-    - cd foo && printf "foo\nbar\n" | egrep -v foo
+    - cd foo && printf "foo\nbar\n" | egrep -v foo : {timeout: 3600}
