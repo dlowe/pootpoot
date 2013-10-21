@@ -6,4 +6,4 @@ dependencies:
     - echo "override"
 test:
   override:
-    - cd $FOO && printf "foo\nbar\n" | egrep -v foo : {timeout: 3600}
+    - cd $FOO && printf "bar\nfoo\nbar\n" | egrep -v '^foo' : {timeout: 3600}
