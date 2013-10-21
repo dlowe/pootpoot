@@ -1,12 +1,4 @@
 test:
   override:
-    - nosetests --with-gae --gae-lib-root=~/google_appengine --gae-application=poot-poot:
-        environment:
-          PYTHONPATH: $PYTHONPATH:~/google_appengine
-
-deployment:
-  master:
-    branch: master
-    commands:
-      - ./deploy:
-          timeout: 1000
+    - mkdir foo
+    - cd foo && echo "foo\nbar\n" | egrep -v foo
