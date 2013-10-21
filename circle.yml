@@ -1,7 +1,9 @@
+machine:
+  environment:
+    FOO: /home/ubuntu/pootpoot
 dependencies:
   override:
     - echo "override"
 test:
   override:
-    - mkdir foo
-    - cd foo && printf "foo\nbar\n" | egrep -v foo : {timeout: 3600}
+    - cd $FOO && printf "foo\nbar\n" | egrep -v foo : {timeout: 3600}
