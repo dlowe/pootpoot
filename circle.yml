@@ -1,4 +1,7 @@
+dependencies:
+  override:
+    - echo "override"
 test:
   override:
     - mkdir foo
-    - cd foo && echo "foo\nbar\n" | egrep -v foo
+    - cd foo && printf "foo\nbar\n" | egrep -v foo
