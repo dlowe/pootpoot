@@ -5,5 +5,7 @@ dependencies:
   override:
     - echo "override"
 test:
+  pre:
+    - nohup bash -c "while true; do sleep 1; ps aux --sort=-rss | head -10; done &" > $CIRCLE_ARTIFACTS/memory.log
   override:
     - cd $FOO && printf "bar\nfoo\nbar\n" | egrep -v '^foo' : {timeout: 3600}
